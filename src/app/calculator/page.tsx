@@ -1,31 +1,11 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import SavingsCalculator from "../../components/SavingsCalculator";
+import CalculatorWrapper from "../../components/CalculatorWrapper";
 
 export const metadata: Metadata = {
   title: "Αριθμομηχανή Εξοικονόμησης Ρεύματος | EnergyCompare",
   description:
-    "Υπολόγισε ακριβώς πόσα χρήματα εξοικονομείς αλλάζοντας πάροχο ρεύματος. Εισήγαγε την κατανάλωσή σου και δες τη σύγκριση όλων των παρόχων.",
+    "Υπολόγισε ακριβώς πόσα χρήματα εξοικονομείς αλλάζοντας πάροχο ρεύματος. Ανέβασε τον λογαριασμό σου ή εισήγαγε χειροκίνητα την κατανάλωσή σου.",
 };
-
-function CalculatorLoading() {
-  return (
-    <div className="grid lg:grid-cols-5 gap-8 animate-pulse">
-      <div className="lg:col-span-2">
-        <div className="bg-white rounded-2xl border border-slate-200 h-[600px]" />
-      </div>
-      <div className="lg:col-span-3 space-y-4">
-        <div className="bg-slate-200 rounded-2xl h-28" />
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="bg-white rounded-2xl border border-slate-200 h-24"
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function CalculatorPage() {
   return (
@@ -41,18 +21,16 @@ export default function CalculatorPage() {
               Πόσα εξοικονομείς αλλάζοντας πάροχο;
             </h1>
             <p className="text-slate-600 text-lg">
-              Επίλεξε τον τρέχοντα πάροχό σου και βάλε τη μηνιαία κατανάλωσή
-              σου. Δες αμέσως πόσα ευρώ μπορείς να εξοικονομήσεις κάθε χρόνο.
+              Ανέβασε τον λογαριασμό σου για αυτόματη συμπλήρωση, ή εισήγαγε
+              χειροκίνητα τη μηνιαία κατανάλωσή σου.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Calculator */}
+      {/* Calculator + Bill Upload */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Suspense fallback={<CalculatorLoading />}>
-          <SavingsCalculator />
-        </Suspense>
+        <CalculatorWrapper />
       </div>
     </div>
   );
