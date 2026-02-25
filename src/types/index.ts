@@ -36,6 +36,9 @@ export interface Provider {
   tags: string[];
   popular: boolean;
   newCustomerOffer?: string;
+  // Πεδία για ειδικά προγράμματα/προσφορές παρόχων
+  isProgram?: boolean; // true = ειδικό πρόγραμμα (όχι απλό τιμολόγιο)
+  programEligibility?: string; // π.χ. "Απαιτείται φοιτητικό πάσο"
 }
 
 export interface ProviderCost {
@@ -50,4 +53,5 @@ export interface FilterOptions {
   tariffType: "all" | "fixed" | "variable" | "colored";
   greenOnly: boolean;
   sortBy: "price" | "rating" | "name";
+  showPrograms: boolean; // εμφάνιση ειδικών προγραμμάτων/προσφορών
 }

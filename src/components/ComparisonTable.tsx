@@ -40,6 +40,7 @@ export default function ComparisonTable() {
     tariffType: "all",
     greenOnly: false,
     sortBy: "price",
+    showPrograms: true,
   });
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
@@ -56,6 +57,7 @@ export default function ComparisonTable() {
       if (filters.tariffType !== "all" && p.tariffType !== filters.tariffType)
         return false;
       if (filters.greenOnly && !p.greenEnergy) return false;
+      if (!filters.showPrograms && p.isProgram) return false;
       return true;
     });
 
@@ -163,7 +165,7 @@ export default function ComparisonTable() {
               </select>
             </div>
 
-            <div className="flex items-end gap-2">
+            <div className="flex items-end gap-4">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <div
                   onClick={() =>
@@ -181,6 +183,28 @@ export default function ComparisonTable() {
                 </div>
                 <span className="text-xs font-medium text-slate-600">
                   Πράσινη ενέργεια
+                </span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  onClick={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      showPrograms: !f.showPrograms,
+                    }))
+                  }
+                  className={`relative w-10 h-5 rounded-full transition-colors ${
+                    filters.showPrograms ? "bg-blue-600" : "bg-slate-200"
+                  }`}
+                >
+                  <div
+                    className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                      filters.showPrograms ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+                <span className="text-xs font-medium text-slate-600">
+                  Προγράμματα
                 </span>
               </label>
             </div>
@@ -299,6 +323,66 @@ export default function ComparisonTable() {
         </div>
       )}
 
+      {/* Programs info banner */}
+      {filters.showPrograms && filtered.some((p) => p.isProgram) && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 mb-6">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl shrink-0">📋</span>
+            <div>
+              <h3 className="text-sm font-bold text-blue-900 mb-1">
+                Τι είναι τα Προγράμματα / Προσφορές;
+              </h3>
+              <p className="text-sm text-blue-800 mb-3">
+                Εκτός από τα τυπικά τιμολόγια, ορισμένοι πάροχοι
+                (όπως η ΔΕΗ) προσφέρουν{" "}
+                <strong>ειδικά ονοματισμένα πακέτα</strong> με διαφορετικές
+                τιμές ή/και προϋποθέσεις επιλεξιμότητας. Τα προγράμματα
+                εμφανίζονται με ειδική σήμανση{" "}
+                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-300">
+                  📋 Πρόγραμμα
+                </span>{" "}
+                ώστε να τα ξεχωρίζετε εύκολα.
+              </p>
+              <div className="grid sm:grid-cols-3 gap-3 text-xs">
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    ΔΕΗ myHome Enter
+                  </div>
+                  <div className="text-blue-700">
+                    Ανταγωνιστική σταθερή τιμή με χαμηλό πάγιο, για
+                    οποιονδήποτε οικιακό καταναλωτή.
+                  </div>
+                </div>
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    ΔΕΗ myHome EnterTwo
+                  </div>
+                  <div className="text-blue-700">
+                    Χαμηλότερη τιμή kWh με 24μηνη δέσμευση – κατάλληλο για
+                    σταθερή, μακροπρόθεσμη κατανάλωση.
+                  </div>
+                </div>
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    ΔΕΗ myHome 4Students
+                  </div>
+                  <div className="text-blue-700">
+                    Μηδενικό πάγιο και φθηνή τιμή kWh{" "}
+                    <strong>αποκλειστικά για φοιτητές</strong> (απαιτείται
+                    φοιτητική ταυτότητα).
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-blue-600 mt-3">
+                ⚠️ Οι τιμές των προγραμμάτων είναι εκτιμήσεις βάσει δημόσια
+                διαθέσιμων στοιχείων 2025. Επαληθεύστε πάντα τις ισχύουσες
+                τιμές απευθείας στο site ή στη γραμμή του παρόχου (11500).
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Results count */}
       <div className="text-sm text-slate-500 mb-4">
         Βρέθηκαν <strong className="text-slate-800">{filtered.length}</strong>{" "}
@@ -367,6 +451,16 @@ export default function ComparisonTable() {
                         {provider.greenEnergy && (
                           <span className="bg-emerald-50 text-emerald-700 text-xs px-2 py-0.5 rounded-full border border-emerald-200">
                             🌿 {provider.greenEnergyPercent}% Πράσινη
+                          </span>
+                        )}
+                        {provider.isProgram && (
+                          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-300">
+                            📋 Πρόγραμμα
+                          </span>
+                        )}
+                        {provider.isProgram && provider.programEligibility && (
+                          <span className="bg-amber-50 text-amber-800 text-xs px-2 py-0.5 rounded-full border border-amber-200">
+                            🎓 {provider.programEligibility}
                           </span>
                         )}
                       </div>
@@ -567,6 +661,14 @@ export default function ComparisonTable() {
                             </span>
                           </div>
                         </div>
+                        {provider.isProgram && (
+                          <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800">
+                            <span className="font-semibold">📋 Ειδικό Πρόγραμμα</span>
+                            {provider.programEligibility && (
+                              <span className="ml-1">· {provider.programEligibility}</span>
+                            )}
+                          </div>
+                        )}
                         {provider.newCustomerOffer && (
                           <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-2 text-xs text-amber-800 font-medium">
                             🎁 {provider.newCustomerOffer}
@@ -666,8 +768,15 @@ export default function ComparisonTable() {
                             )}
                           </div>
                           <div>
-                            <div className="font-semibold text-slate-900">
-                              {provider.name}
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="font-semibold text-slate-900">
+                                {provider.name}
+                              </span>
+                              {provider.isProgram && (
+                                <span className="bg-blue-100 text-blue-800 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-blue-300 leading-none">
+                                  📋
+                                </span>
+                              )}
                             </div>
                             <div className="text-xs text-slate-400">
                               {provider.contractMonths === 0
@@ -743,6 +852,7 @@ export default function ComparisonTable() {
                 tariffType: "all",
                 greenOnly: false,
                 sortBy: "price",
+                showPrograms: true,
               })
             }
             className="mt-4 text-teal-600 font-medium hover:underline text-sm"
