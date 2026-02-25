@@ -6,10 +6,16 @@ const EXTRACTION_PROMPT = `Αυτός είναι ένας ελληνικός λ�
 Εξήγαγε τα παρακάτω στοιχεία και επέστρεψε ΜΟΝΟ ένα JSON αντικείμενο, χωρίς markdown ή άλλο κείμενο:
  
 {
-  "kwh": <κατανάλωση kWh για την τρέχουσα περίοδο - αριθμός ή null>,
+  "kwh": <συνολική κατανάλωση kWh για την τρέχουσα περίοδο - αριθμός ή null>,
   "billingDays": <ημέρες χρέωσης στην τρέχουσα περίοδο - αριθμός ή null>,
   "provider": "<ακριβές όνομα παρόχου όπως εμφανίζεται - string ή null>",
   "billAmount": <συνολικό πληρωτέο ποσό με ΦΠΑ σε ευρώ - αριθμός ή null>,
+  "colorZones": {
+    "blue": <kWh Μπλε ζώνης - αριθμός ή null>,
+    "green": <kWh Πράσινης ζώνης - αριθμός ή null>,
+    "yellow": <kWh Κίτρινης ζώνης - αριθμός ή null>,
+    "red": <kWh Κόκκινης ζώνης - αριθμός ή null>
+  },
   "confidence": "<high|medium|low>"
 }
  
@@ -18,6 +24,7 @@ const EXTRACTION_PROMPT = `Αυτός είναι ένας ελληνικός λ�
 - billingDays: Η διαφορά ημερών μεταξύ ημερ. λήξης και ημερ. έναρξης.
 - provider: Το όνομα του παρόχου (ΔΕΗ, Elpedison, NRG, Protergia, Volton, Zenith, Watt+Volt, κ.ά.)
 - billAmount: Το τελικό ποσό που πρέπει να πληρωθεί (μετά ΦΠΑ). Ψάξε για "Σύνολο", "Πληρωτέο", "Σύνολο Λογαριασμού".
+- colorZones: Αν ο λογαριασμός έχει χρωματιστό τιμολόγιο, εξήγαγε τα kWh ανά ζώνη (Μπλε/Πράσινη/Κίτρινη/Κόκκινη). Αλλιώς βάλε null σε όλα.
 - confidence: "high" αν βρήκες όλα ξεκάθαρα, "medium" αν βρήκες 2-3, "low" αν λιγότερα.`;
 
 function resolveProviderId(name: string | null): string | null {
@@ -45,6 +52,12 @@ export interface ParsedBill {
   providerId: string | null;
   providerName: string | null;
   billAmount: number | null;
+  colorZones: {
+    blue: number | null;
+    green: number | null;
+    yellow: number | null;
+    red: number | null;
+  } | null;
   confidence: "high" | "medium" | "low";
 }
 
@@ -92,6 +105,12 @@ export async function POST(request: NextRequest) {
       billingDays: number | null;
       provider: string | null;
       billAmount: number | null;
+      colorZones?: {
+        blue: number | null;
+        green: number | null;
+        yellow: number | null;
+        red: number | null;
+      } | null;
       confidence: "high" | "medium" | "low";
     };
 
@@ -111,6 +130,7 @@ export async function POST(request: NextRequest) {
       providerId: resolveProviderId(extracted.provider),
       providerName: extracted.provider,
       billAmount: extracted.billAmount,
+      colorZones: extracted.colorZones ?? null,
       confidence: extracted.confidence ?? "low",
     };
 

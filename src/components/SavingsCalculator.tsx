@@ -1,19 +1,51 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { providers } from "../data/providers";
+import { providers, COLOR_ZONE_HOURS } from "../data/providers";
 import {
   calculateProviderCosts,
+  calculateMonthlyCost,
   formatCurrency,
   CONSUMPTION_PRESETS,
+  COLOR_DISTRIBUTION_PRESETS,
 } from "../lib/calculations";
+import { ColorDistribution } from "../types";
 
 interface SavingsCalculatorProps {
   initialKwh?: number;
   initialProviderId?: string;
   actualBillAmount?: number;
 }
+
+const ZONE_COLORS = {
+  blue: {
+    bg: "bg-blue-100",
+    text: "text-blue-800",
+    dot: "bg-blue-500",
+    label: "Μπλε",
+  },
+  green: {
+    bg: "bg-green-100",
+    text: "text-green-800",
+    dot: "bg-green-500",
+    label: "Πράσινη",
+  },
+  yellow: {
+    bg: "bg-yellow-100",
+    text: "text-yellow-800",
+    dot: "bg-yellow-500",
+    label: "Κίτρινη",
+  },
+  red: {
+    bg: "bg-red-100",
+    text: "text-red-800",
+    dot: "bg-red-500",
+    label: "Κόκκινη",
+  },
+} as const;
+
+const hasColoredProviders = providers.some((p) => p.tariffType === "colored");
 
 export default function SavingsCalculator({
   initialKwh,
@@ -35,20 +67,25 @@ export default function SavingsCalculator({
     return param && providers.find((p) => p.id === param) ? param : "dei";
   });
 
+  const [colorPresetId, setColorPresetId] = useState<string>("typical");
+  const colorDistribution: ColorDistribution = useMemo(
+    () =>
+      COLOR_DISTRIBUTION_PRESETS.find((p) => p.id === colorPresetId)?.dist ??
+      COLOR_DISTRIBUTION_PRESETS[0].dist,
+    [colorPresetId],
+  );
+
   const fromBill = Boolean(initialKwh || initialProviderId);
-  // Recalculate on params change
-  useEffect(() => {
-    const kwhParam = searchParams.get("kwh");
-    const providerParam = searchParams.get("provider");
-    if (kwhParam) setKwh(Math.min(800, Math.max(50, Number(kwhParam))));
-    if (providerParam && providers.find((p) => p.id === providerParam)) {
-      setCurrentProviderId(providerParam);
-    }
-  }, [searchParams]);
 
   const costs = useMemo(
-    () => calculateProviderCosts(providers, kwh, currentProviderId),
-    [kwh, currentProviderId],
+    () =>
+      calculateProviderCosts(
+        providers,
+        kwh,
+        currentProviderId,
+        colorDistribution,
+      ),
+    [kwh, currentProviderId, colorDistribution],
   );
 
   const currentCost = costs.find((c) => c.provider.id === currentProviderId);
@@ -98,8 +135,8 @@ export default function SavingsCalculator({
                   onClick={() => setCurrentProviderId(p.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
                     currentProviderId === p.id
-                      ? "border-teal-500 bg-teal-50 cursor-default"
-                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer"
+                      ? "border-teal-500 bg-teal-50"
+                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                   }`}
                 >
                   <div
@@ -118,7 +155,7 @@ export default function SavingsCalculator({
                       p.logoText
                     )}
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <div className="font-semibold text-slate-900 text-sm">
                       {p.name}
                     </div>
@@ -126,9 +163,14 @@ export default function SavingsCalculator({
                       {p.fullName}
                     </div>
                   </div>
+                  {p.tariffType === "colored" && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-blue-100 via-yellow-100 to-red-100 text-slate-600 border border-slate-200 shrink-0">
+                      Χρωμ.
+                    </span>
+                  )}
                   {currentProviderId === p.id && (
                     <svg
-                      className="w-5 h-5 text-teal-600 ml-auto shrink-0"
+                      className="w-5 h-5 text-teal-600 shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -204,6 +246,65 @@ export default function SavingsCalculator({
             </div>
           </div>
 
+          {/* Color distribution (shown when colored providers are present) */}
+          {hasColoredProviders && (
+            <div className="mb-6 rounded-xl border border-slate-200 overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-50 via-yellow-50 to-red-50 border-b border-slate-200">
+                <span className="text-sm">🎨</span>
+                <span className="text-sm font-semibold text-slate-700">
+                  Προφίλ χρωματιστού τιμολογίου
+                </span>
+              </div>
+              <div className="p-3 space-y-2">
+                {COLOR_DISTRIBUTION_PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => setColorPresetId(preset.id)}
+                    className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-lg border-2 text-left transition-all ${
+                      colorPresetId === preset.id
+                        ? "border-purple-400 bg-purple-50"
+                        : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-slate-900">
+                        {preset.label}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {preset.description}
+                      </div>
+                      {/* Zone bar */}
+                      <div className="flex h-1.5 rounded-full overflow-hidden mt-1.5 gap-px">
+                        <div
+                          className="bg-blue-400"
+                          style={{ width: `${preset.dist.blue * 100}%` }}
+                        />
+                        <div
+                          className="bg-green-400"
+                          style={{ width: `${preset.dist.green * 100}%` }}
+                        />
+                        <div
+                          className="bg-yellow-400"
+                          style={{ width: `${preset.dist.yellow * 100}%` }}
+                        />
+                        <div
+                          className="bg-red-400"
+                          style={{ width: `${preset.dist.red * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                    <div className="text-[10px] text-slate-400 text-right shrink-0 mt-0.5">
+                      <div>{Math.round(preset.dist.blue * 100)}% 🔵</div>
+                      <div>{Math.round(preset.dist.green * 100)}% 🟢</div>
+                      <div>{Math.round(preset.dist.yellow * 100)}% 🟡</div>
+                      <div>{Math.round(preset.dist.red * 100)}% 🔴</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Summary Box */}
           {currentCost && (
             <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
@@ -253,62 +354,61 @@ export default function SavingsCalculator({
           </div>
         )}
 
-        {/* Results list */}
-        <div className="space-y-3">
-          {/* TODO: CHECK IF HERE IS THE RIGHT PLACE TO BE PUT */}
-          {/* Bill validation banner */}
-          {actualBillAmount &&
-            currentCost &&
-            (() => {
-              const diff = Math.abs(actualBillAmount - currentCost.monthlyCost);
-              const diffPct = (diff / actualBillAmount) * 100;
-              const isClose = diffPct < 15;
-              return (
+        {/* Bill validation banner */}
+        {actualBillAmount &&
+          currentCost &&
+          (() => {
+            const diff = Math.abs(actualBillAmount - currentCost.monthlyCost);
+            const diffPct = (diff / actualBillAmount) * 100;
+            const isClose = diffPct < 15;
+            return (
+              <div
+                className={`rounded-2xl p-4 mb-6 border ${isClose ? "bg-emerald-50 border-emerald-200" : "bg-sky-50 border-sky-200"}`}
+              >
                 <div
-                  className={`rounded-2xl p-4 mb-6 border ${isClose ? "bg-emerald-50 border-emerald-200" : "bg-sky-50 border-sky-200"}`}
+                  className={`flex items-start gap-3 text-sm ${isClose ? "text-emerald-800" : "text-sky-800"}`}
                 >
-                  <div
-                    className={`flex items-start gap-3 text-sm ${isClose ? "text-emerald-800" : "text-sky-800"}`}
-                  >
-                    <span className="text-xl shrink-0">
-                      {isClose ? "✅" : "💬"}
-                    </span>
-                    <div>
-                      {isClose ? (
-                        <>
-                          <p className="font-semibold">
-                            Η εκτίμησή μας ταιριάζει με τον λογαριασμό σου!
-                          </p>
-                          <p className="text-xs mt-0.5 opacity-80">
-                            Εκτίμηση:{" "}
-                            <strong>
-                              {formatCurrency(currentCost.monthlyCost)}
-                            </strong>{" "}
-                            · Λογαριασμός:{" "}
-                            <strong>{formatCurrency(actualBillAmount)}</strong>{" "}
-                            · Διαφορά: {formatCurrency(diff)} (
-                            {diffPct.toFixed(1)}%)
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="font-semibold">
-                            Η εκτίμηση διαφέρει κατά {formatCurrency(diff)} από
-                            τον λογαριασμό σου
-                          </p>
-                          <p className="text-xs mt-0.5 opacity-80">
-                            Αυτό μπορεί να οφείλεται σε νυχτερινό τιμολόγιο,
-                            εκπτώσεις e-bill/direct debit ή άλλες χρεώσεις. Η
-                            σύγκριση μεταξύ παρόχων παραμένει έγκυρη.
-                          </p>
-                        </>
-                      )}
-                    </div>
+                  <span className="text-xl shrink-0">
+                    {isClose ? "✅" : "💬"}
+                  </span>
+                  <div>
+                    {isClose ? (
+                      <>
+                        <p className="font-semibold">
+                          Η εκτίμησή μας ταιριάζει με τον λογαριασμό σου!
+                        </p>
+                        <p className="text-xs mt-0.5 opacity-80">
+                          Εκτίμηση:{" "}
+                          <strong>
+                            {formatCurrency(currentCost.monthlyCost)}
+                          </strong>{" "}
+                          · Λογαριασμός:{" "}
+                          <strong>{formatCurrency(actualBillAmount)}</strong> ·
+                          Διαφορά: {formatCurrency(diff)} ({diffPct.toFixed(1)}
+                          %)
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-semibold">
+                          Η εκτίμηση διαφέρει κατά {formatCurrency(diff)} από
+                          τον λογαριασμό σου
+                        </p>
+                        <p className="text-xs mt-0.5 opacity-80">
+                          Αυτό μπορεί να οφείλεται σε εκπτώσεις e-bill/direct
+                          debit ή άλλες χρεώσεις. Η σύγκριση μεταξύ παρόχων
+                          παραμένει έγκυρη.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
-              );
-            })()}
+              </div>
+            );
+          })()}
 
+        {/* Results list */}
+        <div className="space-y-3">
           <h3 className="text-lg font-bold text-slate-900 mb-4">
             Σύγκριση για {kwh} kWh/μήνα
           </h3>
@@ -316,6 +416,7 @@ export default function SavingsCalculator({
           {costs.map((item, i) => {
             const isCurrent = item.provider.id === currentProviderId;
             const isFirst = i === 0;
+            const isColored = item.provider.tariffType === "colored";
             const barWidth =
               costRange === 0
                 ? 100
@@ -381,6 +482,11 @@ export default function SavingsCalculator({
                             Φθηνότερος
                           </span>
                         )}
+                        {isColored && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-blue-100 via-yellow-100 to-red-100 text-slate-600 border border-slate-200">
+                            🎨 Χρωματιστό
+                          </span>
+                        )}
                         {item.provider.greenEnergy && (
                           <span className="text-emerald-700 text-[10px] font-medium">
                             🌿
@@ -388,8 +494,9 @@ export default function SavingsCalculator({
                         )}
                       </div>
                       <div className="text-xs text-slate-500 mt-0.5">
-                        {(item.provider.supplyRate * 100).toFixed(2)}¢/kWh ·
-                        πάγιο {formatCurrency(item.provider.monthlyFee)}/μήνα
+                        {isColored
+                          ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
+                          : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
                       </div>
                     </div>
 
@@ -443,7 +550,9 @@ export default function SavingsCalculator({
                               ? "bg-slate-400"
                               : isFirst
                                 ? "bg-teal-500"
-                                : "bg-slate-300"
+                                : isColored
+                                  ? "bg-purple-400"
+                                  : "bg-slate-300"
                           }`}
                           style={{ width: `${barWidth}%` }}
                         />
@@ -453,6 +562,52 @@ export default function SavingsCalculator({
                       </span>
                     </div>
                   </div>
+
+                  {/* Colored zone breakdown (inline) */}
+                  {isColored && item.provider.coloredRates && (
+                    <div className="mt-3 ml-[3.25rem] sm:ml-[5.5rem] grid grid-cols-4 gap-1">
+                      {(
+                        Object.keys(ZONE_COLORS) as Array<
+                          keyof typeof ZONE_COLORS
+                        >
+                      ).map((zone) => {
+                        const zc = ZONE_COLORS[zone];
+                        const rate = item.provider.coloredRates![zone];
+                        const kwh_zone = Math.round(
+                          kwh * colorDistribution[zone],
+                        );
+                        const cost =
+                          calculateMonthlyCost(
+                            {
+                              ...item.provider,
+                              tariffType: "fixed",
+                              supplyRate: rate,
+                            },
+                            kwh_zone,
+                          ) -
+                          ((item.provider.monthlyFee + 2.5) * 1.13) / 4; // approx zone cost
+                        void cost;
+                        return (
+                          <div
+                            key={zone}
+                            className={`${zc.bg} rounded-lg px-2 py-1.5 text-center`}
+                          >
+                            <div className={`text-[10px] font-bold ${zc.text}`}>
+                              {zc.label}
+                            </div>
+                            <div className={`text-xs font-bold ${zc.text}`}>
+                              {(rate * 100).toFixed(1)}¢
+                            </div>
+                            <div
+                              className={`text-[10px] ${zc.text} opacity-70`}
+                            >
+                              {Math.round(colorDistribution[zone] * 100)}%
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   {/* Offer */}
                   {item.provider.newCustomerOffer && !isCurrent && (
@@ -466,8 +621,39 @@ export default function SavingsCalculator({
           })}
         </div>
 
+        {/* Colored zone legend */}
+        {hasColoredProviders && (
+          <div className="mt-6 bg-gradient-to-r from-blue-50 via-yellow-50 to-red-50 border border-slate-200 rounded-xl p-4">
+            <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+              🎨 Ωράρια ζωνών χρωματιστού τιμολογίου
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {(
+                Object.keys(ZONE_COLORS) as Array<keyof typeof ZONE_COLORS>
+              ).map((zone) => {
+                const zc = ZONE_COLORS[zone];
+                return (
+                  <div key={zone} className="flex items-start gap-2 text-xs">
+                    <div
+                      className={`w-2.5 h-2.5 rounded-full ${zc.dot} shrink-0 mt-0.5`}
+                    />
+                    <div>
+                      <span className="font-semibold text-slate-700">
+                        {zc.label}:{" "}
+                      </span>
+                      <span className="text-slate-500">
+                        {COLOR_ZONE_HOURS[zone]}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Methodology note */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
+        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
           <h4 className="font-semibold mb-2 flex items-center gap-2">
             <svg
               className="w-4 h-4"
@@ -490,17 +676,16 @@ export default function SavingsCalculator({
               (δίκτυο, ΕΤΜΕΑΡ κ.ά.) + ΦΠΑ 13%
             </li>
             <li>
-              • Οι ρυθμιζόμενες χρεώσεις (~7.15¢/kWh + 2.50€/μήνα) είναι{" "}
-              <strong>ίδιες για όλους τους παρόχους</strong>
+              • Για <strong>χρωματιστά τιμολόγια</strong>, το κόστος εξαρτάται
+              από το επιλεγμένο προφίλ κατανομής ζωνών
             </li>
             <li>
-              • Δεν περιλαμβάνονται τυχόν εκπτώσεις e-bill ή direct debit που
-              μπορεί να μειώσουν περαιτέρω το κόστος
+              • Οι ρυθμιζόμενες χρεώσεις είναι{" "}
+              <strong>ίδιες για όλους τους παρόχους</strong> (και διαφέρουν ανά
+              ζώνη για χρωματιστά)
             </li>
-            <li>
-              • Τιμές βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2025 —
-              επικοινωνήστε με τον πάροχο για επίσημη προσφορά
-            </li>
+            <li>• Δεν περιλαμβάνονται τυχόν εκπτώσεις e-bill ή direct debit</li>
+            <li>• Τιμές βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2025</li>
           </ul>
         </div>
       </div>

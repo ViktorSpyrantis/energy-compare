@@ -1,3 +1,17 @@
+export interface ColoredRates {
+  blue: number; // €/kWh - Μπλε ζώνη (off-peak)
+  green: number; // €/kWh - Πράσινη ζώνη
+  yellow: number; // €/kWh - Κίτρινη ζώνη
+  red: number; // €/kWh - Κόκκινη ζώνη (peak)
+}
+
+export interface ColorDistribution {
+  blue: number; // fraction 0–1
+  green: number;
+  yellow: number;
+  red: number;
+}
+
 export interface Provider {
   id: string;
   name: string;
@@ -8,10 +22,11 @@ export interface Provider {
   textColor: string;
   rating: number;
   reviewCount: number;
-  tariffType: "fixed" | "variable";
+  tariffType: "fixed" | "variable" | "colored";
   contractMonths: number; // 0 = no lock-in
   monthlyFee: number; // πάγιο σε €
-  supplyRate: number; // €/kWh - τιμή προμήθειας
+  supplyRate: number; // €/kWh - τιμή προμήθειας (για flat/variable) ή σταθμισμένος μ.ο. (για colored)
+  coloredRates?: ColoredRates;
   greenEnergy: boolean;
   greenEnergyPercent: number;
   features: string[];
@@ -32,7 +47,7 @@ export interface ProviderCost {
 }
 
 export interface FilterOptions {
-  tariffType: "all" | "fixed" | "variable";
+  tariffType: "all" | "fixed" | "variable" | "colored";
   greenOnly: boolean;
   sortBy: "price" | "rating" | "name";
 }

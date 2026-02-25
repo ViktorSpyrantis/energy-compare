@@ -1,10 +1,33 @@
-import { Provider } from "@/src/types";
+import { Provider, ColorDistribution } from "../types";
 
 // Ρυθμιζόμενες χρεώσεις - ίδιες για όλους τους παρόχους (εκτίμηση 2025)
 export const REGULATED_RATE = 0.0715; // €/kWh (δίκτυο + ΕΤΜΕΑΡ + λοιπές χρεώσεις)
 export const REGULATED_MONTHLY_FEE = 2.5; // €/μήνα (σταθερή χρέωση δικτύου)
 export const VAT_RATE = 0.13; // 13% ΦΠΑ οικιακών καταναλωτών
 
+// Ρυθμιζόμενες χρεώσεις χρωματιστού τιμολογίου ανά ζώνη
+export const COLORED_REGULATED_RATES = {
+  blue: 0.038, // €/kWh - Μπλε ζώνη (νυχτερινές ώρες)
+  green: 0.062, // €/kWh - Πράσινη ζώνη
+  yellow: 0.082, // €/kWh - Κίτρινη ζώνη
+  red: 0.105, // €/kWh - Κόκκινη ζώνη (αιχμή)
+};
+
+// Τυπική κατανομή κατανάλωσης για οικιακό καταναλωτή
+export const DEFAULT_COLOR_DISTRIBUTION: ColorDistribution = {
+  blue: 0.35, // 35% - νύχτα + Σαββατοκύριακο
+  green: 0.25, // 25% - πρωί, βράδυ εκτός αιχμής
+  yellow: 0.2, // 20% - μεσημέρι εργάσιμων
+  red: 0.2, // 20% - απόγευμα/βράδυ αιχμής
+};
+
+// Ωράρια ζωνών χρωματιστού τιμολογίου
+export const COLOR_ZONE_HOURS = {
+  blue: "Νύχτα 00:00–07:00 + Σάββ./Κυρ. (εκτός αιχμής)",
+  green: "Εργ. 07:00–11:00 & 21:00–23:00",
+  yellow: "Εργ. 11:00–15:00",
+  red: "Εργ. 15:00–21:00 (αιχμή)",
+};
 export const providers: Provider[] = [
   {
     id: "dei",
@@ -239,6 +262,111 @@ export const providers: Provider[] = [
     ],
     phone: "210 9697220",
     tags: ["Μεταβλητή τιμή", "Χωρίς δέσμευση", "Ευέλικτο"],
+    popular: false,
+  },
+  // ── Χρωματιστά τιμολόγια ──────────────────────────────────────────────────
+  // supplyRate = σταθμισμένος μ.ο. με DEFAULT_COLOR_DISTRIBUTION (35/25/20/20)
+  {
+    id: "dei-colored",
+    name: "ΔΕΗ Χρωμ.",
+    fullName: "ΔΕΗ Χρωματιστό Τιμολόγιο",
+    logoText: "ΔΕΗ",
+    primaryColor: "#1e3a8a",
+    bgColor: "#eff6ff",
+    textColor: "#1e3a8a",
+    rating: 3.2,
+    reviewCount: 4821,
+    tariffType: "colored",
+    contractMonths: 12,
+    monthlyFee: 4.5,
+    supplyRate: 0.1226, // weighted avg: 0.35×0.078 + 0.25×0.115 + 0.20×0.148 + 0.20×0.185
+    coloredRates: { blue: 0.078, green: 0.115, yellow: 0.148, red: 0.185 },
+    greenEnergy: false,
+    greenEnergyPercent: 0,
+    features: [
+      "Φθηνό νυχτερινό ρεύμα (Μπλε ζώνη)",
+      "Ιδανικό για ηλεκτρικά αυτοκίνητα",
+      "Πανελλαδική κάλυψη",
+      "Τηλεφωνική υποστήριξη 24/7",
+    ],
+    pros: [
+      "Πολύ φθηνό ρεύμα Μπλε ζώνης (7.8¢)",
+      "Μεγάλη εξοικονόμηση για νυχτερινούς χρήστες",
+      "Αξιόπιστος πάροχος",
+    ],
+    cons: [
+      "Ακριβό ρεύμα Κόκκινης ζώνης (18.5¢)",
+      "Απαιτεί προγραμματισμό κατανάλωσης",
+    ],
+    phone: "11500",
+    tags: ["Χρωματιστό", "Ζώνες ώρας", "Ετήσιο συμβόλαιο"],
+    popular: false,
+  },
+  {
+    id: "nrg-colored",
+    name: "NRG Χρωμ.",
+    fullName: "NRG Χρωματιστό Τιμολόγιο",
+    logoText: "NRG",
+    primaryColor: "#c2410c",
+    bgColor: "#fff7ed",
+    textColor: "#c2410c",
+    rating: 3.7,
+    reviewCount: 1876,
+    tariffType: "colored",
+    contractMonths: 12,
+    monthlyFee: 3.5,
+    supplyRate: 0.1142, // weighted avg: 0.35×0.072 + 0.25×0.108 + 0.20×0.138 + 0.20×0.172
+    coloredRates: { blue: 0.072, green: 0.108, yellow: 0.138, red: 0.172 },
+    greenEnergy: false,
+    greenEnergyPercent: 30,
+    features: [
+      "Ανταγωνιστικές τιμές ζωνών",
+      "Mobile app παρακολούθησης ζωνών",
+      "Φθηνό πάγιο",
+      "Ψηφιακή εξυπηρέτηση",
+    ],
+    pros: [
+      "Η φθηνότερη Μπλε ζώνη (7.2¢)",
+      "Χαμηλό πάγιο",
+      "Καλή ψηφιακή πλατφόρμα",
+    ],
+    cons: ["Χωρίς φυσικά καταστήματα", "Ανάγκη παρακολούθησης ζωνών"],
+    phone: "210 6930000",
+    tags: ["Χρωματιστό", "Ζώνες ώρας", "Digital-first"],
+    popular: false,
+    newCustomerOffer: "Δωρεάν σύνδεση για νέους πελάτες",
+  },
+  {
+    id: "protergia-colored",
+    name: "Protergia Χρωμ.",
+    fullName: "Protergia Χρωματιστό Τιμολόγιο",
+    logoText: "PROT.",
+    primaryColor: "#065f46",
+    bgColor: "#ecfdf5",
+    textColor: "#065f46",
+    rating: 3.6,
+    reviewCount: 1543,
+    tariffType: "colored",
+    contractMonths: 12,
+    monthlyFee: 3.8,
+    supplyRate: 0.1164, // weighted avg: 0.35×0.074 + 0.25×0.110 + 0.20×0.140 + 0.20×0.175
+    coloredRates: { blue: 0.074, green: 0.11, yellow: 0.14, red: 0.175 },
+    greenEnergy: true,
+    greenEnergyPercent: 50,
+    features: [
+      "Χρωματιστό με πράσινη ενέργεια",
+      "Smart home ολοκλήρωση",
+      "Αξιόπιστος όμιλος Mytilineos",
+      "Πρόγραμμα επιβράβευσης",
+    ],
+    pros: [
+      "Φθηνή Μπλε ζώνη (7.4¢)",
+      "50% πράσινη ενέργεια",
+      "Αξιόπιστη εταιρεία",
+    ],
+    cons: ["Αδύναμη εφαρμογή κινητού", "Απαιτεί ευελιξία ωραρίου"],
+    phone: "210 6873000",
+    tags: ["Χρωματιστό", "Πράσινη ενέργεια", "Ζώνες ώρας"],
     popular: false,
   },
 ];

@@ -1,9 +1,20 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { providers } from "../data/providers";
-import { calculateMonthlyCost, formatCurrency } from "../lib/calculations";
-import { FilterOptions } from "../types";
+import { providers, COLOR_ZONE_HOURS } from "../data/providers";
+import {
+  calculateMonthlyCost,
+  formatCurrency,
+  COLOR_DISTRIBUTION_PRESETS,
+} from "../lib/calculations";
+import { FilterOptions, ColorDistribution } from "../types";
+
+const ZONE_COLORS = {
+  blue: { bg: "bg-blue-100", text: "text-blue-800", label: "Μπλε" },
+  green: { bg: "bg-green-100", text: "text-green-800", label: "Πράσινη" },
+  yellow: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Κίτρινη" },
+  red: { bg: "bg-red-100", text: "text-red-800", label: "Κόκκινη" },
+} as const;
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -30,6 +41,13 @@ export default function ComparisonTable() {
     greenOnly: false,
     sortBy: "price",
   });
+  const [colorPresetId, setColorPresetId] = useState<string>("typical");
+  const colorDistribution: ColorDistribution = useMemo(
+    () =>
+      COLOR_DISTRIBUTION_PRESETS.find((p) => p.id === colorPresetId)?.dist ??
+      COLOR_DISTRIBUTION_PRESETS[0].dist,
+    [colorPresetId],
+  );
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
@@ -43,19 +61,26 @@ export default function ComparisonTable() {
 
     list = list.sort((a, b) => {
       if (filters.sortBy === "price") {
-        return calculateMonthlyCost(a, kwh) - calculateMonthlyCost(b, kwh);
+        return (
+          calculateMonthlyCost(a, kwh, colorDistribution) -
+          calculateMonthlyCost(b, kwh, colorDistribution)
+        );
       }
       if (filters.sortBy === "rating") return b.rating - a.rating;
       return a.name.localeCompare(b.name, "el");
     });
 
     return list;
-  }, [filters, kwh]);
+  }, [filters, kwh, colorDistribution]);
+
+  const showColoredPanel = filtered.some((p) => p.tariffType === "colored");
 
   const cheapestCost =
-    filtered.length > 0 ? calculateMonthlyCost(filtered[0], kwh) : 0;
+    filtered.length > 0
+      ? calculateMonthlyCost(filtered[0], kwh, colorDistribution)
+      : 0;
   const maxCost = filtered.reduce(
-    (max, p) => Math.max(max, calculateMonthlyCost(p, kwh)),
+    (max, p) => Math.max(max, calculateMonthlyCost(p, kwh, colorDistribution)),
     0,
   );
 
@@ -92,25 +117,29 @@ export default function ComparisonTable() {
                 Τύπος τιμολογίου
               </label>
               <div className="flex rounded-lg border border-slate-200 overflow-hidden text-xs font-medium">
-                {(["all", "fixed", "variable"] as const).map((type) => (
-                  <button
-                    key={type}
-                    onClick={() =>
-                      setFilters((f) => ({ ...f, tariffType: type }))
-                    }
-                    className={`px-3 py-2 transition-colors ${
-                      filters.tariffType === type
-                        ? "bg-teal-600 text-white"
-                        : "text-slate-600 hover:bg-slate-50 cursor-pointer"
-                    }`}
-                  >
-                    {type === "all"
-                      ? "Όλα"
-                      : type === "fixed"
-                        ? "Σταθερή"
-                        : "Μεταβλητή"}
-                  </button>
-                ))}
+                {(["all", "fixed", "variable", "colored"] as const).map(
+                  (type) => (
+                    <button
+                      key={type}
+                      onClick={() =>
+                        setFilters((f) => ({ ...f, tariffType: type }))
+                      }
+                      className={`px-3 py-2 transition-colors ${
+                        filters.tariffType === type
+                          ? "bg-teal-600 text-white"
+                          : "text-slate-600 hover:bg-slate-50 cursor-pointer"
+                      }`}
+                    >
+                      {type === "all"
+                        ? "Όλα"
+                        : type === "fixed"
+                          ? "Σταθερή"
+                          : type === "variable"
+                            ? "Μεταβλητή"
+                            : "🎨 Χρωματιστό"}
+                    </button>
+                  ),
+                )}
               </div>
             </div>
 
@@ -201,6 +230,75 @@ export default function ComparisonTable() {
         </div>
       </div>
 
+      {/* Colored distribution panel */}
+      {showColoredPanel && (
+        <div className="bg-gradient-to-r from-blue-50 via-yellow-50 to-red-50 border border-slate-200 rounded-2xl p-5 mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span>🎨</span>
+            <span className="text-sm font-semibold text-slate-700">
+              Προφίλ κατανάλωσης χρωματιστού τιμολογίου
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {COLOR_DISTRIBUTION_PRESETS.map((preset) => (
+              <button
+                key={preset.id}
+                onClick={() => setColorPresetId(preset.id)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm transition-all ${
+                  colorPresetId === preset.id
+                    ? "border-purple-400 bg-purple-50 text-purple-800"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                }`}
+              >
+                <div className="flex h-2.5 w-10 rounded-full overflow-hidden gap-px">
+                  <div
+                    className="bg-blue-400"
+                    style={{ width: `${preset.dist.blue * 100}%` }}
+                  />
+                  <div
+                    className="bg-green-400"
+                    style={{ width: `${preset.dist.green * 100}%` }}
+                  />
+                  <div
+                    className="bg-yellow-400"
+                    style={{ width: `${preset.dist.yellow * 100}%` }}
+                  />
+                  <div
+                    className="bg-red-400"
+                    style={{ width: `${preset.dist.red * 100}%` }}
+                  />
+                </div>
+                <span className="font-medium">{preset.label}</span>
+                <span className="text-xs text-slate-400">
+                  {preset.description}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="grid sm:grid-cols-2 gap-1.5 text-xs text-slate-600">
+            {(Object.keys(ZONE_COLORS) as Array<keyof typeof ZONE_COLORS>).map(
+              (zone) => {
+                const zc = ZONE_COLORS[zone];
+                const pct = Math.round(colorDistribution[zone] * 100);
+                return (
+                  <div key={zone} className="flex items-center gap-2">
+                    <span
+                      className={`inline-block w-2 h-2 rounded-full ${zc.bg.replace("bg-", "bg-").replace("-100", "-400")}`}
+                    />
+                    <span className="font-semibold">
+                      {zc.label} ({pct}%)
+                    </span>
+                    <span className="text-slate-400">
+                      {COLOR_ZONE_HOURS[zone]}
+                    </span>
+                  </div>
+                );
+              },
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Results count */}
       <div className="text-sm text-slate-500 mb-4">
         Βρέθηκαν <strong className="text-slate-800">{filtered.length}</strong>{" "}
@@ -212,7 +310,7 @@ export default function ComparisonTable() {
       {viewMode === "cards" && (
         <div className="space-y-4">
           {filtered.map((provider, i) => {
-            const cost = calculateMonthlyCost(provider, kwh);
+            const cost = calculateMonthlyCost(provider, kwh, colorDistribution);
             const savings = (maxCost - cost) * 12;
             const isExpanded = expandedId === provider.id;
 
@@ -281,12 +379,16 @@ export default function ComparisonTable() {
                         className={`text-xs px-2 py-1 rounded-full ${
                           provider.tariffType === "fixed"
                             ? "bg-blue-50 text-blue-700"
-                            : "bg-orange-50 text-orange-700"
+                            : provider.tariffType === "colored"
+                              ? "bg-gradient-to-r from-blue-50 via-yellow-50 to-red-50 text-slate-700 border border-slate-200"
+                              : "bg-orange-50 text-orange-700"
                         }`}
                       >
                         {provider.tariffType === "fixed"
                           ? "Σταθερή"
-                          : "Μεταβλητή"}
+                          : provider.tariffType === "colored"
+                            ? "🎨 Χρωματιστό"
+                            : "Μεταβλητή"}
                       </span>
                       <span className="text-xs bg-slate-50 text-slate-600 px-2 py-1 rounded-full">
                         {provider.contractMonths === 0
@@ -400,10 +502,47 @@ export default function ComparisonTable() {
                         <h4 className="text-sm font-semibold text-slate-700 mb-3">
                           Ανάλυση κόστους
                         </h4>
+                        {/* Colored zone rates */}
+                        {provider.tariffType === "colored" &&
+                          provider.coloredRates && (
+                            <div className="mb-3 space-y-1">
+                              {(
+                                Object.keys(ZONE_COLORS) as Array<
+                                  keyof typeof ZONE_COLORS
+                                >
+                              ).map((zone) => {
+                                const zc = ZONE_COLORS[zone];
+                                const rate = provider.coloredRates![zone];
+                                return (
+                                  <div
+                                    key={zone}
+                                    className={`flex justify-between items-center px-2 py-1 rounded ${zc.bg}`}
+                                  >
+                                    <span
+                                      className={`text-xs font-medium ${zc.text}`}
+                                    >
+                                      {zc.label} (
+                                      {Math.round(
+                                        colorDistribution[zone] * 100,
+                                      )}
+                                      %)
+                                    </span>
+                                    <span
+                                      className={`text-xs font-bold ${zc.text}`}
+                                    >
+                                      {(rate * 100).toFixed(1)}¢/kWh
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         <div className="space-y-1.5 text-sm">
                           <div className="flex justify-between">
                             <span className="text-slate-500">
-                              Τιμή kWh (προμήθεια)
+                              {provider.tariffType === "colored"
+                                ? "Σταθμισμένος μ.ο."
+                                : "Τιμή kWh (προμήθεια)"}
                             </span>
                             <span className="font-medium">
                               {(provider.supplyRate * 100).toFixed(2)}¢
@@ -487,7 +626,11 @@ export default function ComparisonTable() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((provider, i) => {
-                  const cost = calculateMonthlyCost(provider, kwh);
+                  const cost = calculateMonthlyCost(
+                    provider,
+                    kwh,
+                    colorDistribution,
+                  );
                   return (
                     <tr
                       key={provider.id}
@@ -554,12 +697,16 @@ export default function ComparisonTable() {
                           className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                             provider.tariffType === "fixed"
                               ? "bg-blue-50 text-blue-700"
-                              : "bg-orange-50 text-orange-700"
+                              : provider.tariffType === "colored"
+                                ? "bg-purple-50 text-purple-700"
+                                : "bg-orange-50 text-orange-700"
                           }`}
                         >
                           {provider.tariffType === "fixed"
                             ? "Σταθερή"
-                            : "Μεταβλητή"}
+                            : provider.tariffType === "colored"
+                              ? "🎨 Χρωμ."
+                              : "Μεταβλητή"}
                         </span>
                       </td>
                       <td className="px-5 py-4 text-center">
