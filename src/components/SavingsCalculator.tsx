@@ -9,19 +9,33 @@ import {
   CONSUMPTION_PRESETS,
 } from "../lib/calculations";
 
-export default function SavingsCalculator() {
+interface SavingsCalculatorProps {
+  initialKwh?: number;
+  initialProviderId?: string;
+  actualBillAmount?: number;
+}
+
+export default function SavingsCalculator({
+  initialKwh,
+  initialProviderId,
+  actualBillAmount,
+}: SavingsCalculatorProps = {}) {
   const searchParams = useSearchParams();
 
   const [kwh, setKwh] = useState(() => {
+    if (initialKwh) return Math.min(800, Math.max(50, initialKwh));
     const param = searchParams.get("kwh");
     return param ? Math.min(800, Math.max(50, Number(param))) : 250;
   });
 
   const [currentProviderId, setCurrentProviderId] = useState(() => {
+    if (initialProviderId && providers.find((p) => p.id === initialProviderId))
+      return initialProviderId;
     const param = searchParams.get("provider");
     return param && providers.find((p) => p.id === param) ? param : "dei";
   });
 
+  const fromBill = Boolean(initialKwh || initialProviderId);
   // Recalculate on params change
   useEffect(() => {
     const kwhParam = searchParams.get("kwh");
@@ -51,12 +65,26 @@ export default function SavingsCalculator() {
       {/* Left: Input Panel */}
       <div className="lg:col-span-2">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sticky top-24">
-          <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <span className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 text-lg">
-              ⚡
-            </span>
-            Τα στοιχεία σου
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 text-lg">
+                ⚡
+              </span>
+              Τα στοιχεία σου
+            </h2>
+            {fromBill && (
+              <span className="inline-flex items-center gap-1.5 bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-teal-200">
+                <svg
+                  className="w-3 h-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                </svg>
+                Από τον λογαριασμό σου
+              </span>
+            )}
+          </div>
 
           {/* Current Provider */}
           <div className="mb-6">
@@ -70,8 +98,8 @@ export default function SavingsCalculator() {
                   onClick={() => setCurrentProviderId(p.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
                     currentProviderId === p.id
-                      ? "border-teal-500 bg-teal-50"
-                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                      ? "border-teal-500 bg-teal-50 cursor-default"
+                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer"
                   }`}
                 >
                   <div
@@ -227,6 +255,60 @@ export default function SavingsCalculator() {
 
         {/* Results list */}
         <div className="space-y-3">
+          {/* TODO: CHECK IF HERE IS THE RIGHT PLACE TO BE PUT */}
+          {/* Bill validation banner */}
+          {actualBillAmount &&
+            currentCost &&
+            (() => {
+              const diff = Math.abs(actualBillAmount - currentCost.monthlyCost);
+              const diffPct = (diff / actualBillAmount) * 100;
+              const isClose = diffPct < 15;
+              return (
+                <div
+                  className={`rounded-2xl p-4 mb-6 border ${isClose ? "bg-emerald-50 border-emerald-200" : "bg-sky-50 border-sky-200"}`}
+                >
+                  <div
+                    className={`flex items-start gap-3 text-sm ${isClose ? "text-emerald-800" : "text-sky-800"}`}
+                  >
+                    <span className="text-xl shrink-0">
+                      {isClose ? "✅" : "💬"}
+                    </span>
+                    <div>
+                      {isClose ? (
+                        <>
+                          <p className="font-semibold">
+                            Η εκτίμησή μας ταιριάζει με τον λογαριασμό σου!
+                          </p>
+                          <p className="text-xs mt-0.5 opacity-80">
+                            Εκτίμηση:{" "}
+                            <strong>
+                              {formatCurrency(currentCost.monthlyCost)}
+                            </strong>{" "}
+                            · Λογαριασμός:{" "}
+                            <strong>{formatCurrency(actualBillAmount)}</strong>{" "}
+                            · Διαφορά: {formatCurrency(diff)} (
+                            {diffPct.toFixed(1)}%)
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="font-semibold">
+                            Η εκτίμηση διαφέρει κατά {formatCurrency(diff)} από
+                            τον λογαριασμό σου
+                          </p>
+                          <p className="text-xs mt-0.5 opacity-80">
+                            Αυτό μπορεί να οφείλεται σε νυχτερινό τιμολόγιο,
+                            εκπτώσεις e-bill/direct debit ή άλλες χρεώσεις. Η
+                            σύγκριση μεταξύ παρόχων παραμένει έγκυρη.
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
           <h3 className="text-lg font-bold text-slate-900 mb-4">
             Σύγκριση για {kwh} kWh/μήνα
           </h3>

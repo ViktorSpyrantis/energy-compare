@@ -85,7 +85,7 @@ export default function QuickCalculator() {
               className={`text-xs px-3 py-1 rounded-full border transition-colors ${
                 kwh === preset.kwh
                   ? "bg-teal-600 text-white border-teal-600"
-                  : "border-slate-200 text-slate-600 hover:border-teal-300 hover:text-teal-700"
+                  : "border-slate-200 text-slate-600 hover:border-teal-300 hover:text-teal-700 cursor-pointer"
               }`}
             >
               {preset.label}
@@ -102,7 +102,7 @@ export default function QuickCalculator() {
         <select
           value={currentProviderId}
           onChange={(e) => setCurrentProviderId(e.target.value)}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
         >
           {providers.map((p) => (
             <option key={p.id} value={p.id}>
@@ -164,7 +164,7 @@ export default function QuickCalculator() {
 
       <button
         onClick={handleCompare}
-        className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2 shadow-sm"
+        className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2 shadow-sm cursor-pointer"
       >
         Δες Πλήρη Σύγκριση
         <svg
