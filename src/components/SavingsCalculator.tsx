@@ -98,8 +98,8 @@ export default function SavingsCalculator({
                   onClick={() => setCurrentProviderId(p.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
                     currentProviderId === p.id
-                      ? "border-teal-500 bg-teal-50"
-                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                      ? "border-teal-500 bg-teal-50 cursor-default"
+                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer"
                   }`}
                 >
                   <div

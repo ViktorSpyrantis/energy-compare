@@ -522,7 +522,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
                     setProviderId(e.target.value);
                     setAutoFilled((af) => ({ ...af, provider: false }));
                   }}
-                  className={`w-full border rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors ${
+                  className={`w-full border rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors cursor-pointer ${
                     autoFilled.provider
                       ? "border-teal-400 bg-teal-50/30"
                       : "border-slate-200"
@@ -684,7 +684,11 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
               <button
                 onClick={handleApply}
                 disabled={analysis.status === "analyzing" || !kwh}
-                className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm"
+                className={`w-full bg-teal-600 hover:bg-teal-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm ${
+                  analysis.status === "analyzing" || !kwh
+                    ? "cursor-default"
+                    : "cursor-pointer"
+                } `}
               >
                 {analysis.status === "analyzing" ? (
                   <>

@@ -101,7 +101,7 @@ export default function ComparisonTable() {
                     className={`px-3 py-2 transition-colors ${
                       filters.tariffType === type
                         ? "bg-teal-600 text-white"
-                        : "text-slate-600 hover:bg-slate-50"
+                        : "text-slate-600 hover:bg-slate-50 cursor-pointer"
                     }`}
                   >
                     {type === "all"
@@ -160,7 +160,7 @@ export default function ComparisonTable() {
             <div className="flex rounded-lg border border-slate-200 overflow-hidden">
               <button
                 onClick={() => setViewMode("cards")}
-                className={`p-2 transition-colors ${viewMode === "cards" ? "bg-teal-600 text-white" : "text-slate-500 hover:bg-slate-50"}`}
+                className={`p-2 transition-colors ${viewMode === "cards" ? "bg-teal-600 text-white" : "text-slate-500 hover:bg-slate-50 cursor-pointer"}`}
                 title="Κάρτες"
               >
                 <svg
@@ -179,7 +179,7 @@ export default function ComparisonTable() {
               </button>
               <button
                 onClick={() => setViewMode("table")}
-                className={`p-2 transition-colors ${viewMode === "table" ? "bg-teal-600 text-white" : "text-slate-500 hover:bg-slate-50"}`}
+                className={`p-2 transition-colors ${viewMode === "table" ? "bg-teal-600 text-white cursor-default" : "text-slate-500 hover:bg-slate-50 cursor-pointer"}`}
                 title="Πίνακας"
               >
                 <svg
