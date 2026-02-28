@@ -41,6 +41,7 @@ export default function ComparisonTable() {
     greenOnly: false,
     sortBy: "price",
     showPrograms: true,
+    isStudent: false,
   });
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
@@ -58,6 +59,8 @@ export default function ComparisonTable() {
         return false;
       if (filters.greenOnly && !p.greenEnergy) return false;
       if (!filters.showPrograms && p.isProgram) return false;
+      if (filters.showPrograms && !filters.isStudent && p.programEligibility)
+        return false;
       return true;
     });
 
@@ -207,6 +210,30 @@ export default function ComparisonTable() {
                   Προγράμματα
                 </span>
               </label>
+              {filters.showPrograms && (
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <div
+                    onClick={() =>
+                      setFilters((f) => ({
+                        ...f,
+                        isStudent: !f.isStudent,
+                      }))
+                    }
+                    className={`relative w-10 h-5 rounded-full transition-colors ${
+                      filters.isStudent ? "bg-amber-500" : "bg-slate-200"
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                        filters.isStudent ? "translate-x-5" : "translate-x-0"
+                      }`}
+                    />
+                  </div>
+                  <span className="text-xs font-medium text-slate-600">
+                    🎓 Είμαι φοιτητής/τρια
+                  </span>
+                </label>
+              )}
             </div>
 
             {/* View Toggle */}
@@ -852,6 +879,7 @@ export default function ComparisonTable() {
                 greenOnly: false,
                 sortBy: "price",
                 showPrograms: true,
+                isStudent: false,
               })
             }
             className="mt-4 text-teal-600 font-medium hover:underline text-sm"

@@ -54,4 +54,5 @@ export interface FilterOptions {
   greenOnly: boolean;
   sortBy: "price" | "rating" | "name";
   showPrograms: boolean; // εμφάνιση ειδικών προγραμμάτων/προσφορών
+  isStudent: boolean; // εμφάνιση προγραμμάτων με προϋποθέσεις επιλεξιμότητας (π.χ. 4Students)
 }
