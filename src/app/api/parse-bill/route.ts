@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const EXTRACTION_PROMPT = `Αυτός είναι ένας ελληνικός λογαριασμός ηλεκτρικής ενέργειας.
- 
+
 Εξήγαγε τα παρακάτω στοιχεία και επέστρεψε ΜΟΝΟ ένα JSON αντικείμενο, χωρίς markdown ή άλλο κείμενο:
- 
+
 {
   "kwh": <συνολική κατανάλωση kWh για την τρέχουσα περίοδο - αριθμός ή null>,
   "billingDays": <ημέρες χρέωσης στην τρέχουσα περίοδο - αριθμός ή null>,
   "provider": "<ακριβές όνομα παρόχου όπως εμφανίζεται - string ή null>",
+  "tariffName": "<ονομασία τιμολογίου ή προγράμματος όπως εμφανίζεται στον λογαριασμό - string ή null>",
   "billAmount": <συνολικό πληρωτέο ποσό με ΦΠΑ σε ευρώ - αριθμός ή null>,
   "colorZones": {
     "blue": <kWh Μπλε ζώνης - αριθμός ή null>,
@@ -18,11 +19,12 @@ const EXTRACTION_PROMPT = `Αυτός είναι ένας ελληνικός λ�
   },
   "confidence": "<high|medium|low>"
 }
- 
+
 Οδηγίες:
 - kwh: Ψάξε για "Καταναλωθείσα ενέργεια", "Ενεργός ενέργεια", "Κατανάλωση (kWh)", "Σύνολο kWh". Παράδειγμα: αν δεις "250,00 kWh", βάλε 250.
 - billingDays: Η διαφορά ημερών μεταξύ ημερ. λήξης και ημερ. έναρξης.
 - provider: Το όνομα του παρόχου (ΔΕΗ, Elpedison, NRG, Protergia, Volton, Zenith, Watt+Volt, κ.ά.)
+- tariffName: Το όνομα του τιμολογίου ή πακέτου (π.χ. "myHome 4Students", "myHome Enter", "Home Easy"). Ψάξε για "Τιμολόγιο Προμήθειας", "Πακέτο", "Πρόγραμμα", "Κατηγορία τιμολόγησης".
 - billAmount: Το τελικό ποσό που πρέπει να πληρωθεί (μετά ΦΠΑ). Ψάξε για "Σύνολο", "Πληρωτέο", "Σύνολο Λογαριασμού".
 - colorZones: Αν ο λογαριασμός έχει χρωματιστό τιμολόγιο, εξήγαγε τα kWh ανά ζώνη (Μπλε/Πράσινη/Κίτρινη/Κόκκινη). Αλλιώς βάλε null σε όλα.
 - confidence: "high" αν βρήκες όλα ξεκάθαρα, "medium" αν βρήκες 2-3, "low" αν λιγότερα.`;
@@ -51,6 +53,8 @@ export interface ParsedBill {
   billingDays: number | null;
   providerId: string | null;
   providerName: string | null;
+  tariffName: string | null;
+  isStudentTariff: boolean;
   billAmount: number | null;
   colorZones: {
     blue: number | null;
@@ -59,6 +63,12 @@ export interface ParsedBill {
     red: number | null;
   } | null;
   confidence: "high" | "medium" | "low";
+}
+
+function detectStudentTariff(tariffName: string | null): boolean {
+  if (!tariffName) return false;
+  const t = tariffName.toLowerCase();
+  return t.includes("4students") || t.includes("4 students") || t.includes("φοιτητ");
 }
 
 export async function POST(request: NextRequest) {
@@ -104,6 +114,7 @@ export async function POST(request: NextRequest) {
       kwh: number | null;
       billingDays: number | null;
       provider: string | null;
+      tariffName: string | null;
       billAmount: number | null;
       colorZones?: {
         blue: number | null;
@@ -129,6 +140,8 @@ export async function POST(request: NextRequest) {
       billingDays: extracted.billingDays,
       providerId: resolveProviderId(extracted.provider),
       providerName: extracted.provider,
+      tariffName: extracted.tariffName ?? null,
+      isStudentTariff: detectStudentTariff(extracted.tariffName ?? null),
       billAmount: extracted.billAmount,
       colorZones: extracted.colorZones ?? null,
       confidence: extracted.confidence ?? "low",

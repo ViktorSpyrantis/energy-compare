@@ -16,6 +16,7 @@ interface SavingsCalculatorProps {
   initialKwh?: number;
   initialProviderId?: string;
   actualBillAmount?: number;
+  initialIsStudent?: boolean;
 }
 
 const ZONE_COLORS = {
@@ -51,6 +52,7 @@ export default function SavingsCalculator({
   initialKwh,
   initialProviderId,
   actualBillAmount,
+  initialIsStudent,
 }: SavingsCalculatorProps = {}) {
   const searchParams = useSearchParams();
 
@@ -67,7 +69,7 @@ export default function SavingsCalculator({
     return param && providers.find((p) => p.id === param) ? param : "dei";
   });
 
-  const [isStudent, setIsStudent] = useState(false);
+  const [isStudent, setIsStudent] = useState(initialIsStudent ?? false);
 
   const visibleProviders = useMemo(
     () => providers.filter((p) => isStudent || !p.programEligibility),

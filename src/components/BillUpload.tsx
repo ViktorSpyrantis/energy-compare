@@ -8,6 +8,7 @@ export interface BillExtractedData {
   kwh: number;
   providerId: string;
   billAmount?: number;
+  isStudentTariff?: boolean;
 }
 
 interface BillUploadProps {
@@ -78,6 +79,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
   const [kwh, setKwh] = useState("");
   const [providerId, setProviderId] = useState("dei");
   const [billAmount, setBillAmount] = useState("");
+  const [isStudentTariff, setIsStudentTariff] = useState(false);
 
   // Auto-fill tracking (to show ✓ badges on fields that were auto-extracted)
   const [autoFilled, setAutoFilled] = useState<AutoFilled>({
@@ -141,6 +143,9 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
       if (data.billAmount) {
         setBillAmount(String(data.billAmount));
         af.billAmount = true;
+      }
+      if (data.isStudentTariff) {
+        setIsStudentTariff(true);
       }
       setAutoFilled(af);
     } catch {
@@ -213,6 +218,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
       billAmount: billAmount
         ? parseFloat(billAmount.replace(",", ".")) || undefined
         : undefined,
+      isStudentTariff: isStudentTariff || undefined,
     });
   };
 
