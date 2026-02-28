@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { providers, COLOR_ZONE_HOURS } from "../data/providers";
 import {
@@ -67,6 +67,21 @@ export default function SavingsCalculator({
     return param && providers.find((p) => p.id === param) ? param : "dei";
   });
 
+  const [isStudent, setIsStudent] = useState(false);
+
+  const visibleProviders = useMemo(
+    () => providers.filter((p) => isStudent || !p.programEligibility),
+    [isStudent],
+  );
+
+  // Αν ο τρέχων πάροχος κρυφτεί (π.χ. 4Students όταν απενεργοποιηθεί το φοιτητικό),
+  // επαναφέρουμε σε ΔΕΗ ώστε η σύγκριση να παραμένει έγκυρη.
+  useEffect(() => {
+    if (!visibleProviders.find((p) => p.id === currentProviderId)) {
+      setCurrentProviderId("dei");
+    }
+  }, [isStudent]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
     () =>
@@ -80,12 +95,12 @@ export default function SavingsCalculator({
   const costs = useMemo(
     () =>
       calculateProviderCosts(
-        providers,
+        visibleProviders,
         kwh,
         currentProviderId,
         colorDistribution,
       ),
-    [kwh, currentProviderId, colorDistribution],
+    [visibleProviders, kwh, currentProviderId, colorDistribution],
   );
 
   const currentCost = costs.find((c) => c.provider.id === currentProviderId);
@@ -125,11 +140,30 @@ export default function SavingsCalculator({
 
           {/* Current Provider */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Τρέχων πάροχος
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-semibold text-slate-700">
+                Τρέχων πάροχος
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  onClick={() => setIsStudent((s) => !s)}
+                  className={`relative w-9 h-[1.125rem] rounded-full transition-colors ${
+                    isStudent ? "bg-amber-500" : "bg-slate-200"
+                  }`}
+                >
+                  <div
+                    className={`absolute top-0.5 left-0.5 w-3.5 h-3.5 bg-white rounded-full shadow transition-transform ${
+                      isStudent ? "translate-x-[1.125rem]" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+                <span className="text-xs font-medium text-slate-600">
+                  🎓 Είμαι φοιτητής/τρια
+                </span>
+              </label>
+            </div>
             <div className="grid grid-cols-1 gap-2">
-              {providers.map((p) => (
+              {visibleProviders.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => setCurrentProviderId(p.id)}
