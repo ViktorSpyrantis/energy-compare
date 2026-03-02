@@ -145,6 +145,7 @@ export default function CalculatorWrapper() {
           initialKwh={billData?.kwh}
           initialProviderId={billData?.providerId}
           actualBillAmount={billData?.billAmount}
+          initialIsStudent={billData?.isStudentTariff}
         />
       </Suspense>
     </div>
