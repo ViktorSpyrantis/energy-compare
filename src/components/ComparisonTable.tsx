@@ -658,24 +658,37 @@ export default function ComparisonTable() {
                             </div>
                           )}
                         <div className="space-y-1.5 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">
-                              {provider.tariffType === "colored"
-                                ? "Σταθμισμένος μ.ο."
-                                : "Τιμή kWh (προμήθεια)"}
-                            </span>
-                            <span className="font-medium">
-                              {(provider.supplyRate * 100).toFixed(2)}¢
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">
-                              Μηνιαίο πάγιο
-                            </span>
-                            <span className="font-medium">
-                              {formatCurrency(provider.monthlyFee)}
-                            </span>
-                          </div>
+                          {provider.flatMonthlyBill !== undefined ? (
+                            <div className="flex justify-between">
+                              <span className="text-slate-500">
+                                Σταθερό κόστος/μήνα (all-in)
+                              </span>
+                              <span className="font-medium">
+                                {formatCurrency(provider.flatMonthlyBill)}
+                              </span>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="flex justify-between">
+                                <span className="text-slate-500">
+                                  {provider.tariffType === "colored"
+                                    ? "Σταθμισμένος μ.ο."
+                                    : "Τιμή kWh (προμήθεια)"}
+                                </span>
+                                <span className="font-medium">
+                                  {(provider.supplyRate * 100).toFixed(2)}¢
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-slate-500">
+                                  Μηνιαίο πάγιο
+                                </span>
+                                <span className="font-medium">
+                                  {formatCurrency(provider.monthlyFee)}
+                                </span>
+                              </div>
+                            </>
+                          )}
                           <div className="flex justify-between text-slate-400 text-xs pt-1 border-t border-slate-200">
                             <span>Ρυθμιζόμενες χρεώσεις*</span>
                             <span>Ίδιες για όλους</span>
@@ -700,12 +713,29 @@ export default function ComparisonTable() {
                             🎁 {provider.newCustomerOffer}
                           </div>
                         )}
-                        <a
-                          href={`tel:${provider.phone}`}
-                          className="mt-3 block text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
-                        >
-                          📞 {provider.phone}
-                        </a>
+                        <div className="mt-3 flex gap-2">
+                          {provider.signupUrl && (
+                            <a
+                              href={provider.signupUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                            >
+                              Εγγραφή →
+                            </a>
+                          )}
+                          <a
+                            href={`tel:${provider.phone}`}
+                            className="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium py-2.5 rounded-lg transition-colors"
+                          >
+                            📞 {provider.phone}
+                          </a>
+                        </div>
+                        {provider.lastUpdated && (
+                          <p className="mt-2 text-xs text-slate-400 text-right">
+                            Ενημερώθηκε: {provider.lastUpdated}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -813,10 +843,14 @@ export default function ComparisonTable() {
                         </div>
                       </td>
                       <td className="px-5 py-4 text-right font-medium text-slate-900">
-                        {(provider.supplyRate * 100).toFixed(2)}¢
+                        {provider.flatMonthlyBill !== undefined
+                          ? "—"
+                          : `${(provider.supplyRate * 100).toFixed(2)}¢`}
                       </td>
                       <td className="px-5 py-4 text-right text-slate-700">
-                        {formatCurrency(provider.monthlyFee)}
+                        {provider.flatMonthlyBill !== undefined
+                          ? "all-in"
+                          : formatCurrency(provider.monthlyFee)}
                       </td>
                       <td className="px-5 py-4 text-right font-bold text-slate-900">
                         {formatCurrency(cost)}
