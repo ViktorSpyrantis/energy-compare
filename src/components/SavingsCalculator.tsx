@@ -72,6 +72,7 @@ export default function SavingsCalculator({
   const [isStudent, setIsStudent] = useState(initialIsStudent ?? false);
   const [exitPenalty, setExitPenalty] = useState(0);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [hasUserSelected, setHasUserSelected] = useState(false);
 
   const router = useRouter();
 
@@ -184,7 +185,7 @@ export default function SavingsCalculator({
               {visibleProviders.map((p) => (
                 <button
                   key={p.id}
-                  onClick={() => setCurrentProviderId(p.id)}
+                  onClick={() => { setCurrentProviderId(p.id); setHasUserSelected(true); }}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
                     currentProviderId === p.id
                       ? "border-teal-500 bg-teal-50"
@@ -421,8 +422,8 @@ export default function SavingsCalculator({
 
       {/* Right: Results */}
       <div className="lg:col-span-3">
-        {/* Savings Banner */}
-        {canSave ? (
+        {/* Savings Banner — εμφανίζεται μόνο αφού ο χρήστης επιλέξει πάροχο ή ανεβάσει λογαριασμό */}
+        {(fromBill || hasUserSelected) && (canSave ? (
           <div className="bg-gradient-to-r from-amber-400 to-orange-400 rounded-2xl p-6 mb-6 text-white shadow-lg">
             <div className="text-sm font-semibold opacity-90 mb-1">
               Μέγιστη δυνατή εξοικονόμηση
@@ -446,7 +447,7 @@ export default function SavingsCalculator({
               kWh/μήνα.
             </div>
           </div>
-        )}
+        ))}
 
         {/* Bill validation banner */}
         {actualBillAmount &&
