@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { providers, COLOR_ZONE_HOURS } from "../data/providers";
 import {
   calculateProviderCosts,
@@ -70,6 +70,22 @@ export default function SavingsCalculator({
   });
 
   const [isStudent, setIsStudent] = useState(initialIsStudent ?? false);
+  const [exitPenalty, setExitPenalty] = useState(0);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const router = useRouter();
+
+  // Sync state to URL so links can be bookmarked/shared
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const params = new URLSearchParams();
+      params.set("kwh", String(kwh));
+      params.set("provider", currentProviderId);
+      if (isStudent) params.set("student", "1");
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }, 500);
+    return () => clearTimeout(t);
+  }, [kwh, currentProviderId, isStudent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const visibleProviders = useMemo(
     () => providers.filter((p) => isStudent || !p.programEligibility),
@@ -280,6 +296,48 @@ export default function SavingsCalculator({
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Advanced options */}
+          <div className="mb-6">
+            <button
+              onClick={() => setShowAdvanced((v) => !v)}
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors text-sm text-slate-700"
+            >
+              <span className="font-medium">Προχωρημένες επιλογές</span>
+              <svg
+                className={`w-4 h-4 transition-transform text-slate-400 ${showAdvanced ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showAdvanced && (
+              <div className="mt-3 space-y-3 px-1">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+                    Πρόστιμο αποχώρησης από τρέχοντα πάροχο (€)
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={500}
+                    value={exitPenalty}
+                    onChange={(e) => setExitPenalty(Math.max(0, Number(e.target.value)))}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    placeholder="0"
+                  />
+                  {exitPenalty > 0 && (
+                    <p className="text-xs text-slate-400 mt-1">
+                      Το πρόστιμο θα αποσβεστεί αναλόγως της εξοικονόμησης
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Color distribution (shown when colored providers are present) */}
@@ -530,9 +588,11 @@ export default function SavingsCalculator({
                         )}
                       </div>
                       <div className="text-xs text-slate-500 mt-0.5">
-                        {isColored
-                          ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
-                          : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
+                        {item.provider.flatMonthlyBill !== undefined
+                          ? `Σταθερό ${formatCurrency(item.provider.flatMonthlyBill)}/μήνα (all-in)`
+                          : isColored
+                            ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
+                            : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
                       </div>
                     </div>
 
@@ -558,6 +618,11 @@ export default function SavingsCalculator({
                           <div className="text-xs text-emerald-600">
                             εξοικ./χρόνο
                           </div>
+                          {exitPenalty > 0 && (
+                            <div className="text-xs text-slate-400 mt-0.5">
+                              Απόσβεση: {Math.ceil(exitPenalty / item.savingsVsCurrent)} μήνες
+                            </div>
+                          )}
                         </div>
                       ) : item.savingsVsCurrent < -0.5 ? (
                         <div>

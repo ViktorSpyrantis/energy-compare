@@ -68,7 +68,17 @@ export interface ParsedBill {
 function detectStudentTariff(tariffName: string | null): boolean {
   if (!tariffName) return false;
   const t = tariffName.toLowerCase();
-  return t.includes("4students") || t.includes("4 students") || t.includes("φοιτητ");
+  return (
+    t.includes("4students") ||
+    t.includes("4 students") ||
+    t.includes("φοιτητ") ||
+    t.includes("foitit") ||
+    t.includes("picasso student") ||
+    t.includes("value student") ||
+    t.includes("power home student") ||
+    t.includes("student 150") ||
+    t.includes("4uni")
+  );
 }
 
 export async function POST(request: NextRequest) {

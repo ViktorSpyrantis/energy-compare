@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 const navLinks = [
   { href: "/", label: "Αρχική" },
   { href: "/compare", label: "Σύγκριση Παρόχων" },
+  { href: "/providers", label: "Πάροχοι" },
+  { href: "/guide", label: "Οδηγός" },
   { href: "/calculator", label: "Αριθμομηχανή" },
 ];
 
