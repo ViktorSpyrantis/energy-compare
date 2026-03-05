@@ -16,6 +16,8 @@ export function calculateMonthlyCost(
   monthlyKwh: number,
   colorDist?: ColorDistribution,
 ): number {
+  if (provider.flatMonthlyBill !== undefined) return provider.flatMonthlyBill;
+
   if (provider.tariffType === "colored" && provider.coloredRates) {
     const dist = colorDist ?? DEFAULT_COLOR_DISTRIBUTION;
     const { blue, green, yellow, red } = provider.coloredRates;
@@ -106,6 +108,8 @@ export const CONSUMPTION_PRESETS = [
   { label: "Διαμέρισμα 2-3 δωματίων", kwh: 200, description: "~80-120 τ.μ." },
   { label: "Μεγάλο διαμέρισμα", kwh: 350, description: "~120-180 τ.μ." },
   { label: "Μονοκατοικία", kwh: 500, description: "~180+ τ.μ." },
+  { label: "Καλοκαίρι (κλιματισμός)", kwh: 350, description: "Ιούν–Αύγ, A/C" },
+  { label: "Χειμώνας (θέρμανση)", kwh: 450, description: "Δεκ–Φεβ, αντλία θερμότητας" },
 ] as const;
 
 /**
@@ -129,5 +133,11 @@ export const COLOR_DISTRIBUTION_PRESETS = [
     label: "Μεσημεριανός",
     description: "Εργασία από σπίτι",
     dist: { blue: 0.25, green: 0.2, yellow: 0.35, red: 0.2 },
+  },
+  {
+    id: "night_heavy",
+    label: "ΗΕΑ Νυχτερινό",
+    description: "Νυχτερινός μετρητής ΗΕΑ",
+    dist: { blue: 0.65, green: 0.15, yellow: 0.12, red: 0.08 },
   },
 ] as const;

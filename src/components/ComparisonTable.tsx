@@ -40,6 +40,8 @@ export default function ComparisonTable() {
     tariffType: "all",
     greenOnly: false,
     sortBy: "price",
+    showPrograms: true,
+    isStudent: false,
   });
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
@@ -56,6 +58,9 @@ export default function ComparisonTable() {
       if (filters.tariffType !== "all" && p.tariffType !== filters.tariffType)
         return false;
       if (filters.greenOnly && !p.greenEnergy) return false;
+      if (!filters.showPrograms && p.isProgram) return false;
+      if (filters.showPrograms && !filters.isStudent && p.programEligibility)
+        return false;
       return true;
     });
 
@@ -163,7 +168,7 @@ export default function ComparisonTable() {
               </select>
             </div>
 
-            <div className="flex items-end gap-2">
+            <div className="flex items-end gap-4">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <div
                   onClick={() =>
@@ -183,6 +188,52 @@ export default function ComparisonTable() {
                   Πράσινη ενέργεια
                 </span>
               </label>
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  onClick={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      showPrograms: !f.showPrograms,
+                    }))
+                  }
+                  className={`relative w-10 h-5 rounded-full transition-colors ${
+                    filters.showPrograms ? "bg-blue-600" : "bg-slate-200"
+                  }`}
+                >
+                  <div
+                    className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                      filters.showPrograms ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+                <span className="text-xs font-medium text-slate-600">
+                  Προγράμματα
+                </span>
+              </label>
+              {filters.showPrograms && (
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <div
+                    onClick={() =>
+                      setFilters((f) => ({
+                        ...f,
+                        isStudent: !f.isStudent,
+                      }))
+                    }
+                    className={`relative w-10 h-5 rounded-full transition-colors ${
+                      filters.isStudent ? "bg-amber-500" : "bg-slate-200"
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                        filters.isStudent ? "translate-x-5" : "translate-x-0"
+                      }`}
+                    />
+                  </div>
+                  <span className="text-xs font-medium text-slate-600">
+                    🎓 Είμαι φοιτητής/τρια
+                  </span>
+                </label>
+              )}
             </div>
 
             {/* View Toggle */}
@@ -299,6 +350,65 @@ export default function ComparisonTable() {
         </div>
       )}
 
+      {/* Programs info banner */}
+      {filters.showPrograms && filtered.some((p) => p.isProgram) && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 mb-6">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl shrink-0">📋</span>
+            <div>
+              <h3 className="text-sm font-bold text-blue-900 mb-1">
+                Τι είναι τα Προγράμματα / Προσφορές;
+              </h3>
+              <p className="text-sm text-blue-800 mb-3">
+                Εκτός από τα τυπικά τιμολόγια, οι πάροχοι προσφέρουν{" "}
+                <strong>ειδικά ονοματισμένα πακέτα</strong> με διαφορετικές
+                τιμές ή/και προϋποθέσεις επιλεξιμότητας (π.χ. χαμηλότερο
+                πάγιο, μακροχρόνια σταθερή τιμή ή φοιτητικές προσφορές). Τα
+                προγράμματα εμφανίζονται με ειδική σήμανση{" "}
+                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-300">
+                  📋 Πρόγραμμα
+                </span>{" "}
+                ώστε να τα ξεχωρίζετε από τα βασικά τιμολόγια.
+              </p>
+              <div className="grid sm:grid-cols-3 gap-3 text-xs">
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    Χαμηλότερο πάγιο
+                  </div>
+                  <div className="text-blue-700">
+                    Ορισμένα προγράμματα προσφέρουν μειωμένο ή μηδενικό μηνιαίο
+                    πάγιο – ιδανικά για χαμηλή κατανάλωση.
+                  </div>
+                </div>
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    Μακροχρόνια σταθερότητα
+                  </div>
+                  <div className="text-blue-700">
+                    24μηνα προγράμματα κλειδώνουν χαμηλότερη τιμή kWh με
+                    αντάλλαγμα μεγαλύτερη συμβατική δέσμευση.
+                  </div>
+                </div>
+                <div className="bg-white border border-blue-200 rounded-xl p-3">
+                  <div className="font-bold text-blue-900 mb-1">
+                    Ειδικές κατηγορίες
+                  </div>
+                  <div className="text-blue-700">
+                    Ορισμένα προγράμματα απευθύνονται σε συγκεκριμένες ομάδες
+                    (π.χ. φοιτητές) και απαιτούν επαλήθευση επιλεξιμότητας.
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-blue-600 mt-3">
+                ⚠️ Οι τιμές των προγραμμάτων είναι εκτιμήσεις βάσει δημόσια
+                διαθέσιμων στοιχείων 2025. Επαληθεύστε πάντα τις ισχύουσες
+                τιμές και προϋποθέσεις απευθείας στο site του κάθε παρόχου.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Results count */}
       <div className="text-sm text-slate-500 mb-4">
         Βρέθηκαν <strong className="text-slate-800">{filtered.length}</strong>{" "}
@@ -367,6 +477,16 @@ export default function ComparisonTable() {
                         {provider.greenEnergy && (
                           <span className="bg-emerald-50 text-emerald-700 text-xs px-2 py-0.5 rounded-full border border-emerald-200">
                             🌿 {provider.greenEnergyPercent}% Πράσινη
+                          </span>
+                        )}
+                        {provider.isProgram && (
+                          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-300">
+                            📋 Πρόγραμμα
+                          </span>
+                        )}
+                        {provider.isProgram && provider.programEligibility && (
+                          <span className="bg-amber-50 text-amber-800 text-xs px-2 py-0.5 rounded-full border border-amber-200">
+                            🎓 {provider.programEligibility}
                           </span>
                         )}
                       </div>
@@ -538,24 +658,37 @@ export default function ComparisonTable() {
                             </div>
                           )}
                         <div className="space-y-1.5 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">
-                              {provider.tariffType === "colored"
-                                ? "Σταθμισμένος μ.ο."
-                                : "Τιμή kWh (προμήθεια)"}
-                            </span>
-                            <span className="font-medium">
-                              {(provider.supplyRate * 100).toFixed(2)}¢
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">
-                              Μηνιαίο πάγιο
-                            </span>
-                            <span className="font-medium">
-                              {formatCurrency(provider.monthlyFee)}
-                            </span>
-                          </div>
+                          {provider.flatMonthlyBill !== undefined ? (
+                            <div className="flex justify-between">
+                              <span className="text-slate-500">
+                                Σταθερό κόστος/μήνα (all-in)
+                              </span>
+                              <span className="font-medium">
+                                {formatCurrency(provider.flatMonthlyBill)}
+                              </span>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="flex justify-between">
+                                <span className="text-slate-500">
+                                  {provider.tariffType === "colored"
+                                    ? "Σταθμισμένος μ.ο."
+                                    : "Τιμή kWh (προμήθεια)"}
+                                </span>
+                                <span className="font-medium">
+                                  {(provider.supplyRate * 100).toFixed(2)}¢
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-slate-500">
+                                  Μηνιαίο πάγιο
+                                </span>
+                                <span className="font-medium">
+                                  {formatCurrency(provider.monthlyFee)}
+                                </span>
+                              </div>
+                            </>
+                          )}
                           <div className="flex justify-between text-slate-400 text-xs pt-1 border-t border-slate-200">
                             <span>Ρυθμιζόμενες χρεώσεις*</span>
                             <span>Ίδιες για όλους</span>
@@ -567,17 +700,42 @@ export default function ComparisonTable() {
                             </span>
                           </div>
                         </div>
+                        {provider.isProgram && (
+                          <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800">
+                            <span className="font-semibold">📋 Ειδικό Πρόγραμμα</span>
+                            {provider.programEligibility && (
+                              <span className="ml-1">· {provider.programEligibility}</span>
+                            )}
+                          </div>
+                        )}
                         {provider.newCustomerOffer && (
                           <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-2 text-xs text-amber-800 font-medium">
                             🎁 {provider.newCustomerOffer}
                           </div>
                         )}
-                        <a
-                          href={`tel:${provider.phone}`}
-                          className="mt-3 block text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
-                        >
-                          📞 {provider.phone}
-                        </a>
+                        <div className="mt-3 flex gap-2">
+                          {provider.signupUrl && (
+                            <a
+                              href={provider.signupUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                            >
+                              Εγγραφή →
+                            </a>
+                          )}
+                          <a
+                            href={`tel:${provider.phone}`}
+                            className="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium py-2.5 rounded-lg transition-colors"
+                          >
+                            📞 {provider.phone}
+                          </a>
+                        </div>
+                        {provider.lastUpdated && (
+                          <p className="mt-2 text-xs text-slate-400 text-right">
+                            Ενημερώθηκε: {provider.lastUpdated}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -666,8 +824,15 @@ export default function ComparisonTable() {
                             )}
                           </div>
                           <div>
-                            <div className="font-semibold text-slate-900">
-                              {provider.name}
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="font-semibold text-slate-900">
+                                {provider.name}
+                              </span>
+                              {provider.isProgram && (
+                                <span className="bg-blue-100 text-blue-800 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-blue-300 leading-none">
+                                  📋
+                                </span>
+                              )}
                             </div>
                             <div className="text-xs text-slate-400">
                               {provider.contractMonths === 0
@@ -678,10 +843,14 @@ export default function ComparisonTable() {
                         </div>
                       </td>
                       <td className="px-5 py-4 text-right font-medium text-slate-900">
-                        {(provider.supplyRate * 100).toFixed(2)}¢
+                        {provider.flatMonthlyBill !== undefined
+                          ? "—"
+                          : `${(provider.supplyRate * 100).toFixed(2)}¢`}
                       </td>
                       <td className="px-5 py-4 text-right text-slate-700">
-                        {formatCurrency(provider.monthlyFee)}
+                        {provider.flatMonthlyBill !== undefined
+                          ? "all-in"
+                          : formatCurrency(provider.monthlyFee)}
                       </td>
                       <td className="px-5 py-4 text-right font-bold text-slate-900">
                         {formatCurrency(cost)}
@@ -743,6 +912,8 @@ export default function ComparisonTable() {
                 tariffType: "all",
                 greenOnly: false,
                 sortBy: "price",
+                showPrograms: true,
+                isStudent: false,
               })
             }
             className="mt-4 text-teal-600 font-medium hover:underline text-sm"

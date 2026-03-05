@@ -36,6 +36,12 @@ export interface Provider {
   tags: string[];
   popular: boolean;
   newCustomerOffer?: string;
+  // Πεδία για ειδικά προγράμματα/προσφορές παρόχων
+  isProgram?: boolean; // true = ειδικό πρόγραμμα (όχι απλό τιμολόγιο)
+  programEligibility?: string; // π.χ. "Απαιτείται φοιτητικό πάσο"
+  flatMonthlyBill?: number; // ALL-IN μηνιαίο κόστος (supply+regulated+ΦΠΑ) για flat-bill προγράμματα
+  signupUrl?: string; // URL εγγραφής στον πάροχο
+  lastUpdated: string; // π.χ. "2026-03"
 }
 
 export interface ProviderCost {
@@ -50,4 +56,6 @@ export interface FilterOptions {
   tariffType: "all" | "fixed" | "variable" | "colored";
   greenOnly: boolean;
   sortBy: "price" | "rating" | "name";
+  showPrograms: boolean; // εμφάνιση ειδικών προγραμμάτων/προσφορών
+  isStudent: boolean; // εμφάνιση προγραμμάτων με προϋποθέσεις επιλεξιμότητας (π.χ. 4Students)
 }

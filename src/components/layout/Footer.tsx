@@ -75,41 +75,37 @@ export default function Footer() {
                   Γρήγορος Υπολογισμός
                 </Link>
               </li>
+              <li>
+                <Link href="/guide" className="hover:text-white transition-colors">
+                  Οδηγός Αλλαγής Παρόχου
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-white font-semibold text-sm mb-4">Πάροχοι</h3>
             <ul className="space-y-2.5 text-sm">
+              {(
+                [
+                  { href: "/providers/dei", label: "ΔΕΗ" },
+                  { href: "/providers/elpedison", label: "Elpedison" },
+                  { href: "/providers/nrg", label: "NRG" },
+                  { href: "/providers/protergia", label: "Protergia" },
+                  { href: "/providers/volton", label: "Volton" },
+                  { href: "/providers/zenith", label: "Zenith" },
+                ] as const
+              ).map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="hover:text-white transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  ΔΕΗ
-                </span>
-              </li>
-              <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  Elpedison
-                </span>
-              </li>
-              <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  NRG
-                </span>
-              </li>
-              <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  Protergia
-                </span>
-              </li>
-              <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  Volton
-                </span>
-              </li>
-              <li>
-                <span className="hover:text-white transition-colors cursor-pointer">
-                  Zenith
-                </span>
+                <Link href="/providers" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">
+                  Όλοι οι πάροχοι →
+                </Link>
               </li>
             </ul>
           </div>
