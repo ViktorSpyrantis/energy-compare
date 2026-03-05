@@ -422,8 +422,8 @@ export default function SavingsCalculator({
 
       {/* Right: Results */}
       <div className="lg:col-span-3">
-        {/* Savings Banner — εμφανίζεται μόνο αφού ο χρήστης επιλέξει πάροχο ή ανεβάσει λογαριασμό */}
-        {(fromBill || hasUserSelected) && (canSave ? (
+        {/* Πορτοκαλί banner: αρκεί να έχει επιλεγεί πάροχος (ή bill) και να υπάρχει εξοικονόμηση */}
+        {(fromBill || hasUserSelected) && canSave && (
           <div className="bg-gradient-to-r from-amber-400 to-orange-400 rounded-2xl p-6 mb-6 text-white shadow-lg">
             <div className="text-sm font-semibold opacity-90 mb-1">
               Μέγιστη δυνατή εξοικονόμηση
@@ -436,7 +436,9 @@ export default function SavingsCalculator({
               {cheapest.provider.name}
             </div>
           </div>
-        ) : (
+        )}
+        {/* Πράσινο banner: μόνο αν έχουμε επιβεβαίωση μέσω λογαριασμού */}
+        {fromBill && !canSave && (
           <div className="bg-emerald-500 rounded-2xl p-6 mb-6 text-white shadow-lg">
             <div className="text-3xl mb-1">✅</div>
             <div className="text-xl font-bold">
@@ -447,7 +449,7 @@ export default function SavingsCalculator({
               kWh/μήνα.
             </div>
           </div>
-        ))}
+        )}
 
         {/* Bill validation banner */}
         {actualBillAmount &&
