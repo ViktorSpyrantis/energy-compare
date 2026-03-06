@@ -80,7 +80,7 @@ export default function SavingsCalculator({
     const t = setTimeout(() => {
       const params = new URLSearchParams();
       params.set("kwh", String(kwh));
-      params.set("provider", currentProviderId);
+      params.set("provider", effectiveProviderId);
       if (isStudent) params.set("student", "1");
       router.replace(`?${params.toString()}`, { scroll: false });
     }, 500);
@@ -93,12 +93,12 @@ export default function SavingsCalculator({
   );
 
   // Αν ο τρέχων πάροχος κρυφτεί (π.χ. 4Students όταν απενεργοποιηθεί το φοιτητικό),
-  // επαναφέρουμε σε ΔΕΗ ώστε η σύγκριση να παραμένει έγκυρη.
-  useEffect(() => {
-    if (!visibleProviders.find((p) => p.id === currentProviderId)) {
-      setCurrentProviderId("dei");
-    }
-  }, [isStudent]); // eslint-disable-line react-hooks/exhaustive-deps
+  // χρησιμοποιούμε ΔΕΗ ως fallback ώστε η σύγκριση να παραμένει έγκυρη.
+  const effectiveProviderId = visibleProviders.find(
+    (p) => p.id === currentProviderId,
+  )
+    ? currentProviderId
+    : "dei";
 
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
@@ -115,13 +115,13 @@ export default function SavingsCalculator({
       calculateProviderCosts(
         visibleProviders,
         kwh,
-        currentProviderId,
+        effectiveProviderId,
         colorDistribution,
       ),
-    [visibleProviders, kwh, currentProviderId, colorDistribution],
+    [visibleProviders, kwh, effectiveProviderId, colorDistribution],
   );
 
-  const currentCost = costs.find((c) => c.provider.id === currentProviderId);
+  const currentCost = costs.find((c) => c.provider.id === effectiveProviderId);
   const cheapest = costs[0];
   const maxCost = costs[costs.length - 1]?.monthlyCost ?? 1;
   const minCost = costs[0]?.monthlyCost ?? 1;
@@ -508,7 +508,7 @@ export default function SavingsCalculator({
           </h3>
 
           {costs.map((item, i) => {
-            const isCurrent = item.provider.id === currentProviderId;
+            const isCurrent = item.provider.id === effectiveProviderId;
             const isFirst = i === 0;
             const isColored = item.provider.tariffType === "colored";
             const barWidth =
