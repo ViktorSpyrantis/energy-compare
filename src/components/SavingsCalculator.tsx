@@ -128,7 +128,7 @@ export default function SavingsCalculator({
   const minCost = costs[0]?.monthlyCost ?? 1;
   const costRange = maxCost - minCost;
 
-  const bestSavings = currentCost ? Math.max(0, currentCost.annualSavings) : 0;
+  const bestSavings = cheapest ? Math.max(0, cheapest.annualSavings) : 0;
   const canSave = bestSavings > 1;
 
   return (
