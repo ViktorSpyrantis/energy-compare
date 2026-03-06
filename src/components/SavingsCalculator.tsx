@@ -483,7 +483,7 @@ export default function SavingsCalculator({
               {cheapest.provider.name}
             </div>
           </div>
-        ) : (
+        ) : fromBill ? (
           <div className="bg-emerald-500 rounded-2xl p-6 mb-6 text-white shadow-lg">
             <div className="text-3xl mb-1">✅</div>
             <div className="text-xl font-bold">
@@ -494,7 +494,7 @@ export default function SavingsCalculator({
               kWh/μήνα.
             </div>
           </div>
-        )}
+        ) : null}
 
         {/* Bill validation banner */}
         {actualBillAmount &&
