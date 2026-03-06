@@ -235,7 +235,7 @@ export default function SavingsCalculator({
                   <button
                     key={p.id}
                     onClick={() => { setCurrentProviderId(p.id); setHasUserSelected(true); }}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                       currentProviderId === p.id
                         ? "border-teal-500 bg-teal-50"
                         : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
@@ -334,7 +334,7 @@ export default function SavingsCalculator({
                 <button
                   key={preset.kwh}
                   onClick={() => setKwh(preset.kwh)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
                     kwh === preset.kwh
                       ? "bg-teal-50 text-teal-700 border border-teal-200"
                       : "hover:bg-slate-50 text-slate-600 border border-transparent"
@@ -353,7 +353,7 @@ export default function SavingsCalculator({
           <div className="mb-6">
             <button
               onClick={() => setShowAdvanced((v) => !v)}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors text-sm text-slate-700"
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors text-sm text-slate-700 cursor-pointer"
             >
               <span className="font-medium">Προχωρημένες επιλογές</span>
               <svg
@@ -405,7 +405,7 @@ export default function SavingsCalculator({
                   <button
                     key={preset.id}
                     onClick={() => setColorPresetId(preset.id)}
-                    className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-lg border-2 text-left transition-all ${
+                    className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-lg border-2 text-left transition-all cursor-pointer ${
                       colorPresetId === preset.id
                         ? "border-purple-400 bg-purple-50"
                         : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
