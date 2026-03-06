@@ -159,6 +159,7 @@ export default function CalculatorWrapper() {
       <Suspense fallback={<CalculatorSkeleton />}>
         <SavingsCalculator
           key={calcKey}
+          fromBill={hasBills}
           initialKwh={avgKwh ?? latestBill?.kwh}
           initialProviderId={latestBill?.providerId}
           actualBillAmount={avgBillAmount ?? latestBill?.billAmount}

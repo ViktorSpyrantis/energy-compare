@@ -17,6 +17,7 @@ interface SavingsCalculatorProps {
   initialProviderId?: string;
   actualBillAmount?: number;
   initialIsStudent?: boolean;
+  fromBill?: boolean;
 }
 
 const ZONE_COLORS = {
@@ -53,6 +54,7 @@ export default function SavingsCalculator({
   initialProviderId,
   actualBillAmount,
   initialIsStudent,
+  fromBill = false,
 }: SavingsCalculatorProps = {}) {
   const searchParams = useSearchParams();
 
@@ -108,7 +110,6 @@ export default function SavingsCalculator({
     [colorPresetId],
   );
 
-  const fromBill = Boolean(initialKwh || initialProviderId);
 
   const costs = useMemo(
     () =>
