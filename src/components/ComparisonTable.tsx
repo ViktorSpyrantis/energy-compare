@@ -362,9 +362,9 @@ export default function ComparisonTable() {
               <p className="text-sm text-blue-800 mb-3">
                 Εκτός από τα τυπικά τιμολόγια, οι πάροχοι προσφέρουν{" "}
                 <strong>ειδικά ονοματισμένα πακέτα</strong> με διαφορετικές
-                τιμές ή/και προϋποθέσεις επιλεξιμότητας (π.χ. χαμηλότερο
-                πάγιο, μακροχρόνια σταθερή τιμή ή φοιτητικές προσφορές). Τα
-                προγράμματα εμφανίζονται με ειδική σήμανση{" "}
+                τιμές ή/και προϋποθέσεις επιλεξιμότητας (π.χ. χαμηλότερο πάγιο,
+                μακροχρόνια σταθερή τιμή ή φοιτητικές προσφορές). Τα προγράμματα
+                εμφανίζονται με ειδική σήμανση{" "}
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-300">
                   📋 Πρόγραμμα
                 </span>{" "}
@@ -401,8 +401,8 @@ export default function ComparisonTable() {
               </div>
               <p className="text-xs text-blue-600 mt-3">
                 ⚠️ Οι τιμές των προγραμμάτων είναι εκτιμήσεις βάσει δημόσια
-                διαθέσιμων στοιχείων 2025. Επαληθεύστε πάντα τις ισχύουσες
-                τιμές και προϋποθέσεις απευθείας στο site του κάθε παρόχου.
+                διαθέσιμων στοιχείων 2025. Επαληθεύστε πάντα τις ισχύουσες τιμές
+                και προϋποθέσεις απευθείας στο site του κάθε παρόχου.
               </p>
             </div>
           </div>
@@ -421,7 +421,6 @@ export default function ComparisonTable() {
         <div className="space-y-4">
           {filtered.map((provider, i) => {
             const cost = calculateMonthlyCost(provider, kwh, colorDistribution);
-            const savings = (maxCost - cost) * 12;
             const isExpanded = expandedId === provider.id;
 
             return (
@@ -702,9 +701,13 @@ export default function ComparisonTable() {
                         </div>
                         {provider.isProgram && (
                           <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800">
-                            <span className="font-semibold">📋 Ειδικό Πρόγραμμα</span>
+                            <span className="font-semibold">
+                              📋 Ειδικό Πρόγραμμα
+                            </span>
                             {provider.programEligibility && (
-                              <span className="ml-1">· {provider.programEligibility}</span>
+                              <span className="ml-1">
+                                · {provider.programEligibility}
+                              </span>
                             )}
                           </div>
                         )}
