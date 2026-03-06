@@ -75,18 +75,6 @@ export default function SavingsCalculator({
 
   const router = useRouter();
 
-  // Sync state to URL so links can be bookmarked/shared
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const params = new URLSearchParams();
-      params.set("kwh", String(kwh));
-      params.set("provider", effectiveProviderId);
-      if (isStudent) params.set("student", "1");
-      router.replace(`?${params.toString()}`, { scroll: false });
-    }, 500);
-    return () => clearTimeout(t);
-  }, [kwh, currentProviderId, isStudent]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const visibleProviders = useMemo(
     () => providers.filter((p) => isStudent || !p.programEligibility),
     [isStudent],
@@ -99,6 +87,18 @@ export default function SavingsCalculator({
   )
     ? currentProviderId
     : "dei";
+
+  // Sync state to URL so links can be bookmarked/shared
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const params = new URLSearchParams();
+      params.set("kwh", String(kwh));
+      params.set("provider", effectiveProviderId);
+      if (isStudent) params.set("student", "1");
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }, 500);
+    return () => clearTimeout(t);
+  }, [kwh, effectiveProviderId, isStudent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [colorPresetId, setColorPresetId] = useState<string>("typical");
   const colorDistribution: ColorDistribution = useMemo(
