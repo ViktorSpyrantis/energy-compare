@@ -16,7 +16,7 @@ export default function Hero() {
           <div className="text-white">
             <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
               <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-              Ενημερωμένα δεδομένα 2025
+              Ενημερωμένα δεδομένα 2026
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -64,7 +64,7 @@ export default function Hero() {
           {[
             { icon: "✓", text: "Δωρεάν σύγκριση" },
             { icon: "✓", text: "Χωρίς εγγραφή" },
-            { icon: "✓", text: "8 πάροχοι στην αγορά" },
+            { icon: "✓", text: "7 πάροχοι στην αγορά" },
             { icon: "✓", text: "Ενημερωμένα δεδομένα" },
           ].map((badge) => (
             <div key={badge.text} className="flex items-center gap-1.5">

@@ -1,6 +1,6 @@
 import { Provider, ColorDistribution } from "../types";
 
-// Ρυθμιζόμενες χρεώσεις - ίδιες για όλους τους παρόχους (εκτίμηση 2025)
+// Ρυθμιζόμενες χρεώσεις - ίδιες για όλους τους παρόχους (εκτίμηση 2026)
 export const REGULATED_RATE = 0.0715; // €/kWh (δίκτυο + ΕΤΜΕΑΡ + λοιπές χρεώσεις)
 export const REGULATED_MONTHLY_FEE = 2.5; // €/μήνα (σταθερή χρέωση δικτύου)
 export const VAT_RATE = 0.13; // 13% ΦΠΑ οικιακών καταναλωτών

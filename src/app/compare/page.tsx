@@ -22,7 +22,7 @@ export default function ComparePage() {
             </h1>
             <p className="text-slate-600 text-lg">
               Συγκρίνουμε{" "}
-              <strong className="text-slate-800">10 παρόχους & τιμολόγια</strong>{" "}
+              <strong className="text-slate-800">7 παρόχους & 28 τιμολόγια</strong>{" "}
               ηλεκτρικής ενέργειας στην Ελλάδα, συμπεριλαμβανομένων{" "}
               <strong className="text-blue-700">ειδικών προγραμμάτων</strong>{" "}
               (όπως τα ΔΕΗ myHome). Βάλε τη μηνιαία κατανάλωσή σου και δες
