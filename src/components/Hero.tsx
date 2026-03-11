@@ -64,7 +64,7 @@ export default function Hero() {
           {[
             { icon: "✓", text: "Δωρεάν σύγκριση" },
             { icon: "✓", text: "Χωρίς εγγραφή" },
-            { icon: "✓", text: "7 πάροχοι στην αγορά" },
+            { icon: "✓", text: "7+ πάροχοι στην αγορά" },
             { icon: "✓", text: "Ενημερωμένα δεδομένα" },
           ].map((badge) => (
             <div key={badge.text} className="flex items-center gap-1.5">

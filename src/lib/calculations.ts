@@ -108,7 +108,7 @@ export const CONSUMPTION_PRESETS = [
   { label: "Διαμέρισμα 2-3 δωματίων", kwh: 200, description: "~80-120 τ.μ." },
   { label: "Μεγάλο διαμέρισμα", kwh: 350, description: "~120-180 τ.μ." },
   { label: "Μονοκατοικία", kwh: 500, description: "~180+ τ.μ." },
-  { label: "Καλοκαίρι (κλιματισμός)", kwh: 350, description: "Ιούν–Αύγ, A/C" },
+  { label: "Καλοκαίρι (κλιματισμός)", kwh: 400, description: "Ιούν–Αύγ, A/C" },
   { label: "Χειμώνας (θέρμανση)", kwh: 450, description: "Δεκ–Φεβ, αντλία θερμότητας" },
 ] as const;
 

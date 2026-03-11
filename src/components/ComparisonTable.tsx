@@ -170,11 +170,14 @@ export default function ComparisonTable() {
 
             <div className="flex items-end gap-4">
               <label className="flex items-center gap-2 cursor-pointer select-none">
-                <div
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={filters.greenOnly}
                   onClick={() =>
                     setFilters((f) => ({ ...f, greenOnly: !f.greenOnly }))
                   }
-                  className={`relative w-10 h-5 rounded-full transition-colors ${
+                  className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${
                     filters.greenOnly ? "bg-emerald-500" : "bg-slate-200"
                   }`}
                 >
@@ -183,20 +186,23 @@ export default function ComparisonTable() {
                       filters.greenOnly ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
-                </div>
+                </button>
                 <span className="text-xs font-medium text-slate-600">
                   Πράσινη ενέργεια
                 </span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer select-none">
-                <div
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={filters.showPrograms}
                   onClick={() =>
                     setFilters((f) => ({
                       ...f,
                       showPrograms: !f.showPrograms,
                     }))
                   }
-                  className={`relative w-10 h-5 rounded-full transition-colors ${
+                  className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${
                     filters.showPrograms ? "bg-blue-600" : "bg-slate-200"
                   }`}
                 >
@@ -205,21 +211,24 @@ export default function ComparisonTable() {
                       filters.showPrograms ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
-                </div>
+                </button>
                 <span className="text-xs font-medium text-slate-600">
                   Προγράμματα
                 </span>
               </label>
               {filters.showPrograms && (
                 <label className="flex items-center gap-2 cursor-pointer select-none">
-                  <div
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={filters.isStudent}
                     onClick={() =>
                       setFilters((f) => ({
                         ...f,
                         isStudent: !f.isStudent,
                       }))
                     }
-                    className={`relative w-10 h-5 rounded-full transition-colors ${
+                    className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${
                       filters.isStudent ? "bg-amber-500" : "bg-slate-200"
                     }`}
                   >
@@ -228,7 +237,7 @@ export default function ComparisonTable() {
                         filters.isStudent ? "translate-x-5" : "translate-x-0"
                       }`}
                     />
-                  </div>
+                  </button>
                   <span className="text-xs font-medium text-slate-600">
                     🎓 Είμαι φοιτητής/τρια
                   </span>

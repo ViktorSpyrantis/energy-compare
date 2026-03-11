@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const provider = providers.find((p) => p.id === slug);
   if (!provider)
-    return { title: "Πάροχος δεν βρέθηκε | Ρεύμα Συγκριτής" };
+    return { title: "Πάροχος δεν βρέθηκε | EnergyCompare" };
   return {
-    title: `${provider.fullName} – Τιμές & Κριτική 2026 | Ρεύμα Συγκριτής`,
+    title: `${provider.fullName} – Τιμές & Κριτική 2026 | EnergyCompare`,
     description: `Αναλυτική παρουσίαση του ${provider.fullName}: τιμή kWh ${(provider.supplyRate * 100).toFixed(2)}¢, πάγιο ${provider.monthlyFee}€/μήνα, αξιολόγηση ${provider.rating}/5. Υπολόγισε το κόστος σου.`,
   };
 }
@@ -269,7 +269,7 @@ export default async function ProviderPage({ params }: Props) {
                     </div>
                     <div>
                       <div className="font-semibold text-slate-900 text-sm">{prog.name}</div>
-                      <div className="text-xs text-slate-500">{prog.contractMonths}μ · {prog.flatMonthlyBill !== undefined ? `${prog.flatMonthlyBill}€/μήνα` : `${(prog.supplyRate * 100).toFixed(2)}¢/kWh`}</div>
+                      <div className="text-xs text-slate-500">{prog.contractMonths === 0 ? "Χωρίς δέσμευση" : `${prog.contractMonths}μ`} · {prog.flatMonthlyBill !== undefined ? `${prog.flatMonthlyBill}€/μήνα` : `${(prog.supplyRate * 100).toFixed(2)}¢/kWh`}</div>
                     </div>
                   </div>
                   <span className="text-teal-600 text-xs font-medium">Δες λεπτομέρειες →</span>
