@@ -10,11 +10,15 @@ export default function QuickCalculator() {
   const [currentProviderId, setCurrentProviderId] = useState("dei");
   const router = useRouter();
 
-  const currentProvider = providers.find((p) => p.id === currentProviderId)!;
+  // Filter out student-only programs for the quick calculator
+  const availableProviders = providers.filter((p) => !p.programEligibility);
+
+  const currentProvider = availableProviders.find((p) => p.id === currentProviderId)
+    ?? availableProviders[0];
   const currentCost = calculateMonthlyCost(currentProvider, kwh);
 
-  // Find cheapest provider
-  const cheapest = providers
+  // Find cheapest provider (excluding student-only programs)
+  const cheapest = availableProviders
     .map((p) => ({ provider: p, cost: calculateMonthlyCost(p, kwh) }))
     .sort((a, b) => a.cost - b.cost)[0];
 
@@ -104,7 +108,7 @@ export default function QuickCalculator() {
           onChange={(e) => setCurrentProviderId(e.target.value)}
           className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
         >
-          {providers.map((p) => (
+          {availableProviders.map((p) => (
             <option key={p.id} value={p.id}>
               {p.name} — {p.fullName}
             </option>

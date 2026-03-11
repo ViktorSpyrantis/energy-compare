@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Όλοι οι Πάροχοι Ρεύματος 2025 | Ρεύμα Συγκριτής",
+  title: "Όλοι οι Πάροχοι Ρεύματος 2026 | Ρεύμα Συγκριτής",
   description:
     "Πλήρης κατάλογος παρόχων ηλεκτρικού ρεύματος στην Ελλάδα: ΔΕΗ, Elpedison, NRG, Protergia, Volton, Zenith, Watt+Volt και φοιτητικά προγράμματα.",
 };
@@ -36,7 +36,7 @@ export default function ProvidersPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-10">
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
-            Πάροχοι Ρεύματος 2025
+            Πάροχοι Ρεύματος 2026
           </h1>
           <p className="text-lg text-slate-600">
             Πλήρης κατάλογος παρόχων και προγραμμάτων ηλεκτρικού ρεύματος για νοικοκυριά στην Ελλάδα
