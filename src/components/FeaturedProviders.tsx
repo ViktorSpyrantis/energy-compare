@@ -6,8 +6,9 @@ import Link from "next/link";
 const DEFAULT_KWH = 250;
 
 export default function FeaturedProviders() {
-  // Get top 3 cheapest for default 250 kWh
+  // Get top 3 cheapest for default 250 kWh (exclude student-only programs)
   const ranked = providers
+    .filter((p) => !p.programEligibility)
     .map((p) => ({
       provider: p,
       monthlyCost: calculateMonthlyCost(p, DEFAULT_KWH),

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Οδηγός Αλλαγής Παρόχου Ρεύματος 2026 | Ρεύμα Συγκριτής",
+  title: "Οδηγός Αλλαγής Παρόχου Ρεύματος 2026 | EnergyCompare",
   description:
     "Πλήρης οδηγός για την αλλαγή παρόχου ηλεκτρικού ρεύματος στην Ελλάδα: βήμα-βήμα διαδικασία, τι να προσέξεις, πότε αξίζει η αλλαγή.",
 };
@@ -67,7 +67,7 @@ export default function GuidePage() {
                   </li>
                 </ul>
                 <Link
-                  href="/#calculator"
+                  href="/calculator"
                   className="mt-4 inline-flex items-center gap-1 text-teal-600 font-semibold text-sm hover:underline"
                 >
                   Ξεκίνα σύγκριση →
@@ -209,7 +209,7 @@ export default function GuidePage() {
             Ξεκίνα συγκρίνοντας τιμές για τη δική σου κατανάλωση
           </p>
           <Link
-            href="/#calculator"
+            href="/calculator"
             className="inline-block bg-white text-teal-700 font-bold px-8 py-3 rounded-xl hover:bg-teal-50 transition-colors"
           >
             Σύγκριση τώρα →
