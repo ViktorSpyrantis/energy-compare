@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const steps = [
   {
     number: "01",
@@ -111,7 +113,7 @@ export default function HowItWorks() {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <a
+          <Link
             href="/calculator"
             className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors shadow-sm text-sm"
           >
@@ -129,7 +131,7 @@ export default function HowItWorks() {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

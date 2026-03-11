@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[parse-bill] error:", err);
     return NextResponse.json(
-      { error: "Analysis failed. Please try again.", err },
+      { error: "Analysis failed. Please try again." },
       { status: 500 },
     );
   }

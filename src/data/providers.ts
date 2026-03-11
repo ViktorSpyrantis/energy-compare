@@ -116,7 +116,7 @@ export const providers: Provider[] = [
     contractMonths: 12,
     monthlyFee: 3.5,
     supplyRate: 0.132,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 30,
     features: [
       "Ψηφιακή εξυπηρέτηση",
@@ -220,7 +220,7 @@ export const providers: Provider[] = [
     contractMonths: 12,
     monthlyFee: 3.0,
     supplyRate: 0.131,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 40,
     features: [
       "Διαφανής τιμολόγηση",
@@ -255,7 +255,7 @@ export const providers: Provider[] = [
     contractMonths: 0,
     monthlyFee: 2.9,
     supplyRate: 0.137,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 20,
     features: [
       "Χωρίς συμβατική δέσμευση",
@@ -532,7 +532,7 @@ export const providers: Provider[] = [
     contractMonths: 12,
     monthlyFee: 2.9,
     supplyRate: 0.124,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 30,
     isProgram: true,
     features: [
@@ -571,7 +571,7 @@ export const providers: Provider[] = [
     contractMonths: 0,
     monthlyFee: 5.0,
     supplyRate: 0.095,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 30,
     isProgram: true,
     features: [
@@ -854,7 +854,7 @@ export const providers: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.138,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 40,
     isProgram: true,
     features: [
@@ -894,7 +894,7 @@ export const providers: Provider[] = [
     contractMonths: 0,
     monthlyFee: 5.0,
     supplyRate: 0.095,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 40,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
@@ -936,7 +936,7 @@ export const providers: Provider[] = [
     contractMonths: 0,
     monthlyFee: 0,
     supplyRate: 0.138,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 20,
     isProgram: true,
     features: [
@@ -975,7 +975,7 @@ export const providers: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.086,
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 20,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
@@ -1056,7 +1056,7 @@ export const providers: Provider[] = [
     monthlyFee: 3.5,
     supplyRate: 0.1142, // weighted avg: 0.35×0.072 + 0.25×0.108 + 0.20×0.138 + 0.20×0.172
     coloredRates: { blue: 0.072, green: 0.108, yellow: 0.138, red: 0.172 },
-    greenEnergy: false,
+    greenEnergy: true,
     greenEnergyPercent: 30,
     features: [
       "Ανταγωνιστικές τιμές ζωνών",

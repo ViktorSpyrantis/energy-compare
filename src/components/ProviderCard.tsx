@@ -137,10 +137,12 @@ export default function ProviderCard({
           className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
             provider.tariffType === "fixed"
               ? "bg-blue-50 text-blue-700 border-blue-200"
-              : "bg-orange-50 text-orange-700 border-orange-200"
+              : provider.tariffType === "colored"
+                ? "bg-purple-50 text-purple-700 border-purple-200"
+                : "bg-orange-50 text-orange-700 border-orange-200"
           }`}
         >
-          {provider.tariffType === "fixed" ? "Σταθερή τιμή" : "Μεταβλητή τιμή"}
+          {provider.tariffType === "fixed" ? "Σταθερή τιμή" : provider.tariffType === "colored" ? "Χρωματιστό" : "Μεταβλητή τιμή"}
         </span>
         {provider.contractMonths === 0 ? (
           <span className="bg-slate-50 text-slate-600 text-xs font-medium px-2.5 py-1 rounded-full border border-slate-200">
