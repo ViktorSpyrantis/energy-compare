@@ -80,10 +80,10 @@ export default function ComparisonTable() {
 
   const showColoredPanel = filtered.some((p) => p.tariffType === "colored");
 
-  const cheapestCost =
-    filtered.length > 0
-      ? calculateMonthlyCost(filtered[0], kwh, colorDistribution)
-      : 0;
+  const cheapestCost = filtered.reduce(
+    (min, p) => Math.min(min, calculateMonthlyCost(p, kwh, colorDistribution)),
+    Infinity,
+  );
   const maxCost = filtered.reduce(
     (max, p) => Math.max(max, calculateMonthlyCost(p, kwh, colorDistribution)),
     0,
@@ -334,7 +334,11 @@ export default function ComparisonTable() {
                 return (
                   <div key={zone} className="flex items-center gap-2">
                     <span
-                      className={`inline-block w-2 h-2 rounded-full ${zc.bg.replace("bg-", "bg-").replace("-100", "-400")}`}
+                      className={`inline-block w-2 h-2 rounded-full ${
+                        zone === "blue" ? "bg-blue-400" :
+                        zone === "green" ? "bg-green-400" :
+                        zone === "yellow" ? "bg-yellow-400" : "bg-red-400"
+                      }`}
                     />
                     <span className="font-semibold">
                       {zc.label} ({pct}%)
@@ -401,7 +405,7 @@ export default function ComparisonTable() {
               </div>
               <p className="text-xs text-blue-600 mt-3">
                 ⚠️ Οι τιμές των προγραμμάτων είναι εκτιμήσεις βάσει δημόσια
-                διαθέσιμων στοιχείων 2025. Επαληθεύστε πάντα τις ισχύουσες τιμές
+                διαθέσιμων στοιχείων 2026. Επαληθεύστε πάντα τις ισχύουσες τιμές
                 και προϋποθέσεις απευθείας στο site του κάθε παρόχου.
               </p>
             </div>
@@ -422,12 +426,13 @@ export default function ComparisonTable() {
           {filtered.map((provider, i) => {
             const cost = calculateMonthlyCost(provider, kwh, colorDistribution);
             const isExpanded = expandedId === provider.id;
+            const isCheapest = Math.abs(cost - cheapestCost) < 0.01;
 
             return (
               <div
                 key={provider.id}
                 className={`bg-white rounded-2xl border-2 overflow-hidden transition-all ${
-                  i === 0 ? "border-teal-400" : "border-slate-200"
+                  isCheapest ? "border-teal-400" : "border-slate-200"
                 }`}
               >
                 {/* Main row */}
@@ -436,7 +441,7 @@ export default function ComparisonTable() {
                     {/* Rank */}
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
-                        i === 0
+                        isCheapest
                           ? "bg-teal-600 text-white"
                           : "bg-slate-100 text-slate-500"
                       }`}
@@ -468,7 +473,7 @@ export default function ComparisonTable() {
                         <span className="font-bold text-slate-900">
                           {provider.name}
                         </span>
-                        {i === 0 && (
+                        {isCheapest && (
                           <span className="bg-teal-100 text-teal-700 text-xs font-bold px-2 py-0.5 rounded-full">
                             Φθηνότερος
                           </span>
@@ -526,7 +531,7 @@ export default function ComparisonTable() {
 
                     {/* Savings */}
                     <div className="text-right shrink-0 hidden md:block">
-                      {i === 0 ? (
+                      {isCheapest ? (
                         <span className="text-xs font-semibold text-teal-600 bg-teal-50 px-2 py-1 rounded-lg">
                           Φθηνότερος
                         </span>
@@ -569,7 +574,7 @@ export default function ComparisonTable() {
                   <div className="mt-3 ml-12 sm:ml-16">
                     <div className="w-full bg-slate-100 rounded-full h-1.5">
                       <div
-                        className={`h-1.5 rounded-full transition-all ${i === 0 ? "bg-teal-500" : "bg-slate-400"}`}
+                        className={`h-1.5 rounded-full transition-all ${isCheapest ? "bg-teal-500" : "bg-slate-400"}`}
                         style={{ width: `${(cost / maxCost) * 100}%` }}
                       />
                     </div>
@@ -792,15 +797,16 @@ export default function ComparisonTable() {
                     kwh,
                     colorDistribution,
                   );
+                  const isCheapest = Math.abs(cost - cheapestCost) < 0.01;
                   return (
                     <tr
                       key={provider.id}
-                      className={`hover:bg-slate-50 transition-colors ${i === 0 ? "bg-teal-50/50" : ""}`}
+                      className={`hover:bg-slate-50 transition-colors ${isCheapest ? "bg-teal-50/50" : ""}`}
                     >
                       <td className="px-5 py-4">
                         <div
                           className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${
-                            i === 0
+                            isCheapest
                               ? "bg-teal-600 text-white"
                               : "bg-slate-100 text-slate-500"
                           }`}
@@ -897,7 +903,7 @@ export default function ComparisonTable() {
             </table>
           </div>
           <div className="border-t border-slate-100 px-5 py-3 text-xs text-slate-400 bg-slate-50">
-            * Κόστη βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2025. Περιλαμβάνουν
+            * Κόστη βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2026. Περιλαμβάνουν
             τιμή προμήθειας + ρυθμιζόμενες χρεώσεις + ΦΠΑ 13%.
           </div>
         </div>

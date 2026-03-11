@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { providers, COLOR_ZONE_HOURS } from "../data/providers";
 import {
   calculateProviderCosts,
-  calculateMonthlyCost,
   formatCurrency,
   CONSUMPTION_PRESETS,
   COLOR_DISTRIBUTION_PRESETS,
@@ -727,20 +726,6 @@ export default function SavingsCalculator({
                       ).map((zone) => {
                         const zc = ZONE_COLORS[zone];
                         const rate = item.provider.coloredRates![zone];
-                        const kwh_zone = Math.round(
-                          kwh * colorDistribution[zone],
-                        );
-                        const cost =
-                          calculateMonthlyCost(
-                            {
-                              ...item.provider,
-                              tariffType: "fixed",
-                              supplyRate: rate,
-                            },
-                            kwh_zone,
-                          ) -
-                          ((item.provider.monthlyFee + 2.5) * 1.13) / 4; // approx zone cost
-                        void cost;
                         return (
                           <div
                             key={zone}
@@ -860,7 +845,7 @@ export default function SavingsCalculator({
               ζώνη για χρωματιστά)
             </li>
             <li>• Δεν περιλαμβάνονται τυχόν εκπτώσεις e-bill ή direct debit</li>
-            <li>• Τιμές βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2025</li>
+            <li>• Τιμές βάσει δημόσια διαθέσιμων τιμοκαταλόγων 2026</li>
           </ul>
         </div>
       </div>

@@ -46,7 +46,7 @@ export default function Footer() {
                   clipRule="evenodd"
                 />
               </svg>
-              Δεδομένα ενημερωμένα για το 2025
+              Δεδομένα ενημερωμένα για το 2026
             </div>
           </div>
 
@@ -71,7 +71,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
+                <Link href="/calculator" className="hover:text-white transition-colors">
                   Γρήγορος Υπολογισμός
                 </Link>
               </li>

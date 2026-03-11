@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!provider)
     return { title: "Πάροχος δεν βρέθηκε | Ρεύμα Συγκριτής" };
   return {
-    title: `${provider.fullName} – Τιμές & Κριτική 2025 | Ρεύμα Συγκριτής`,
+    title: `${provider.fullName} – Τιμές & Κριτική 2026 | Ρεύμα Συγκριτής`,
     description: `Αναλυτική παρουσίαση του ${provider.fullName}: τιμή kWh ${(provider.supplyRate * 100).toFixed(2)}¢, πάγιο ${provider.monthlyFee}€/μήνα, αξιολόγηση ${provider.rating}/5. Υπολόγισε το κόστος σου.`,
   };
 }
@@ -281,8 +281,8 @@ export default async function ProviderPage({ params }: Props) {
 
         {/* Disclaimer */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800">
-          ⚠️ Οι τιμές και τα χαρακτηριστικά βασίζονται σε εκτιμήσεις από δημόσια διαθέσιμα στοιχεία 2025.
-          Ενημερώθηκε: {provider.lastUpdated ?? "2025"}.
+          ⚠️ Οι τιμές και τα χαρακτηριστικά βασίζονται σε εκτιμήσεις από δημόσια διαθέσιμα στοιχεία 2026.
+          Ενημερώθηκε: {provider.lastUpdated ?? "2026"}.
           Επαληθεύστε πάντα τα ισχύοντα στοιχεία απευθείας στο site του παρόχου.
         </div>
       </div>
