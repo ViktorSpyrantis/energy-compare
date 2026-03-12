@@ -589,118 +589,124 @@ export default function SavingsCalculator({
                 }`}
               >
                 <div className="p-5">
-                  <div className="flex items-center gap-4 mb-3">
-                    {/* Rank */}
-                    <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
-                        isCurrent
-                          ? "bg-slate-700 text-white"
-                          : isFirst
-                            ? "bg-teal-600 text-white"
-                            : "bg-slate-100 text-slate-500"
-                      }`}
-                    >
-                      {isCurrent ? "★" : i + 1}
-                    </div>
+                  <div className="flex flex-col gap-3 mb-3">
+                    {/* Top row: Rank + Logo + Name */}
+                    <div className="flex items-center gap-3">
+                      {/* Rank */}
+                      <div
+                        className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
+                          isCurrent
+                            ? "bg-slate-700 text-white"
+                            : isFirst
+                              ? "bg-teal-600 text-white"
+                              : "bg-slate-100 text-slate-500"
+                        }`}
+                      >
+                        {isCurrent ? "★" : i + 1}
+                      </div>
 
-                    {/* Logo */}
-                    <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
-                      style={{
-                        backgroundColor: item.provider.bgColor,
-                        color: item.provider.textColor,
-                        borderColor: item.provider.primaryColor + "30",
-                      }}
-                    >
-                      {item.provider.logoText.length > 4 ? (
-                        <span className="text-[9px] leading-tight text-center px-0.5">
-                          {item.provider.logoText}
-                        </span>
-                      ) : (
-                        item.provider.logoText
-                      )}
-                    </div>
-
-                    {/* Name */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center flex-wrap gap-1.5">
-                        <span className="font-bold text-slate-900">
-                          {item.provider.name}
-                        </span>
-                        {isCurrent && (
-                          <span className="bg-slate-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                            Τρέχων
+                      {/* Logo */}
+                      <div
+                        className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
+                        style={{
+                          backgroundColor: item.provider.bgColor,
+                          color: item.provider.textColor,
+                          borderColor: item.provider.primaryColor + "30",
+                        }}
+                      >
+                        {item.provider.logoText.length > 4 ? (
+                          <span className="text-[9px] leading-tight text-center px-0.5">
+                            {item.provider.logoText}
                           </span>
-                        )}
-                        {isFirst && !isCurrent && (
-                          <span className="bg-teal-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                            Φθηνότερος
-                          </span>
-                        )}
-                        {isColored && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-blue-100 via-yellow-100 to-red-100 text-slate-600 border border-slate-200">
-                            🎨 Χρωματιστό
-                          </span>
-                        )}
-                        {item.provider.greenEnergy && (
-                          <span className="text-emerald-700 text-[10px] font-medium">
-                            🌿
-                          </span>
+                        ) : (
+                          item.provider.logoText
                         )}
                       </div>
-                      <div className="text-xs text-slate-500 mt-0.5">
-                        {item.provider.flatMonthlyBill !== undefined
-                          ? `Σταθερό ${formatCurrency(item.provider.flatMonthlyBill)}/μήνα (all-in)`
-                          : isColored
-                            ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
-                            : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
-                      </div>
-                    </div>
 
-                    {/* Costs */}
-                    <div className="text-right shrink-0">
-                      <div className="text-xl font-bold text-slate-900">
-                        {formatCurrency(item.monthlyCost)}
-                      </div>
-                      <div className="text-xs text-slate-400">/μήνα</div>
-                    </div>
-
-                    {/* Savings column */}
-                    <div className="text-right shrink-0 min-w-[90px]">
-                      {isCurrent ? (
-                        <span className="text-xs text-slate-400 font-medium">
-                          Βάση σύγκρισης
-                        </span>
-                      ) : item.savingsVsCurrent > 0.5 ? (
-                        <div>
-                          <div className="text-sm font-bold text-emerald-600">
-                            -{formatCurrency(item.annualSavings)}
-                          </div>
-                          <div className="text-xs text-emerald-600">
-                            εξοικ./χρόνο
-                          </div>
-                          {exitPenalty > 0 && (
-                            <div className="text-xs text-slate-400 mt-0.5">
-                              Απόσβεση:{" "}
-                              {Math.ceil(exitPenalty / item.savingsVsCurrent)}{" "}
-                              μήνες
-                            </div>
+                      {/* Name */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center flex-wrap gap-1.5">
+                          <span className="font-bold text-slate-900">
+                            {item.provider.name}
+                          </span>
+                          {isCurrent && (
+                            <span className="bg-slate-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                              Τρέχων
+                            </span>
+                          )}
+                          {isFirst && !isCurrent && (
+                            <span className="bg-teal-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                              Φθηνότερος
+                            </span>
+                          )}
+                          {isColored && (
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-blue-100 via-yellow-100 to-red-100 text-slate-600 border border-slate-200">
+                              🎨 Χρωματιστό
+                            </span>
+                          )}
+                          {item.provider.greenEnergy && (
+                            <span className="text-emerald-700 text-[10px] font-medium">
+                              🌿
+                            </span>
                           )}
                         </div>
-                      ) : item.savingsVsCurrent < -0.5 ? (
-                        <div>
-                          <div className="text-sm font-bold text-red-500">
-                            +{formatCurrency(Math.abs(item.annualSavings))}
-                          </div>
-                          <div className="text-xs text-red-400">
-                            επιπλέον/χρόνο
-                          </div>
+                        <div className="text-xs text-slate-500 mt-0.5">
+                          {item.provider.flatMonthlyBill !== undefined
+                            ? `Σταθερό ${formatCurrency(item.provider.flatMonthlyBill)}/μήνα (all-in)`
+                            : isColored
+                              ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
+                              : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
                         </div>
-                      ) : (
-                        <span className="text-xs text-slate-400">
-                          Παρόμοιο κόστος
-                        </span>
-                      )}
+                      </div>
+                    </div>
+
+                    {/* Bottom row: Costs + Savings */}
+                    <div className="flex items-center justify-between gap-4 ml-[3.25rem] sm:ml-0 sm:pl-[5.25rem]">
+                      {/* Costs */}
+                      <div className="shrink-0">
+                        <div className="text-xl font-bold text-slate-900">
+                          {formatCurrency(item.monthlyCost)}
+                        </div>
+                        <div className="text-xs text-slate-400">/μήνα</div>
+                      </div>
+
+                      {/* Savings column */}
+                      <div className="text-right shrink-0">
+                        {isCurrent ? (
+                          <span className="text-xs text-slate-400 font-medium">
+                            Βάση σύγκρισης
+                          </span>
+                        ) : item.savingsVsCurrent > 0.5 ? (
+                          <div>
+                            <div className="text-sm font-bold text-emerald-600">
+                              -{formatCurrency(item.annualSavings)}
+                            </div>
+                            <div className="text-xs text-emerald-600">
+                              εξοικ./χρόνο
+                            </div>
+                            {exitPenalty > 0 && (
+                              <div className="text-xs text-slate-400 mt-0.5">
+                                Απόσβεση:{" "}
+                                {Math.ceil(exitPenalty / item.savingsVsCurrent)}{" "}
+                                μήνες
+                              </div>
+                            )}
+                          </div>
+                        ) : item.savingsVsCurrent < -0.5 ? (
+                          <div>
+                            <div className="text-sm font-bold text-red-500">
+                              +{formatCurrency(Math.abs(item.annualSavings))}
+                            </div>
+                            <div className="text-xs text-red-400">
+                              επιπλέον/χρόνο
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-slate-400">
+                            Παρόμοιο κόστος
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
