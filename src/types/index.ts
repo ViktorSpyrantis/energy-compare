@@ -38,6 +38,7 @@ export interface Provider {
   newCustomerOffer?: string;
   // Πεδία για ειδικά προγράμματα/προσφορές παρόχων
   isProgram?: boolean; // true = ειδικό πρόγραμμα (όχι απλό τιμολόγιο)
+  providerId?: string; // ID του βασικού παρόχου (μόνο για προγράμματα)
   programEligibility?: string; // π.χ. "Απαιτείται φοιτητικό πάσο"
   flatMonthlyBill?: number; // ALL-IN μηνιαίο κόστος (supply+regulated+ΦΠΑ) για flat-bill προγράμματα
   signupUrl?: string; // URL εγγραφής στον πάροχο

@@ -1,4 +1,4 @@
-import { providers } from "../data/providers";
+import { allProviders } from "../data/providers";
 import { calculateMonthlyCost } from "../lib/calculations";
 import ProviderCard from "../components/ProviderCard";
 import Link from "next/link";
@@ -7,7 +7,7 @@ const DEFAULT_KWH = 250;
 
 export default function FeaturedProviders() {
   // Get top 3 cheapest for default 250 kWh (exclude student-only programs)
-  const ranked = providers
+  const ranked = allProviders
     .filter((p) => !p.programEligibility)
     .map((p) => ({
       provider: p,
@@ -17,7 +17,7 @@ export default function FeaturedProviders() {
     .slice(0, 3);
 
   const maxCost = calculateMonthlyCost(
-    providers.find((p) => p.id === "dei")!,
+    allProviders.find((p) => p.id === "dei")!,
     DEFAULT_KWH,
   );
 

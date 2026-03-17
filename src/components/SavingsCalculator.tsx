@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { providers, COLOR_ZONE_HOURS } from "../data/providers";
+import { allProviders, COLOR_ZONE_HOURS } from "../data/providers";
 import {
   calculateProviderCosts,
   formatCurrency,
@@ -45,7 +45,7 @@ const ZONE_COLORS = {
   },
 } as const;
 
-const hasColoredProviders = providers.some((p) => p.tariffType === "colored");
+const hasColoredProviders = allProviders.some((p) => p.tariffType === "colored");
 
 export default function SavingsCalculator({
   initialKwh,
@@ -62,10 +62,10 @@ export default function SavingsCalculator({
   });
 
   const [currentProviderId, setCurrentProviderId] = useState(() => {
-    if (initialProviderId && providers.find((p) => p.id === initialProviderId))
+    if (initialProviderId && allProviders.find((p) => p.id === initialProviderId))
       return initialProviderId;
     const param = searchParams.get("provider");
-    return param && providers.find((p) => p.id === param) ? param : "dei";
+    return param && allProviders.find((p) => p.id === param) ? param : "dei";
   });
 
   const [isStudent, setIsStudent] = useState(initialIsStudent ?? false);
@@ -76,7 +76,7 @@ export default function SavingsCalculator({
   const router = useRouter();
 
   const visibleProviders = useMemo(
-    () => providers.filter((p) => isStudent || !p.programEligibility),
+    () => allProviders.filter((p) => isStudent || !p.programEligibility),
     [isStudent],
   );
 

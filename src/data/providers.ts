@@ -28,6 +28,7 @@ export const COLOR_ZONE_HOURS = {
   yellow: "Εργ. 11:00–15:00",
   red: "Εργ. 15:00–21:00 (αιχμή)",
 };
+// ── Βασικοί πάροχοι ───────────────────────────────────────────────────────
 export const providers: Provider[] = [
   {
     id: "dei",
@@ -316,9 +317,14 @@ export const providers: Provider[] = [
     signupUrl: "https://www.fysikoaerioellados.gr/",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα ΔΕΗ (myHome) ──────────────────────────────────────
+];
+
+// ── Ειδικά προγράμματα παρόχων ────────────────────────────────────────────
+export const programs: Provider[] = [
+  // ── ΔΕΗ (myHome) ────────────────────────────────────────────────────────
   {
     id: "dei-myhome-enter",
+    providerId: "dei",
     name: "ΔΕΗ myHome Enter",
     fullName: "ΔΕΗ – Πρόγραμμα myHome Enter",
     logoText: "ΔΕΗ",
@@ -358,6 +364,7 @@ export const providers: Provider[] = [
   },
   {
     id: "dei-myhome-entertwo",
+    providerId: "dei",
     name: "ΔΕΗ myHome EnterTwo",
     fullName: "ΔΕΗ – Πρόγραμμα myHome EnterTwo",
     logoText: "ΔΕΗ",
@@ -398,6 +405,7 @@ export const providers: Provider[] = [
   },
   {
     id: "dei-myhome-4students",
+    providerId: "dei",
     name: "ΔΕΗ myHome 4Students",
     fullName: "ΔΕΗ – Πρόγραμμα myHome 4Students",
     logoText: "ΔΕΗ",
@@ -436,9 +444,10 @@ export const providers: Provider[] = [
     signupUrl: "https://www.dei.gr/el/home/oikiaki-xrisi/proion/myhome",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα Elpedison ──────────────────────────────────────────
+  // ── Elpedison ────────────────────────────────────────────────────────────
   {
     id: "elpedison-home-easy",
+    providerId: "elpedison",
     name: "Elpedison Home Easy",
     fullName: "Elpedison – Πρόγραμμα Home Easy",
     logoText: "ELPEDISON",
@@ -475,6 +484,7 @@ export const providers: Provider[] = [
   },
   {
     id: "elpedison-home-comfort24",
+    providerId: "elpedison",
     name: "Elpedison Home Comfort 24",
     fullName: "Elpedison – Πρόγραμμα Home Comfort 24",
     logoText: "ELPEDISON",
@@ -511,6 +521,7 @@ export const providers: Provider[] = [
   },
   {
     id: "elpedison-student",
+    providerId: "elpedison",
     name: "Elpedison Student",
     fullName: "Elpedison (Enerwave) – Φοιτητικό Πρόγραμμα",
     logoText: "ELPEDISON",
@@ -550,9 +561,10 @@ export const providers: Provider[] = [
       "https://www.enerwave.gr/en/for-home/electricity/student_134181/",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα NRG ────────────────────────────────────────────────
+  // ── NRG ──────────────────────────────────────────────────────────────────
   {
     id: "nrg-easy-home",
+    providerId: "nrg",
     name: "NRG Easy Home",
     fullName: "NRG – Πρόγραμμα Easy Home",
     logoText: "NRG",
@@ -589,6 +601,7 @@ export const providers: Provider[] = [
   },
   {
     id: "nrg-hybrid",
+    providerId: "nrg",
     name: "NRG nrg hybrid",
     fullName: "NRG – Πρόγραμμα nrg hybrid",
     logoText: "NRG",
@@ -626,9 +639,10 @@ export const providers: Provider[] = [
     signupUrl: "https://www.nrg.gr/el/idiotes/reyma",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα Protergia ─────────────────────────────────────────
+  // ── Protergia ────────────────────────────────────────────────────────────
   {
     id: "protergia-easy",
+    providerId: "protergia",
     name: "Protergia Easy",
     fullName: "Protergia – Πρόγραμμα Easy",
     logoText: "PROTERGIA",
@@ -665,6 +679,7 @@ export const providers: Provider[] = [
   },
   {
     id: "protergia-smart24",
+    providerId: "protergia",
     name: "Protergia Smart 24",
     fullName: "Protergia – Πρόγραμμα Smart 24",
     logoText: "PROTERGIA",
@@ -705,6 +720,7 @@ export const providers: Provider[] = [
   },
   {
     id: "protergia-picasso-student",
+    providerId: "protergia",
     name: "Protergia Picasso Student",
     fullName: "Protergia – Πρόγραμμα Picasso Student",
     logoText: "PROTERGIA",
@@ -748,6 +764,7 @@ export const providers: Provider[] = [
   },
   {
     id: "protergia-value-student",
+    providerId: "protergia",
     name: "Protergia Value Student",
     fullName: "Protergia – Πρόγραμμα Value Student",
     logoText: "PROTERGIA",
@@ -786,9 +803,10 @@ export const providers: Provider[] = [
     signupUrl: "https://www.protergia.gr/spiti/",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα Volton ─────────────────────────────────────────────
+  // ── Volton ───────────────────────────────────────────────────────────────
   {
     id: "volton-green12",
+    providerId: "volton",
     name: "Volton Green 12",
     fullName: "Volton – Πρόγραμμα Green 12",
     logoText: "VOLTON",
@@ -828,6 +846,7 @@ export const providers: Provider[] = [
   },
   {
     id: "volton-student-150",
+    providerId: "volton",
     name: "Volton Student 150",
     fullName: "Volton – Φοιτητικό Πρόγραμμα Student 150",
     logoText: "VOLTON",
@@ -867,9 +886,10 @@ export const providers: Provider[] = [
     signupUrl: "https://volton.gr/services/volton-foititiko/",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα Zenith ─────────────────────────────────────────────
+  // ── Zenith ───────────────────────────────────────────────────────────────
   {
     id: "zenith-zero",
+    providerId: "zenith",
     name: "Zenith Zero",
     fullName: "Zenith – Πρόγραμμα Zero",
     logoText: "ZENITH",
@@ -910,6 +930,7 @@ export const providers: Provider[] = [
   },
   {
     id: "zenith-power-home-student",
+    providerId: "zenith",
     name: "Zenith Power Home Student",
     fullName: "Zenith – Πρόγραμμα Power Home Student",
     logoText: "ZENITH",
@@ -950,9 +971,10 @@ export const providers: Provider[] = [
       "https://zenith.gr/el/for-the-home/electricity/el-for-the-home-electricity-power-home-student/",
     lastUpdated: "2026-03",
   },
-  // ── Ειδικά προγράμματα Watt+Volt ─────────────────────────────────────────
+  // ── Watt+Volt ────────────────────────────────────────────────────────────
   {
     id: "watt-volt-zero",
+    providerId: "watt-volt",
     name: "Watt+Volt zerO",
     fullName: "Watt+Volt – Πρόγραμμα zerO",
     logoText: "W+V",
@@ -992,6 +1014,7 @@ export const providers: Provider[] = [
   },
   {
     id: "watt-volt-value-student",
+    providerId: "watt-volt",
     name: "Watt+Volt Value Student",
     fullName: "Watt+Volt – Πρόγραμμα Value Student",
     logoText: "W+V",
@@ -1035,6 +1058,7 @@ export const providers: Provider[] = [
   // supplyRate = σταθμισμένος μ.ο. με DEFAULT_COLOR_DISTRIBUTION (35/25/20/20)
   {
     id: "dei-colored",
+    providerId: "dei",
     name: "ΔΕΗ Χρωμ.",
     fullName: "ΔΕΗ Χρωματιστό Τιμολόγιο",
     logoText: "ΔΕΗ",
@@ -1050,6 +1074,7 @@ export const providers: Provider[] = [
     coloredRates: { blue: 0.078, green: 0.115, yellow: 0.148, red: 0.185 },
     greenEnergy: false,
     greenEnergyPercent: 0,
+    isProgram: true,
     features: [
       "Φθηνό νυχτερινό ρεύμα (Μπλε ζώνη)",
       "Ιδανικό για ηλεκτρικά αυτοκίνητα",
@@ -1073,6 +1098,7 @@ export const providers: Provider[] = [
   },
   {
     id: "nrg-colored",
+    providerId: "nrg",
     name: "NRG Χρωμ.",
     fullName: "NRG Χρωματιστό Τιμολόγιο",
     logoText: "NRG",
@@ -1088,6 +1114,7 @@ export const providers: Provider[] = [
     coloredRates: { blue: 0.072, green: 0.108, yellow: 0.138, red: 0.172 },
     greenEnergy: true,
     greenEnergyPercent: 30,
+    isProgram: true,
     features: [
       "Ανταγωνιστικές τιμές ζωνών",
       "Mobile app παρακολούθησης ζωνών",
@@ -1109,6 +1136,7 @@ export const providers: Provider[] = [
   },
   {
     id: "protergia-colored",
+    providerId: "protergia",
     name: "Protergia Χρωμ.",
     fullName: "Protergia Χρωματιστό Τιμολόγιο",
     logoText: "PROT.",
@@ -1124,6 +1152,7 @@ export const providers: Provider[] = [
     coloredRates: { blue: 0.074, green: 0.11, yellow: 0.14, red: 0.175 },
     greenEnergy: true,
     greenEnergyPercent: 50,
+    isProgram: true,
     features: [
       "Χρωματιστό με πράσινη ενέργεια",
       "Smart home ολοκλήρωση",
@@ -1143,3 +1172,6 @@ export const providers: Provider[] = [
     lastUpdated: "2026-03",
   },
 ];
+
+// Συνδυασμένη λίστα παρόχων + προγραμμάτων (για backward compatibility)
+export const allProviders: Provider[] = [...providers, ...programs];

@@ -1,4 +1,4 @@
-import { providers } from "../../../data/providers";
+import { allProviders, programs } from "../../../data/providers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -9,12 +9,12 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return providers.map((p) => ({ slug: p.id }));
+  return allProviders.map((p) => ({ slug: p.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const provider = providers.find((p) => p.id === slug);
+  const provider = allProviders.find((p) => p.id === slug);
   if (!provider)
     return { title: "Πάροχος δεν βρέθηκε | EnergyCompare" };
   return {
@@ -43,11 +43,11 @@ function StarRating({ rating }: { rating: number }) {
 
 export default async function ProviderPage({ params }: Props) {
   const { slug } = await params;
-  const provider = providers.find((p) => p.id === slug);
+  const provider = allProviders.find((p) => p.id === slug);
   if (!provider) notFound();
 
-  const relatedPrograms = providers.filter(
-    (p) => p.id !== provider.id && p.isProgram && p.id.startsWith(provider.id.split("-")[0]),
+  const relatedPrograms = programs.filter(
+    (p) => p.id !== provider.id && p.providerId === (provider.providerId ?? provider.id),
   );
 
   return (
