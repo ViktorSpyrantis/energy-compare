@@ -45,6 +45,18 @@ export interface Provider {
   lastUpdated: string; // π.χ. "2026-03"
 }
 
+// Πεδία που κληρονομούνται από τον βασικό πάροχο (μπορούν να γίνουν override)
+type InheritedFields =
+  | "phone"
+  | "logoText"
+  | "primaryColor"
+  | "greenEnergy"
+  | "greenEnergyPercent";
+
+// Τύπος για raw program data — τα inherited πεδία είναι προαιρετικά
+export type ProgramData = Omit<Provider, InheritedFields> &
+  Partial<Pick<Provider, InheritedFields>> & { providerId: string };
+
 export interface ProviderCost {
   provider: Provider;
   monthlyCost: number;

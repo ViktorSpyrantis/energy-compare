@@ -1,4 +1,4 @@
-import { Provider, ColorDistribution } from "../types";
+import { Provider, ProgramData, ColorDistribution } from "../types";
 
 // Ρυθμιζόμενες χρεώσεις - ίδιες για όλους τους παρόχους (εκτίμηση 2026)
 export const REGULATED_RATE = 0.0715; // €/kWh (δίκτυο + ΕΤΜΕΑΡ + λοιπές χρεώσεις)
@@ -320,15 +320,15 @@ export const providers: Provider[] = [
 ];
 
 // ── Ειδικά προγράμματα παρόχων ────────────────────────────────────────────
-export const programs: Provider[] = [
+// Τα πεδία phone, logoText, primaryColor, greenEnergy, greenEnergyPercent
+// κληρονομούνται από τον βασικό πάροχο (μέσω providerId) εκτός αν γίνει override.
+const rawPrograms: ProgramData[] = [
   // ── ΔΕΗ (myHome) ────────────────────────────────────────────────────────
   {
     id: "dei-myhome-enter",
     providerId: "dei",
     name: "ΔΕΗ myHome Enter",
     fullName: "ΔΕΗ – Πρόγραμμα myHome Enter",
-    logoText: "ΔΕΗ",
-    primaryColor: "#1e3a8a",
     bgColor: "#eff6ff",
     textColor: "#1e3a8a",
     rating: 3.3,
@@ -337,8 +337,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 2.87,
     supplyRate: 0.1302,
-    greenEnergy: false,
-    greenEnergyPercent: 0,
     isProgram: true,
     features: [
       "Σταθερή τιμή για 12 μήνες",
@@ -355,7 +353,6 @@ export const programs: Provider[] = [
       "Απαιτεί εγγραφή στο myΔΕΗ",
       "Λίγο ακριβότερο από ανεξάρτητους παρόχους",
     ],
-    phone: "800 900 1000",
     tags: ["Πρόγραμμα ΔΕΗ", "Σταθερή τιμή", "myHome"],
     popular: false,
     newCustomerOffer: "Διαθέσιμο σε νέους και υφιστάμενους πελάτες ΔΕΗ",
@@ -367,8 +364,6 @@ export const programs: Provider[] = [
     providerId: "dei",
     name: "ΔΕΗ myHome EnterTwo",
     fullName: "ΔΕΗ – Πρόγραμμα myHome EnterTwo",
-    logoText: "ΔΕΗ",
-    primaryColor: "#1e3a8a",
     bgColor: "#dbeafe",
     textColor: "#1e40af",
     rating: 3.4,
@@ -377,8 +372,6 @@ export const programs: Provider[] = [
     contractMonths: 24,
     monthlyFee: 2.87,
     supplyRate: 0.1232,
-    greenEnergy: false,
-    greenEnergyPercent: 0,
     isProgram: true,
     features: [
       "Χαμηλότερη τιμή kWh με 24μηνη δέσμευση",
@@ -396,7 +389,6 @@ export const programs: Provider[] = [
       "Πρόστιμο πρόωρης λύσης",
       "Απαιτεί εγγραφή στο myΔΕΗ",
     ],
-    phone: "800 900 1000",
     tags: ["Πρόγραμμα ΔΕΗ", "Σταθερή τιμή", "myHome", "24μηνο"],
     popular: false,
     newCustomerOffer: "Σταθερή τιμή για 2 πλήρη χρόνια",
@@ -408,7 +400,6 @@ export const programs: Provider[] = [
     providerId: "dei",
     name: "ΔΕΗ myHome 4Students",
     fullName: "ΔΕΗ – Πρόγραμμα myHome 4Students",
-    logoText: "ΔΕΗ",
     primaryColor: "#1d4ed8",
     bgColor: "#eff6ff",
     textColor: "#1d4ed8",
@@ -418,8 +409,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.105,
-    greenEnergy: false,
-    greenEnergyPercent: 0,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -437,7 +426,6 @@ export const programs: Provider[] = [
       "Αποκλειστικά για φοιτητές (απαιτείται φοιτητική ταυτότητα)",
       "Δεν διατίθεται σε μόνιμες κατοικίες",
     ],
-    phone: "800 900 1000",
     tags: ["Πρόγραμμα ΔΕΗ", "Φοιτητικό", "myHome", "Χωρίς πάγιο"],
     popular: false,
     newCustomerOffer: "Μηδενικό πάγιο για φοιτητές",
@@ -450,8 +438,6 @@ export const programs: Provider[] = [
     providerId: "elpedison",
     name: "Elpedison Home Easy",
     fullName: "Elpedison – Πρόγραμμα Home Easy",
-    logoText: "ELPEDISON",
-    primaryColor: "#b91c1c",
     bgColor: "#fef2f2",
     textColor: "#b91c1c",
     rating: 3.9,
@@ -460,8 +446,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 2.5,
     supplyRate: 0.13,
-    greenEnergy: true,
-    greenEnergyPercent: 100,
     isProgram: true,
     features: [
       "Χαμηλότερο πάγιο από το βασικό τιμολόγιο",
@@ -475,7 +459,6 @@ export const programs: Provider[] = [
       "Ανταγωνιστική τιμή kWh",
     ],
     cons: ["Περιορισμένα φυσικά καταστήματα", "Αργή εξυπηρέτηση σε αιχμή"],
-    phone: "18128",
     tags: ["Πρόγραμμα Elpedison", "Πράσινη ενέργεια", "Σταθερή τιμή"],
     popular: false,
     newCustomerOffer: "Διαθέσιμο σε νέους και υφιστάμενους πελάτες",
@@ -487,8 +470,6 @@ export const programs: Provider[] = [
     providerId: "elpedison",
     name: "Elpedison Home Comfort 24",
     fullName: "Elpedison – Πρόγραμμα Home Comfort 24",
-    logoText: "ELPEDISON",
-    primaryColor: "#b91c1c",
     bgColor: "#fff5f5",
     textColor: "#991b1b",
     rating: 4.0,
@@ -497,8 +478,6 @@ export const programs: Provider[] = [
     contractMonths: 24,
     monthlyFee: 2.5,
     supplyRate: 0.122,
-    greenEnergy: true,
-    greenEnergyPercent: 100,
     isProgram: true,
     features: [
       "Η χαμηλότερη τιμή kWh της Elpedison",
@@ -512,7 +491,6 @@ export const programs: Provider[] = [
       "100% πράσινη ενέργεια",
     ],
     cons: ["24μηνη συμβατική δέσμευση", "Πρόστιμο πρόωρης λύσης"],
-    phone: "18128",
     tags: ["Πρόγραμμα Elpedison", "Πράσινη ενέργεια", "24μηνο"],
     popular: false,
     newCustomerOffer: "Σταθερή πράσινη ενέργεια για 2 πλήρη χρόνια",
@@ -524,8 +502,6 @@ export const programs: Provider[] = [
     providerId: "elpedison",
     name: "Elpedison Student",
     fullName: "Elpedison (Enerwave) – Φοιτητικό Πρόγραμμα",
-    logoText: "ELPEDISON",
-    primaryColor: "#b91c1c",
     bgColor: "#fef2f2",
     textColor: "#b91c1c",
     rating: 4.0,
@@ -534,8 +510,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.11,
-    greenEnergy: true,
-    greenEnergyPercent: 100,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -553,7 +527,6 @@ export const programs: Provider[] = [
       "Αποκλειστικά για φοιτητές (απαιτείται φοιτητική ταυτότητα)",
       "Περιορισμένα φυσικά καταστήματα",
     ],
-    phone: "18128",
     tags: ["Φοιτητικό", "Πράσινη ενέργεια", "Χωρίς πάγιο"],
     popular: false,
     newCustomerOffer: "Μηδενικό πάγιο + δωρεάν πάγιο καλοκαίρι",
@@ -567,8 +540,6 @@ export const programs: Provider[] = [
     providerId: "nrg",
     name: "NRG Easy Home",
     fullName: "NRG – Πρόγραμμα Easy Home",
-    logoText: "NRG",
-    primaryColor: "#c2410c",
     bgColor: "#fff7ed",
     textColor: "#c2410c",
     rating: 3.8,
@@ -577,8 +548,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 2.9,
     supplyRate: 0.124,
-    greenEnergy: true,
-    greenEnergyPercent: 30,
     isProgram: true,
     features: [
       "Χαμηλότερο πάγιο από το βασικό τιμολόγιο",
@@ -592,7 +561,6 @@ export const programs: Provider[] = [
       "Εύκολη ψηφιακή διαχείριση",
     ],
     cons: ["Χωρίς φυσικά καταστήματα", "Περιορισμένη τηλεφωνική υποστήριξη"],
-    phone: "18101",
     tags: ["Πρόγραμμα NRG", "Σταθερή τιμή", "Digital-first"],
     popular: false,
     newCustomerOffer: "Δωρεάν σύνδεση για νέους πελάτες",
@@ -604,8 +572,6 @@ export const programs: Provider[] = [
     providerId: "nrg",
     name: "NRG nrg hybrid",
     fullName: "NRG – Πρόγραμμα nrg hybrid",
-    logoText: "NRG",
-    primaryColor: "#c2410c",
     bgColor: "#fff7ed",
     textColor: "#c2410c",
     rating: 3.9,
@@ -614,8 +580,6 @@ export const programs: Provider[] = [
     contractMonths: 0,
     monthlyFee: 5.0,
     supplyRate: 0.095,
-    greenEnergy: true,
-    greenEnergyPercent: 30,
     isProgram: true,
     features: [
       "Σταθερή τιμή 9.5¢/kWh για τα πρώτα 150 kWh/μήνα",
@@ -632,7 +596,6 @@ export const programs: Provider[] = [
       "Άνω των 150 kWh/μήνα, η τιμή γίνεται μεταβλητή (αγορά + επιβάρυνση)",
       "Υψηλότερο πάγιο (5€/μήνα) σε σχέση με άλλα NRG προγράμματα",
     ],
-    phone: "18101",
     tags: ["Πρόγραμμα NRG", "Υβριδικό", "Χωρίς δέσμευση"],
     popular: false,
     newCustomerOffer: "Χωρίς ρήτρα αποχώρησης",
@@ -645,8 +608,6 @@ export const programs: Provider[] = [
     providerId: "protergia",
     name: "Protergia Easy",
     fullName: "Protergia – Πρόγραμμα Easy",
-    logoText: "PROTERGIA",
-    primaryColor: "#065f46",
     bgColor: "#ecfdf5",
     textColor: "#065f46",
     rating: 3.7,
@@ -655,8 +616,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 3.0,
     supplyRate: 0.127,
-    greenEnergy: true,
-    greenEnergyPercent: 50,
     isProgram: true,
     features: [
       "Χαμηλότερο πάγιο από το βασικό τιμολόγιο",
@@ -670,7 +629,6 @@ export const programs: Provider[] = [
       "50% πράσινη ενέργεια",
     ],
     cons: ["Αδύναμη εφαρμογή κινητού", "Πολύπλοκα πακέτα"],
-    phone: "18311",
     tags: ["Πρόγραμμα Protergia", "Πράσινη ενέργεια", "Σταθερή τιμή"],
     popular: false,
     newCustomerOffer: "Διαθέσιμο σε νέους και υφιστάμενους πελάτες",
@@ -682,8 +640,6 @@ export const programs: Provider[] = [
     providerId: "protergia",
     name: "Protergia Smart 24",
     fullName: "Protergia – Πρόγραμμα Smart 24",
-    logoText: "PROTERGIA",
-    primaryColor: "#065f46",
     bgColor: "#d1fae5",
     textColor: "#064e3b",
     rating: 3.8,
@@ -692,8 +648,6 @@ export const programs: Provider[] = [
     contractMonths: 24,
     monthlyFee: 3.0,
     supplyRate: 0.119,
-    greenEnergy: true,
-    greenEnergyPercent: 50,
     isProgram: true,
     features: [
       "Η χαμηλότερη τιμή kWh της Protergia",
@@ -711,7 +665,6 @@ export const programs: Provider[] = [
       "Πρόστιμο πρόωρης λύσης",
       "Αδύναμη εφαρμογή κινητού",
     ],
-    phone: "18311",
     tags: ["Πρόγραμμα Protergia", "Πράσινη ενέργεια", "24μηνο"],
     popular: false,
     newCustomerOffer: "Σταθερή τιμή kWh για 2 χρόνια",
@@ -723,8 +676,6 @@ export const programs: Provider[] = [
     providerId: "protergia",
     name: "Protergia Picasso Student",
     fullName: "Protergia – Πρόγραμμα Picasso Student",
-    logoText: "PROTERGIA",
-    primaryColor: "#065f46",
     bgColor: "#ecfdf5",
     textColor: "#065f46",
     rating: 4.2,
@@ -734,8 +685,6 @@ export const programs: Provider[] = [
     monthlyFee: 0,
     supplyRate: 0,
     flatMonthlyBill: 29.99,
-    greenEnergy: true,
-    greenEnergyPercent: 50,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα (ΑΕΙ/ΤΕΙ/Erasmus)",
     features: [
@@ -754,7 +703,6 @@ export const programs: Provider[] = [
       "Η τιμή δεν εξαρτάται από κατανάλωση – ακριβό αν καταναλώνεις πολύ λίγο",
       "Υπέρβαση >5% τιμολογείται επιπλέον",
     ],
-    phone: "18311",
     tags: ["Φοιτητικό", "Σταθερό πάγιο", "Protergia Picasso"],
     popular: false,
     newCustomerOffer: "2 δωρεάν μήνες για φοιτητές",
@@ -767,8 +715,6 @@ export const programs: Provider[] = [
     providerId: "protergia",
     name: "Protergia Value Student",
     fullName: "Protergia – Πρόγραμμα Value Student",
-    logoText: "PROTERGIA",
-    primaryColor: "#065f46",
     bgColor: "#d1fae5",
     textColor: "#064e3b",
     rating: 4.0,
@@ -777,8 +723,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.086,
-    greenEnergy: true,
-    greenEnergyPercent: 50,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -796,7 +740,6 @@ export const programs: Provider[] = [
       "Αποκλειστικά για φοιτητές",
       "Άνω των 115 kWh τιμολογείται με μεταβλητή τιμή αγοράς",
     ],
-    phone: "18311",
     tags: ["Φοιτητικό", "Μεταβλητή τιμή", "Protergia Value"],
     popular: false,
     newCustomerOffer: "Χωρίς ρήτρα αποχώρησης",
@@ -809,8 +752,6 @@ export const programs: Provider[] = [
     providerId: "volton",
     name: "Volton Green 12",
     fullName: "Volton – Πρόγραμμα Green 12",
-    logoText: "VOLTON",
-    primaryColor: "#6d28d9",
     bgColor: "#f5f3ff",
     textColor: "#6d28d9",
     rating: 4.1,
@@ -819,8 +760,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 3.5,
     supplyRate: 0.131,
-    greenEnergy: true,
-    greenEnergyPercent: 100,
     isProgram: true,
     features: [
       "100% Ανανεώσιμες πηγές ενέργειας",
@@ -837,7 +776,6 @@ export const programs: Provider[] = [
       "Μικρότερο δίκτυο υποστήριξης",
       "Υψηλότερο πάγιο σε σχέση με άλλα προγράμματα",
     ],
-    phone: "11300",
     tags: ["Πρόγραμμα Volton", "Πράσινη ενέργεια", "Σταθερή τιμή"],
     popular: false,
     newCustomerOffer: "Δωρεάν 1ος μήνας για νέους πελάτες",
@@ -849,8 +787,6 @@ export const programs: Provider[] = [
     providerId: "volton",
     name: "Volton Student 150",
     fullName: "Volton – Φοιτητικό Πρόγραμμα Student 150",
-    logoText: "VOLTON",
-    primaryColor: "#6d28d9",
     bgColor: "#ede9fe",
     textColor: "#5b21b6",
     rating: 4.0,
@@ -860,8 +796,6 @@ export const programs: Provider[] = [
     monthlyFee: 0,
     supplyRate: 0,
     flatMonthlyBill: 32.9,
-    greenEnergy: true,
-    greenEnergyPercent: 100,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -879,7 +813,6 @@ export const programs: Provider[] = [
       "Αποκλειστικά για φοιτητές",
       "Η τιμή δεν εξαρτάται από κατανάλωση – ακριβό αν καταναλώνεις λίγο",
     ],
-    phone: "11300",
     tags: ["Φοιτητικό", "Σταθερό πάγιο", "Πράσινη ενέργεια"],
     popular: false,
     newCustomerOffer: "Welcome gift voucher €50",
@@ -892,8 +825,6 @@ export const programs: Provider[] = [
     providerId: "zenith",
     name: "Zenith Zero",
     fullName: "Zenith – Πρόγραμμα Zero",
-    logoText: "ZENITH",
-    primaryColor: "#0369a1",
     bgColor: "#f0f9ff",
     textColor: "#0369a1",
     rating: 4.0,
@@ -902,8 +833,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.138,
-    greenEnergy: true,
-    greenEnergyPercent: 40,
     isProgram: true,
     features: [
       "Μηδενικό μηνιαίο πάγιο",
@@ -921,7 +850,6 @@ export const programs: Provider[] = [
       "Μόνο ψηφιακή εξυπηρέτηση",
       "Σχετικά νέα εταιρεία",
     ],
-    phone: "18321",
     tags: ["Πρόγραμμα Zenith", "Χωρίς πάγιο", "Digital-first"],
     popular: false,
     newCustomerOffer: "Μηδενικό πάγιο για ολόκληρο το χρόνο",
@@ -933,8 +861,6 @@ export const programs: Provider[] = [
     providerId: "zenith",
     name: "Zenith Power Home Student",
     fullName: "Zenith – Πρόγραμμα Power Home Student",
-    logoText: "ZENITH",
-    primaryColor: "#0369a1",
     bgColor: "#e0f2fe",
     textColor: "#075985",
     rating: 4.1,
@@ -943,8 +869,6 @@ export const programs: Provider[] = [
     contractMonths: 0,
     monthlyFee: 5.0,
     supplyRate: 0.095,
-    greenEnergy: true,
-    greenEnergyPercent: 40,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -963,7 +887,6 @@ export const programs: Provider[] = [
       "Μεταβλητή τιμή – ενδέχεται να αλλάξει",
       "Μόνο ψηφιακή εξυπηρέτηση",
     ],
-    phone: "18321",
     tags: ["Φοιτητικό", "Μεταβλητή τιμή", "Χωρίς δέσμευση"],
     popular: false,
     newCustomerOffer: "Δωρεάν πάγιο τους καλοκαιρινούς μήνες",
@@ -977,8 +900,6 @@ export const programs: Provider[] = [
     providerId: "watt-volt",
     name: "Watt+Volt zerO",
     fullName: "Watt+Volt – Πρόγραμμα zerO",
-    logoText: "W+V",
-    primaryColor: "#be123c",
     bgColor: "#fff1f2",
     textColor: "#be123c",
     rating: 3.8,
@@ -987,8 +908,6 @@ export const programs: Provider[] = [
     contractMonths: 0,
     monthlyFee: 0,
     supplyRate: 0.138,
-    greenEnergy: true,
-    greenEnergyPercent: 20,
     isProgram: true,
     features: [
       "Μηδενικό μηνιαίο πάγιο",
@@ -1005,7 +924,6 @@ export const programs: Provider[] = [
       "Μεταβλητή τιμή – ενδέχεται να αυξηθεί",
       "Υψηλότερη τιμή kWh σε σχέση με σταθερά προγράμματα",
     ],
-    phone: "18311",
     tags: ["Πρόγραμμα Watt+Volt", "Χωρίς πάγιο", "Χωρίς δέσμευση"],
     popular: false,
     newCustomerOffer: "Μηδενικό πάγιο για πάντα",
@@ -1017,8 +935,6 @@ export const programs: Provider[] = [
     providerId: "watt-volt",
     name: "Watt+Volt Value Student",
     fullName: "Watt+Volt – Πρόγραμμα Value Student",
-    logoText: "W+V",
-    primaryColor: "#be123c",
     bgColor: "#ffe4e6",
     textColor: "#9f1239",
     rating: 4.0,
@@ -1027,8 +943,6 @@ export const programs: Provider[] = [
     contractMonths: 12,
     monthlyFee: 0,
     supplyRate: 0.086,
-    greenEnergy: true,
-    greenEnergyPercent: 20,
     isProgram: true,
     programEligibility: "Απαιτείται φοιτητική ταυτότητα ή πάσο",
     features: [
@@ -1046,7 +960,6 @@ export const programs: Provider[] = [
       "Αποκλειστικά για φοιτητές",
       "Άνω των 115 kWh τιμολογείται με μεταβλητή τιμή αγοράς",
     ],
-    phone: "18311",
     tags: ["Φοιτητικό", "Μεταβλητή τιμή", "Watt+Volt Value"],
     popular: false,
     newCustomerOffer: "Χωρίς ρήτρα αποχώρησης",
@@ -1061,8 +974,6 @@ export const programs: Provider[] = [
     providerId: "dei",
     name: "ΔΕΗ Χρωμ.",
     fullName: "ΔΕΗ Χρωματιστό Τιμολόγιο",
-    logoText: "ΔΕΗ",
-    primaryColor: "#1e3a8a",
     bgColor: "#eff6ff",
     textColor: "#1e3a8a",
     rating: 3.2,
@@ -1072,8 +983,6 @@ export const programs: Provider[] = [
     monthlyFee: 4.5,
     supplyRate: 0.1226, // weighted avg: 0.35×0.078 + 0.25×0.115 + 0.20×0.148 + 0.20×0.185
     coloredRates: { blue: 0.078, green: 0.115, yellow: 0.148, red: 0.185 },
-    greenEnergy: false,
-    greenEnergyPercent: 0,
     isProgram: true,
     features: [
       "Φθηνό νυχτερινό ρεύμα (Μπλε ζώνη)",
@@ -1090,7 +999,6 @@ export const programs: Provider[] = [
       "Ακριβό ρεύμα Κόκκινης ζώνης (18.5¢)",
       "Απαιτεί προγραμματισμό κατανάλωσης",
     ],
-    phone: "800 900 1000",
     tags: ["Χρωματιστό", "Ζώνες ώρας", "Ετήσιο συμβόλαιο"],
     popular: false,
     signupUrl: "https://www.dei.gr/el/home/oikiaki-xrisi/proion/myhome",
@@ -1101,8 +1009,6 @@ export const programs: Provider[] = [
     providerId: "nrg",
     name: "NRG Χρωμ.",
     fullName: "NRG Χρωματιστό Τιμολόγιο",
-    logoText: "NRG",
-    primaryColor: "#c2410c",
     bgColor: "#fff7ed",
     textColor: "#c2410c",
     rating: 3.7,
@@ -1112,8 +1018,6 @@ export const programs: Provider[] = [
     monthlyFee: 3.5,
     supplyRate: 0.1142, // weighted avg: 0.35×0.072 + 0.25×0.108 + 0.20×0.138 + 0.20×0.172
     coloredRates: { blue: 0.072, green: 0.108, yellow: 0.138, red: 0.172 },
-    greenEnergy: true,
-    greenEnergyPercent: 30,
     isProgram: true,
     features: [
       "Ανταγωνιστικές τιμές ζωνών",
@@ -1127,7 +1031,6 @@ export const programs: Provider[] = [
       "Καλή ψηφιακή πλατφόρμα",
     ],
     cons: ["Χωρίς φυσικά καταστήματα", "Ανάγκη παρακολούθησης ζωνών"],
-    phone: "18101",
     tags: ["Χρωματιστό", "Ζώνες ώρας", "Digital-first"],
     popular: false,
     newCustomerOffer: "Δωρεάν σύνδεση για νέους πελάτες",
@@ -1140,7 +1043,6 @@ export const programs: Provider[] = [
     name: "Protergia Χρωμ.",
     fullName: "Protergia Χρωματιστό Τιμολόγιο",
     logoText: "PROT.",
-    primaryColor: "#065f46",
     bgColor: "#ecfdf5",
     textColor: "#065f46",
     rating: 3.6,
@@ -1150,8 +1052,6 @@ export const programs: Provider[] = [
     monthlyFee: 3.8,
     supplyRate: 0.1164, // weighted avg: 0.35×0.074 + 0.25×0.110 + 0.20×0.140 + 0.20×0.175
     coloredRates: { blue: 0.074, green: 0.11, yellow: 0.14, red: 0.175 },
-    greenEnergy: true,
-    greenEnergyPercent: 50,
     isProgram: true,
     features: [
       "Χρωματιστό με πράσινη ενέργεια",
@@ -1165,7 +1065,6 @@ export const programs: Provider[] = [
       "Αξιόπιστη εταιρεία",
     ],
     cons: ["Αδύναμη εφαρμογή κινητού", "Απαιτεί ευελιξία ωραρίου"],
-    phone: "18311",
     tags: ["Χρωματιστό", "Πράσινη ενέργεια", "Ζώνες ώρας"],
     popular: false,
     signupUrl: "https://www.protergia.gr/spiti/",
@@ -1173,5 +1072,20 @@ export const programs: Provider[] = [
   },
 ];
 
-// Συνδυασμένη λίστα παρόχων + προγραμμάτων (για backward compatibility)
+// Resolve: κληρονομεί πεδία από τον βασικό πάροχο (phone, logoText, κλπ.)
+function resolveProgram(raw: ProgramData): Provider {
+  const parent = providers.find((p) => p.id === raw.providerId);
+  return {
+    ...raw,
+    phone: raw.phone ?? parent?.phone ?? "",
+    logoText: raw.logoText ?? parent?.logoText ?? "",
+    primaryColor: raw.primaryColor ?? parent?.primaryColor ?? "",
+    greenEnergy: raw.greenEnergy ?? parent?.greenEnergy ?? false,
+    greenEnergyPercent: raw.greenEnergyPercent ?? parent?.greenEnergyPercent ?? 0,
+  };
+}
+
+export const programs: Provider[] = rawPrograms.map(resolveProgram);
+
+// Συνδυασμένη λίστα παρόχων + προγραμμάτων
 export const allProviders: Provider[] = [...providers, ...programs];
