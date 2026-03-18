@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { providers, COLOR_ZONE_HOURS } from "../data/providers";
+import { allProviders, COLOR_ZONE_HOURS } from "../data/providers";
 import {
   calculateMonthlyCost,
   formatCurrency,
@@ -54,7 +54,7 @@ export default function ComparisonTable() {
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const filtered = useMemo(() => {
-    let list = providers.filter((p) => {
+    let list = allProviders.filter((p) => {
       if (filters.tariffType !== "all" && p.tariffType !== filters.tariffType)
         return false;
       if (filters.greenOnly && !p.greenEnergy) return false;
