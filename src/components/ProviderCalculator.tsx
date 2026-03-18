@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { providers } from "../data/providers";
+import { allProviders } from "../data/providers";
 import { calculateMonthlyCost, formatCurrency } from "../lib/calculations";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 export default function ProviderCalculator({ providerId }: Props) {
   const [kwh, setKwh] = useState(250);
-  const provider = providers.find((p) => p.id === providerId);
+  const provider = allProviders.find((p) => p.id === providerId);
   if (!provider) return null;
 
   const monthlyCost = calculateMonthlyCost(provider, kwh);

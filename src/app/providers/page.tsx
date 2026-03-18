@@ -1,4 +1,4 @@
-import { providers } from "../../data/providers";
+import { providers, programs } from "../../data/providers";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -27,9 +27,9 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function ProvidersPage() {
-  const mainProviders = providers.filter((p) => !p.isProgram);
-  const programs = providers.filter((p) => p.isProgram && !p.programEligibility);
-  const studentPrograms = providers.filter((p) => p.isProgram && p.programEligibility);
+  const mainProviders = providers;
+  const generalPrograms = programs.filter((p) => !p.programEligibility);
+  const studentPrograms = programs.filter((p) => !!p.programEligibility);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -124,7 +124,7 @@ export default function ProvidersPage() {
         </section>
 
         {/* Programs */}
-        {programs.length > 0 && (
+        {generalPrograms.length > 0 && (
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-2xl font-bold text-slate-900">Ειδικά προγράμματα</h2>
@@ -133,7 +133,7 @@ export default function ProvidersPage() {
               </span>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {programs.map((p) => (
+              {generalPrograms.map((p) => (
                 <Link
                   key={p.id}
                   href={`/providers/${p.id}`}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { providers } from "../data/providers";
+import { allProviders } from "../data/providers";
 import type { ParsedBill } from "../app/api/parse-bill/route";
 
 export interface BillExtractedData {
@@ -534,7 +534,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
                       : "border-slate-200"
                   }`}
                 >
-                  {providers.map((p) => (
+                  {allProviders.map((p) => (
                     <option key={p.id} value={p.id}>
                       {p.name} — {p.fullName}
                     </option>

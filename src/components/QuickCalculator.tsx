@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { providers } from "../data/providers";
+import { allProviders } from "../data/providers";
 import { calculateMonthlyCost, formatCurrency } from "../lib/calculations";
 
 export default function QuickCalculator() {
@@ -11,7 +11,7 @@ export default function QuickCalculator() {
   const router = useRouter();
 
   // Filter out student-only programs for the quick calculator
-  const availableProviders = providers.filter((p) => !p.programEligibility);
+  const availableProviders = allProviders.filter((p) => !p.programEligibility);
 
   const currentProvider = availableProviders.find((p) => p.id === currentProviderId)
     ?? availableProviders[0];
