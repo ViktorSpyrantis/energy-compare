@@ -460,7 +460,7 @@ export default function ComparisonTable() {
 
                     {/* Logo */}
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
+                      className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden"
                       style={{
                         backgroundColor: provider.bgColor,
                         color: provider.textColor,
@@ -663,7 +663,7 @@ export default function ComparisonTable() {
                                     <span
                                       className={`text-xs font-bold ${zc.text}`}
                                     >
-                                      {(rate * 100).toFixed(1)}¢/kWh
+                                      {(rate * 100).toFixed(1)}€/kWh
                                     </span>
                                   </div>
                                 );
@@ -826,7 +826,7 @@ export default function ComparisonTable() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2.5">
                           <div
-                            className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] border shrink-0"
+                            className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] border shrink-0 overflow-hidden"
                             style={{
                               backgroundColor: provider.bgColor,
                               color: provider.textColor,

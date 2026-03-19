@@ -76,7 +76,7 @@ export default function ProviderCard({
         {/* Provider Logo */}
         <div className="flex items-center gap-3">
           <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border"
+            className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border overflow-hidden"
             style={{
               backgroundColor: provider.bgColor,
               color: provider.textColor,
