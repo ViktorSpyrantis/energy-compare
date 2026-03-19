@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ComparisonTable from "../../components/ComparisonTable";
 
 export const metadata: Metadata = {
-  title: "Σύγκριση Παρόχων Ρεύματος | EnergyCompare",
+  title: "Σύγκριση Παρόχων Ρεύματος | Ρευματοσκόπιο",
   description:
     "Σύγκρινε όλους τους παρόχους ηλεκτρικής ενέργειας στην Ελλάδα. Φίλτρα κατά τύπο τιμολογίου, πράσινη ενέργεια και ταξινόμηση κατά τιμή ή αξιολόγηση.",
 };

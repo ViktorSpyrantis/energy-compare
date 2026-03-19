@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const provider = allProviders.find((p) => p.id === slug);
   if (!provider)
-    return { title: "Πάροχος δεν βρέθηκε | EnergyCompare" };
+    return { title: "Πάροχος δεν βρέθηκε | Ρευματοσκόπιο" };
   return {
-    title: `${provider.fullName} – Τιμές & Κριτική 2026 | EnergyCompare`,
+    title: `${provider.fullName} – Τιμές & Κριτική 2026 | Ρευματοσκόπιο`,
     description: `Αναλυτική παρουσίαση του ${provider.fullName}: τιμή kWh ${(provider.supplyRate * 100).toFixed(2)}¢, πάγιο ${provider.monthlyFee}€/μήνα, αξιολόγηση ${provider.rating}/5. Υπολόγισε το κόστος σου.`,
   };
 }

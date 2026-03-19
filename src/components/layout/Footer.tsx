@@ -10,23 +10,29 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
                 <svg
                   className="w-5 h-5 text-white"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2.5}
+                  strokeWidth={2}
                 >
+                  <circle cx="6" cy="18" r="2" />
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                    d="M6 16V8l4-4h2l6 3-2 4-4-2-2 2"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16 7l3-1.5M12 4l1-3"
                   />
                 </svg>
               </div>
               <span className="font-bold text-white text-lg">
-                Energy<span className="text-teal-400">Compare</span>
+                Ρευματο<span className="text-indigo-400">σκόπιο</span>
               </span>
             </div>
             <p className="text-sm leading-relaxed max-w-sm">
@@ -36,7 +42,7 @@ export default function Footer() {
             </p>
             <div className="mt-4 flex items-center gap-1.5 text-xs text-slate-500">
               <svg
-                className="w-3.5 h-3.5 text-teal-500"
+                className="w-3.5 h-3.5 text-indigo-500"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -103,7 +109,7 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <Link href="/providers" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">
+                <Link href="/providers" className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
                   Όλοι οι πάροχοι →
                 </Link>
               </li>
@@ -113,7 +119,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © {currentYear} EnergyCompare. Δωρεάν εργαλείο σύγκρισης παρόχων
+            © {currentYear} Ρευματοσκόπιο. Δωρεάν εργαλείο σύγκρισης παρόχων
             ρεύματος.
           </p>
           <p className="text-center">
