@@ -653,8 +653,8 @@ export default function SavingsCalculator({
                             {item.provider.flatMonthlyBill !== undefined
                               ? `Σταθερό ${formatCurrency(item.provider.flatMonthlyBill)}/μήνα (all-in)`
                               : isColored
-                                ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
-                                : `${(item.provider.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
+                                ? `Μ.ο. ${item.provider.supplyRate.toFixed(4)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
+                                : `${item.provider.supplyRate.toFixed(4)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
                           </div>
                         </div>
                       </div>

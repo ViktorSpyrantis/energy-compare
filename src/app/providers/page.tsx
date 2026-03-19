@@ -161,7 +161,7 @@ export default function ProvidersPage() {
                         {" · "}
                         {p.flatMonthlyBill !== undefined
                           ? `${p.flatMonthlyBill.toFixed(2)}€/μήνα`
-                          : `${(p.supplyRate * 100).toFixed(2)}€/kWh`}
+                          : `${p.supplyRate.toFixed(4)}€/kWh`}
                       </div>
                     </div>
                   </div>
@@ -214,7 +214,7 @@ export default function ProvidersPage() {
                         {" · "}
                         {p.flatMonthlyBill !== undefined
                           ? `${p.flatMonthlyBill.toFixed(2)}€/μήνα`
-                          : `${(p.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${p.monthlyFee}€`}
+                          : `${p.supplyRate.toFixed(4)}€/kWh · πάγιο ${p.monthlyFee}€`}
                       </div>
                     </div>
                   </div>

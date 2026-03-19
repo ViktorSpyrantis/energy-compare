@@ -663,7 +663,7 @@ export default function ComparisonTable() {
                                     <span
                                       className={`text-xs font-bold ${zc.text}`}
                                     >
-                                      {(rate * 100).toFixed(1)}€/kWh
+                                      {rate.toFixed(3)}€/kWh
                                     </span>
                                   </div>
                                 );
