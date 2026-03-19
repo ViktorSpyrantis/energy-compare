@@ -71,7 +71,7 @@ export default async function ProviderPage({ params }: Props) {
           <div className="flex flex-col sm:flex-row gap-6 items-start">
             {/* Logo */}
             <div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center font-bold text-sm shrink-0 border"
+              className="w-20 h-20 rounded-2xl flex items-center justify-center font-bold text-sm shrink-0 border overflow-hidden"
               style={{
                 backgroundColor: provider.bgColor,
                 color: provider.textColor,
