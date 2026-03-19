@@ -55,7 +55,7 @@ export default function ProvidersPage() {
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border"
+                    className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border overflow-hidden"
                     style={{
                       backgroundColor: p.bgColor,
                       color: p.textColor,
@@ -141,7 +141,7 @@ export default function ProvidersPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden"
                       style={{
                         backgroundColor: p.bgColor,
                         color: p.textColor,
@@ -149,7 +149,7 @@ export default function ProvidersPage() {
                       }}
                     >
                       {p.logoText.length > 4 ? (
-                        <span className="text-[8px]">{p.logoText}</span>
+                        <span className="text-[8px] leading-tight text-center px-0.5">{p.logoText}</span>
                       ) : (
                         p.logoText
                       )}
@@ -161,7 +161,7 @@ export default function ProvidersPage() {
                         {" · "}
                         {p.flatMonthlyBill !== undefined
                           ? `${p.flatMonthlyBill.toFixed(2)}€/μήνα`
-                          : `${(p.supplyRate * 100).toFixed(2)}¢/kWh`}
+                          : `${(p.supplyRate * 100).toFixed(2)}€/kWh`}
                       </div>
                     </div>
                   </div>
@@ -194,7 +194,7 @@ export default function ProvidersPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden"
                       style={{
                         backgroundColor: p.bgColor,
                         color: p.textColor,
@@ -202,7 +202,7 @@ export default function ProvidersPage() {
                       }}
                     >
                       {p.logoText.length > 4 ? (
-                        <span className="text-[8px]">{p.logoText}</span>
+                        <span className="text-[8px] leading-tight text-center px-0.5">{p.logoText}</span>
                       ) : (
                         p.logoText
                       )}
@@ -214,7 +214,7 @@ export default function ProvidersPage() {
                         {" · "}
                         {p.flatMonthlyBill !== undefined
                           ? `${p.flatMonthlyBill.toFixed(2)}€/μήνα`
-                          : `${(p.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${p.monthlyFee}€`}
+                          : `${(p.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${p.monthlyFee}€`}
                       </div>
                     </div>
                   </div>

@@ -190,7 +190,7 @@ export default function SavingsCalculator({
                 return (
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-teal-500 bg-teal-50">
                     <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] shrink-0 border"
+                      className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] shrink-0 border overflow-hidden"
                       style={{
                         backgroundColor: p.bgColor,
                         color: p.textColor,
@@ -244,7 +244,7 @@ export default function SavingsCalculator({
                     }`}
                   >
                     <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] shrink-0 border"
+                      className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-[10px] shrink-0 border overflow-hidden"
                       style={{
                         backgroundColor: p.bgColor,
                         color: p.textColor,
@@ -608,7 +608,7 @@ export default function SavingsCalculator({
                       {/* Logo + Name */}
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border"
+                          className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden"
                           style={{
                             backgroundColor: item.provider.bgColor,
                             color: item.provider.textColor,
@@ -653,8 +653,8 @@ export default function SavingsCalculator({
                             {item.provider.flatMonthlyBill !== undefined
                               ? `Σταθερό ${formatCurrency(item.provider.flatMonthlyBill)}/μήνα (all-in)`
                               : isColored
-                                ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
-                                : `${(item.provider.supplyRate * 100).toFixed(2)}¢/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
+                                ? `Μ.ο. ${(item.provider.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`
+                                : `${(item.provider.supplyRate * 100).toFixed(2)}€/kWh · πάγιο ${formatCurrency(item.provider.monthlyFee)}/μήνα`}
                           </div>
                         </div>
                       </div>
