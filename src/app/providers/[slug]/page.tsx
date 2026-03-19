@@ -269,7 +269,7 @@ export default async function ProviderPage({ params }: Props) {
                     </div>
                     <div>
                       <div className="font-semibold text-slate-900 text-sm">{prog.name}</div>
-                      <div className="text-xs text-slate-500">{prog.contractMonths === 0 ? "Χωρίς δέσμευση" : `${prog.contractMonths}μ`} · {prog.flatMonthlyBill !== undefined ? `${prog.flatMonthlyBill}€/μήνα` : `${(prog.supplyRate * 100).toFixed(2)}¢/kWh`}</div>
+                      <div className="text-xs text-slate-500">{prog.contractMonths === 0 ? "Χωρίς δέσμευση" : `${prog.contractMonths}μ`} · {prog.flatMonthlyBill !== undefined ? `${prog.flatMonthlyBill}€/μήνα` : `${(prog.supplyRate * 100).toFixed(2)}€/kWh`}</div>
                     </div>
                   </div>
                   <span className="text-teal-600 text-xs font-medium">Δες λεπτομέρειες →</span>
