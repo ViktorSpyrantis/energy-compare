@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,26 +11,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <circle cx="6" cy="18" r="2" />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 16V8l4-4h2l6 3-2 4-4-2-2 2"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 7l3-1.5M12 4l1-3"
-                  />
-                </svg>
+              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center p-1">
+                <Image src="/logo.svg" alt="Ρευματοσκόπιο" width={24} height={24} />
               </div>
               <span className="font-bold text-white text-lg">
                 Ρευματο<span className="text-indigo-400">σκόπιο</span>
