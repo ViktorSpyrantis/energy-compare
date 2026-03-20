@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Πάροχος δεν βρέθηκε | Ρευματοσκόπιο" };
   return {
     title: `${provider.fullName} – Τιμές & Κριτική 2026 | Ρευματοσκόπιο`,
-    description: `Αναλυτική παρουσίαση του ${provider.fullName}: τιμή kWh ${(provider.supplyRate * 100).toFixed(2)}¢, πάγιο ${provider.monthlyFee}€/μήνα, αξιολόγηση ${provider.rating}/5. Υπολόγισε το κόστος σου.`,
+    description: `Αναλυτική παρουσίαση του ${provider.fullName}: τιμή kWh ${provider.supplyRate.toFixed(4)}€, πάγιο ${provider.monthlyFee}€/μήνα, αξιολόγηση ${provider.rating}/5. Υπολόγισε το κόστος σου.`,
   };
 }
 
@@ -141,7 +141,7 @@ export default async function ProviderPage({ params }: Props) {
             <div className="text-2xl font-bold text-slate-900">
               {provider.flatMonthlyBill !== undefined
                 ? `${provider.flatMonthlyBill.toFixed(2)}€`
-                : `${(provider.supplyRate * 100).toFixed(2)}¢`}
+                : `${provider.supplyRate.toFixed(4)}€`}
             </div>
             <div className="text-xs text-slate-500 mt-1">
               {provider.flatMonthlyBill !== undefined ? "Σταθερό/μήνα" : "kWh (προμήθεια)"}
@@ -225,7 +225,7 @@ export default async function ProviderPage({ params }: Props) {
                   <div key={zone} className={`rounded-xl border p-4 text-center ${bgs[zone]}`}>
                     <div className={`text-sm font-semibold mb-1 ${texts[zone]}`}>{labels[zone]}</div>
                     <div className={`text-2xl font-bold ${texts[zone]}`}>
-                      {(provider.coloredRates![zone] * 100).toFixed(1)}¢
+                      {provider.coloredRates![zone].toFixed(3)}€
                     </div>
                     <div className={`text-xs mt-0.5 ${texts[zone]} opacity-70`}>/kWh</div>
                   </div>

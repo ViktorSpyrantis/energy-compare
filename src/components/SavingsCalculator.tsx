@@ -751,7 +751,7 @@ export default function SavingsCalculator({
                                 <div
                                   className={`text-xs font-bold ${zc.text}`}
                                 >
-                                  {(rate * 100).toFixed(1)}¢
+                                  {rate.toFixed(3)}€
                                 </div>
                                 <div
                                   className={`text-[10px] ${zc.text} opacity-70`}

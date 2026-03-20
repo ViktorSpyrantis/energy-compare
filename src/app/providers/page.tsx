@@ -80,7 +80,7 @@ export default function ProvidersPage() {
                   <div className="flex justify-between text-slate-600">
                     <span>Τιμή kWh</span>
                     <span className="font-semibold text-slate-900">
-                      {p.flatMonthlyBill !== undefined ? "all-in" : `${(p.supplyRate * 100).toFixed(2)}¢`}
+                      {p.flatMonthlyBill !== undefined ? "all-in" : `${p.supplyRate.toFixed(4)}€`}
                     </span>
                   </div>
                   <div className="flex justify-between text-slate-600">
