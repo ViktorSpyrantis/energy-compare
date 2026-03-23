@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allProviders } from "../data/providers";
 
-const BASE_URL = "https://energycompare.gr";
+const BASE_URL = "https://revmatoskopio.gr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const providerPages = allProviders.map((provider) => ({

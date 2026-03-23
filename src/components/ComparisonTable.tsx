@@ -663,7 +663,7 @@ export default function ComparisonTable() {
                                     <span
                                       className={`text-xs font-bold ${zc.text}`}
                                     >
-                                      {(rate * 100).toFixed(1)}€/kWh
+                                      {rate.toFixed(3)}€/kWh
                                     </span>
                                   </div>
                                 );
@@ -689,7 +689,7 @@ export default function ComparisonTable() {
                                     : "Τιμή kWh (προμήθεια)"}
                                 </span>
                                 <span className="font-medium">
-                                  {(provider.supplyRate * 100).toFixed(2)}¢
+                                  {provider.supplyRate.toFixed(4)}€
                                 </span>
                               </div>
                               <div className="flex justify-between">
@@ -863,7 +863,7 @@ export default function ComparisonTable() {
                       <td className="px-5 py-4 text-right font-medium text-slate-900">
                         {provider.flatMonthlyBill !== undefined
                           ? "—"
-                          : `${(provider.supplyRate * 100).toFixed(2)}¢`}
+                          : `${provider.supplyRate.toFixed(4)}€`}
                       </td>
                       <td className="px-5 py-4 text-right text-slate-700">
                         {provider.flatMonthlyBill !== undefined

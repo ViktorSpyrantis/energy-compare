@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -22,26 +23,14 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-teal-700 transition-colors">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-            </div>
+            <Image src="/logo.png" alt="Ρευματοσκόπιο" width={35} height={35} />
             <div className="flex flex-col leading-none">
               <span className="font-bold text-slate-900 text-base tracking-tight">
-                Energy<span className="text-teal-600">Compare</span>
+                Ρευματο<span className="text-teal-600">σκόπιο</span>
               </span>
-              <span className="text-xs text-slate-500 font-normal">Ελλάδα</span>
+              <span className="text-xs text-slate-500 font-normal">
+                revmatoskopio.gr
+              </span>
             </div>
           </Link>
 

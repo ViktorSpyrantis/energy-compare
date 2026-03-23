@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Οδηγός Αλλαγής Παρόχου Ρεύματος 2026 | EnergyCompare",
+  title: "Οδηγός Αλλαγής Παρόχου Ρεύματος 2026 | Ρευματοσκόπιο",
   description:
     "Πλήρης οδηγός για την αλλαγή παρόχου ηλεκτρικού ρεύματος στην Ελλάδα: βήμα-βήμα διαδικασία, τι να προσέξεις, πότε αξίζει η αλλαγή.",
 };
