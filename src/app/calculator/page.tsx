@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CalculatorWrapper from "../../components/CalculatorWrapper";
 
 export const metadata: Metadata = {
-  title: "Αριθμομηχανή Εξοικονόμησης Ρεύματος | EnergyCompare",
+  title: "Αριθμομηχανή Εξοικονόμησης Ρεύματος | Ρευματοσκόπιο",
   description:
     "Υπολόγισε ακριβώς πόσα χρήματα εξοικονομείς αλλάζοντας πάροχο ρεύματος. Ανέβασε τον λογαριασμό σου ή εισήγαγε χειροκίνητα την κατανάλωσή σου.",
 };
