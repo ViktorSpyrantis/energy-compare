@@ -91,7 +91,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
   // Analysis state machine
   const [analysis, setAnalysis] = useState<AnalysisState>({ status: "idle" });
   const [formError, setFormError] = useState("");
-  const [showGasBillPopup, setShowGasBillPopup] = useState(false);
+  const [rejectionPopup, setRejectionPopup] = useState<"gas" | "not-bill" | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -128,9 +128,14 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
         return;
       }
 
-      // Reject gas bills
+      // Reject non-bill documents and gas bills
+      if (data.isNotBill) {
+        setRejectionPopup("not-bill");
+        setAnalysis({ status: "idle" });
+        return;
+      }
       if (data.isGasBill) {
-        setShowGasBillPopup(true);
+        setRejectionPopup("gas");
         setAnalysis({ status: "idle" });
         return;
       }
@@ -230,16 +235,16 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
     });
   };
 
-  const dismissGasBillPopup = () => {
-    setShowGasBillPopup(false);
+  const dismissRejectionPopup = () => {
+    setRejectionPopup(null);
     clearFile();
   };
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="bg-white rounded-2xl border-2 border-teal-300 shadow-md overflow-hidden">
-      {/* Gas bill rejection popup */}
-      {showGasBillPopup && (
+      {/* Rejection popup (gas bill or non-bill document) */}
+      {rejectionPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-xl max-w-md mx-4 p-6 text-center">
             <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -248,13 +253,17 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
               </svg>
             </div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">
-              Λογαριασμός φυσικού αερίου
+              {rejectionPopup === "gas"
+                ? "Λογαριασμός φυσικού αερίου"
+                : "Μη έγκυρο αρχείο"}
             </h3>
             <p className="text-gray-600 mb-6">
-              Ο λογαριασμός που ανέβασες αφορά <strong>φυσικό αέριο</strong>, όχι ηλεκτρικό ρεύμα. Παρακαλώ ανέβασε έναν λογαριασμό <strong>ηλεκτρικής ενέργειας</strong> για να συνεχίσεις τη σύγκριση.
+              {rejectionPopup === "gas"
+                ? <>Ο λογαριασμός που ανέβασες αφορά <strong>φυσικό αέριο</strong>, όχι ηλεκτρικό ρεύμα. Παρακαλώ ανέβασε έναν λογαριασμό <strong>ηλεκτρικής ενέργειας</strong> για να συνεχίσεις τη σύγκριση.</>
+                : <>Το αρχείο που ανέβασες <strong>δεν είναι λογαριασμός ρεύματος</strong>. Παρακαλώ ανέβασε έναν λογαριασμό <strong>ηλεκτρικής ενέργειας</strong> για να συνεχίσεις τη σύγκριση.</>}
             </p>
             <button
-              onClick={dismissGasBillPopup}
+              onClick={dismissRejectionPopup}
               className="w-full px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl transition-colors"
             >
               Κατάλαβα
