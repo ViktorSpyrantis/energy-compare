@@ -91,6 +91,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
   // Analysis state machine
   const [analysis, setAnalysis] = useState<AnalysisState>({ status: "idle" });
   const [formError, setFormError] = useState("");
+  const [showGasBillPopup, setShowGasBillPopup] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -124,6 +125,13 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
           status: "error",
           message: data.error ?? "Η ανάλυση απέτυχε.",
         });
+        return;
+      }
+
+      // Reject gas bills
+      if (data.isGasBill) {
+        setShowGasBillPopup(true);
+        setAnalysis({ status: "idle" });
         return;
       }
 
@@ -222,9 +230,39 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
     });
   };
 
+  const dismissGasBillPopup = () => {
+    setShowGasBillPopup(false);
+    clearFile();
+  };
+
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="bg-white rounded-2xl border-2 border-teal-300 shadow-md overflow-hidden">
+      {/* Gas bill rejection popup */}
+      {showGasBillPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md mx-4 p-6 text-center">
+            <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">
+              Λογαριασμός φυσικού αερίου
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Ο λογαριασμός που ανέβασες αφορά <strong>φυσικό αέριο</strong>, όχι ηλεκτρικό ρεύμα. Παρακαλώ ανέβασε έναν λογαριασμό <strong>ηλεκτρικής ενέργειας</strong> για να συνεχίσεις τη σύγκριση.
+            </p>
+            <button
+              onClick={dismissGasBillPopup}
+              className="w-full px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl transition-colors"
+            >
+              Κατάλαβα
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3 text-white">
