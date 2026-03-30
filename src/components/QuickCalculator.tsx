@@ -106,7 +106,7 @@ export default function QuickCalculator() {
         <select
           value={currentProviderId}
           onChange={(e) => setCurrentProviderId(e.target.value)}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
+          className="w-full border border-slate-200 rounded-xl px-4 pr-10 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
         >
           {availableProviders.map((p) => (
             <option key={p.id} value={p.id}>
