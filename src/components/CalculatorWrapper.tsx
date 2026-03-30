@@ -73,7 +73,7 @@ export default function CalculatorWrapper() {
         {!showUpload && (
           <button
             onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 bg-white hover:bg-teal-50 text-teal-700 font-semibold text-sm px-5 py-2.5 rounded-xl border-2 border-teal-200 hover:border-teal-400 transition-all shadow-sm"
+            className="inline-flex items-center gap-2 bg-white hover:bg-teal-50 text-teal-700 font-semibold text-sm px-5 py-2.5 rounded-xl border-2 border-teal-200 hover:border-teal-400 transition-all shadow-sm cursor-pointer"
           >
             <svg
               className="w-4 h-4"
@@ -88,7 +88,9 @@ export default function CalculatorWrapper() {
                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
               />
             </svg>
-            {hasBills ? "Πρόσθεσε άλλον λογαριασμό" : "Ανέβασε τον λογαριασμό σου"}
+            {hasBills
+              ? "Πρόσθεσε άλλον λογαριασμό"
+              : "Ανέβασε τον λογαριασμό σου"}
           </button>
         )}
 
@@ -112,9 +114,13 @@ export default function CalculatorWrapper() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="font-medium">Λογ. {idx + 1}: {bill.kwh} kWh</span>
+                  <span className="font-medium">
+                    Λογ. {idx + 1}: {bill.kwh} kWh
+                  </span>
                   {bill.billAmount && (
-                    <span className="text-teal-600">· {bill.billAmount.toFixed(2)}€</span>
+                    <span className="text-teal-600">
+                      · {bill.billAmount.toFixed(2)}€
+                    </span>
                   )}
                 </div>
               ))}
@@ -132,7 +138,9 @@ export default function CalculatorWrapper() {
             </div>
             {billHistory.length < 3 && (
               <p className="text-xs text-slate-400">
-                Πρόσθεσε έως {3 - billHistory.length} ακόμα λογαριασμό{billHistory.length < 2 ? "ύς" : ""} για ακριβέστερο μέσο όρο κατανάλωσης
+                Πρόσθεσε έως {3 - billHistory.length} ακόμα λογαριασμό
+                {billHistory.length < 2 ? "ύς" : ""} για ακριβέστερο μέσο όρο
+                κατανάλωσης
               </p>
             )}
           </div>
