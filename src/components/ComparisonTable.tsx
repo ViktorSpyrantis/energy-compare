@@ -116,7 +116,7 @@ export default function ComparisonTable() {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-3 items-end">
+          <div className="flex flex-wrap gap-3 items-center">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 Τύπος τιμολογίου
@@ -162,8 +162,8 @@ export default function ComparisonTable() {
                 }
                 className="border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               >
-                <option value="price">Κατά τιμή</option>
-                <option value="rating">Κατά αξιολόγηση</option>
+                <option value="price">Τιμή</option>
+                <option value="rating">Αξιολόγηση</option>
                 <option value="name">Αλφαβητικά</option>
               </select>
             </div>
@@ -307,7 +307,7 @@ export default function ComparisonTable() {
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm transition-all ${
                   colorPresetId === preset.id
                     ? "border-purple-400 bg-purple-50 text-purple-800"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 cursor-pointer"
                 }`}
               >
                 <div className="flex h-2.5 w-10 rounded-full overflow-hidden gap-px">
@@ -344,9 +344,13 @@ export default function ComparisonTable() {
                   <div key={zone} className="flex items-center gap-2">
                     <span
                       className={`inline-block w-2 h-2 rounded-full ${
-                        zone === "blue" ? "bg-blue-400" :
-                        zone === "green" ? "bg-green-400" :
-                        zone === "yellow" ? "bg-yellow-400" : "bg-red-400"
+                        zone === "blue"
+                          ? "bg-blue-400"
+                          : zone === "green"
+                            ? "bg-green-400"
+                            : zone === "yellow"
+                              ? "bg-yellow-400"
+                              : "bg-red-400"
                       }`}
                     />
                     <span className="font-semibold">
