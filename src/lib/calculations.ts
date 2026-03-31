@@ -124,20 +124,20 @@ export const COLOR_DISTRIBUTION_PRESETS = [
   },
   {
     id: "night",
-    label: "Νυχτερινός",
+    label: "Νυχτερινό",
     description: "ΗΕΑ / νυχτερινή χρήση",
     dist: { blue: 0.5, green: 0.2, yellow: 0.15, red: 0.15 },
   },
   {
     id: "daytime",
-    label: "Μεσημεριανός",
+    label: "Μεσημεριανό",
     description: "Εργασία από σπίτι",
     dist: { blue: 0.25, green: 0.2, yellow: 0.35, red: 0.2 },
   },
   {
     id: "night_heavy",
     label: "ΗΕΑ Νυχτερινό",
-    description: "Νυχτερινός μετρητής ΗΕΑ",
+    description: "Νυχτερινό προφίλ ΗΕΑ",
     dist: { blue: 0.65, green: 0.15, yellow: 0.12, red: 0.08 },
   },
 ] as const;
