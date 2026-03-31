@@ -45,7 +45,9 @@ const ZONE_COLORS = {
   },
 } as const;
 
-const hasColoredProviders = allProviders.some((p) => p.tariffType === "colored");
+const hasColoredProviders = allProviders.some(
+  (p) => p.tariffType === "colored",
+);
 
 export default function SavingsCalculator({
   initialKwh,
@@ -62,7 +64,10 @@ export default function SavingsCalculator({
   });
 
   const [currentProviderId, setCurrentProviderId] = useState(() => {
-    if (initialProviderId && allProviders.find((p) => p.id === initialProviderId))
+    if (
+      initialProviderId &&
+      allProviders.find((p) => p.id === initialProviderId)
+    )
       return initialProviderId;
     const param = searchParams.get("provider");
     return param && allProviders.find((p) => p.id === param) ? param : "dei";
@@ -160,7 +165,7 @@ export default function SavingsCalculator({
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm font-semibold text-slate-700">
-                Τρέχων πάροχος
+                Τρέχων πάροχος/πρόγραμμα
               </label>
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <div
@@ -704,9 +709,7 @@ export default function SavingsCalculator({
                                 >
                                   {zc.label}
                                 </div>
-                                <div
-                                  className={`text-xs font-bold ${zc.text}`}
-                                >
+                                <div className={`text-xs font-bold ${zc.text}`}>
                                   {rate.toFixed(3)}€
                                 </div>
                                 <div

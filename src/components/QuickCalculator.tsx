@@ -13,8 +13,9 @@ export default function QuickCalculator() {
   // Filter out student-only programs for the quick calculator
   const availableProviders = allProviders.filter((p) => !p.programEligibility);
 
-  const currentProvider = availableProviders.find((p) => p.id === currentProviderId)
-    ?? availableProviders[0];
+  const currentProvider =
+    availableProviders.find((p) => p.id === currentProviderId) ??
+    availableProviders[0];
   const currentCost = calculateMonthlyCost(currentProvider, kwh);
 
   // Find cheapest provider (excluding student-only programs)
