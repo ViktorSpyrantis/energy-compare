@@ -333,31 +333,35 @@ export default function SavingsCalculator({
                 />
               </svg>
             </button>
-            {showAdvanced && (
-              <div className="mt-3 space-y-3 px-1">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                    Ρήτρα αποχώρησης από τρέχοντα πάροχο (€)
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={500}
-                    value={exitPenalty}
-                    onChange={(e) =>
-                      setExitPenalty(Math.max(0, Number(e.target.value)))
-                    }
-                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    placeholder="0"
-                  />
-                  {exitPenalty > 0 && (
-                    <p className="text-xs text-slate-400 mt-1">
-                      Το πρόστιμο θα αποσβεστεί αναλόγως της εξοικονόμησης
-                    </p>
-                  )}
+            <div
+              className={`grid transition-all duration-300 ease-in-out ${showAdvanced ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0 mt-0"}`}
+            >
+              <div className="overflow-hidden">
+                <div className="space-y-3 px-1">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+                      Ρήτρα αποχώρησης από τρέχοντα πάροχο (€)
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={500}
+                      value={exitPenalty}
+                      onChange={(e) =>
+                        setExitPenalty(Math.max(0, Number(e.target.value)))
+                      }
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      placeholder="0"
+                    />
+                    {exitPenalty > 0 && (
+                      <p className="text-xs text-slate-400 mt-1">
+                        Το πρόστιμο θα αποσβεστεί αναλόγως της εξοικονόμησης
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Color distribution (shown when colored providers are present) */}
