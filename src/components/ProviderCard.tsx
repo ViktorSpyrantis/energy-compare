@@ -45,7 +45,7 @@ export default function ProviderCard({
 
   return (
     <div
-      className={`relative bg-white rounded-2xl border-2 p-6 transition-all hover:shadow-lg ${
+      className={`relative bg-white rounded-2xl border-2 p-6 transition-all hover:shadow-lg flex flex-col ${
         isCurrent
           ? "border-slate-300"
           : rank === 1
@@ -209,7 +209,7 @@ export default function ProviderCard({
       {/* CTA */}
       <a
         href={`tel:${provider.phone}`}
-        className="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors text-sm"
+        className="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors text-sm mt-auto"
       >
         Επικοινώνησε: {provider.phone}
       </a>
