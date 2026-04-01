@@ -73,10 +73,10 @@ export default function CalculatorWrapper() {
         {!showUpload && (
           <button
             onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 bg-white hover:bg-teal-50 text-teal-700 font-semibold text-sm px-5 py-2.5 rounded-xl border-2 border-teal-200 hover:border-teal-400 transition-all shadow-sm cursor-pointer"
+            className="inline-flex items-center gap-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-base px-7 py-3.5 rounded-xl border-2 border-teal-600 hover:border-teal-700 transition-all shadow-md hover:shadow-lg cursor-pointer"
           >
             <svg
-              className="w-4 h-4"
+              className="w-5 h-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
