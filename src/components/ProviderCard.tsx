@@ -72,7 +72,7 @@ export default function ProviderCard({
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-4 mb-5 mt-2">
+      <div className="mb-5 mt-2 space-y-4">
         {/* Provider Logo */}
         <div className="flex items-center gap-3">
           <div
@@ -102,12 +102,12 @@ export default function ProviderCard({
 
         {/* Cost */}
         {monthlyCost !== undefined && (
-          <div className="text-right shrink-0">
+          <div className="flex items-baseline gap-3">
             <div className="text-2xl font-bold text-slate-900">
               {formatEur(monthlyCost)}
             </div>
             <div className="text-xs text-slate-500">/μήνα</div>
-            <div className="text-sm text-slate-600 mt-0.5">
+            <div className="text-sm text-slate-600">
               {formatEur(monthlyCost * 12)}/χρόνο
             </div>
           </div>
