@@ -163,7 +163,7 @@ export default function SavingsCalculator({
 
           {/* Current Provider */}
           <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-6">
               <label className="block text-sm font-semibold text-slate-700">
                 Τρέχων πάροχος/πρόγραμμα
               </label>

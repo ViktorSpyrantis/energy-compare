@@ -42,7 +42,7 @@ export default function FeaturedProviders() {
             href="/compare"
             className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-semibold text-sm border border-teal-200 hover:border-teal-400 px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
           >
-            Δες όλους
+            Δες όλους τους παρόχους
             <svg
               className="w-4 h-4"
               fill="none"
