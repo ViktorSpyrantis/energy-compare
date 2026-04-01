@@ -595,7 +595,11 @@ export default function ComparisonTable() {
                 </div>
 
                 {/* Expanded details */}
-                {isExpanded && (
+                <div
+                  className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+                  style={{ gridTemplateRows: isExpanded ? "1fr" : "0fr" }}
+                >
+                  <div className="overflow-hidden">
                   <div className="border-t border-slate-100 bg-slate-50 p-5">
                     <div className="grid sm:grid-cols-3 gap-6">
                       <div>
@@ -760,7 +764,8 @@ export default function ComparisonTable() {
                       </div>
                     </div>
                   </div>
-                )}
+                  </div>
+                </div>
               </div>
             );
           })}
