@@ -160,7 +160,7 @@ export default function ComparisonTable() {
                     sortBy: e.target.value as "price" | "rating" | "name",
                   }))
                 }
-                className="border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="border border-slate-200 rounded-lg px-3 pr-8 py-2 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               >
                 <option value="price">Τιμή</option>
                 <option value="rating">Αξιολόγηση</option>

@@ -13,30 +13,37 @@ export default function ProviderCalculator({ providerId }: Props) {
   const provider = allProviders.find((p) => p.id === providerId);
   if (!provider) return null;
 
+  const isFlat = provider.flatMonthlyBill !== undefined;
   const monthlyCost = calculateMonthlyCost(provider, kwh);
   const annualCost = monthlyCost * 12;
 
   return (
     <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Μηνιαία κατανάλωση:{" "}
-          <span className="text-teal-600 font-bold">{kwh} kWh</span>
-        </label>
-        <input
-          type="range"
-          min={50}
-          max={800}
-          step={10}
-          value={kwh}
-          onChange={(e) => setKwh(Number(e.target.value))}
-          className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-teal-600"
-        />
-        <div className="flex justify-between text-xs text-slate-400 mt-1">
-          <span>50 kWh</span>
-          <span>800 kWh</span>
+      {isFlat ? (
+        <p className="text-sm text-slate-500">
+          Σταθερό μηνιαίο πρόγραμμα — το κόστος δεν εξαρτάται από την κατανάλωση.
+        </p>
+      ) : (
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            Μηνιαία κατανάλωση:{" "}
+            <span className="text-teal-600 font-bold">{kwh} kWh</span>
+          </label>
+          <input
+            type="range"
+            min={50}
+            max={800}
+            step={10}
+            value={kwh}
+            onChange={(e) => setKwh(Number(e.target.value))}
+            className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-teal-600"
+          />
+          <div className="flex justify-between text-xs text-slate-400 mt-1">
+            <span>50 kWh</span>
+            <span>800 kWh</span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 text-center">

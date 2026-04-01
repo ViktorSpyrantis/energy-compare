@@ -599,7 +599,7 @@ export default function BillUpload({ onExtracted, onCancel }: BillUploadProps) {
                     setProviderId(e.target.value);
                     setAutoFilled((af) => ({ ...af, provider: false }));
                   }}
-                  className={`w-full border rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors cursor-pointer ${
+                  className={`w-full border rounded-xl px-4 pr-10 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors cursor-pointer ${
                     autoFilled.provider
                       ? "border-teal-400 bg-teal-50/30"
                       : "border-slate-200"

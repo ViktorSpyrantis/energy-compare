@@ -45,7 +45,7 @@ export default function ProviderCard({
 
   return (
     <div
-      className={`relative bg-white rounded-2xl border-2 p-6 transition-all hover:shadow-lg ${
+      className={`relative bg-white rounded-2xl border-2 p-6 transition-all hover:shadow-lg flex flex-col ${
         isCurrent
           ? "border-slate-300"
           : rank === 1
@@ -72,7 +72,7 @@ export default function ProviderCard({
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-4 mb-5 mt-2">
+      <div className="mb-5 mt-2 space-y-4">
         {/* Provider Logo */}
         <div className="flex items-center gap-3">
           <div
@@ -102,12 +102,12 @@ export default function ProviderCard({
 
         {/* Cost */}
         {monthlyCost !== undefined && (
-          <div className="text-right shrink-0">
+          <div className="flex items-baseline gap-3">
             <div className="text-2xl font-bold text-slate-900">
               {formatEur(monthlyCost)}
             </div>
             <div className="text-xs text-slate-500">/μήνα</div>
-            <div className="text-sm text-slate-600 mt-0.5">
+            <div className="text-sm text-slate-600">
               {formatEur(monthlyCost * 12)}/χρόνο
             </div>
           </div>
@@ -209,7 +209,7 @@ export default function ProviderCard({
       {/* CTA */}
       <a
         href={`tel:${provider.phone}`}
-        className="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors text-sm"
+        className="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors text-sm mt-auto"
       >
         Επικοινώνησε: {provider.phone}
       </a>
