@@ -13,8 +13,9 @@ export default function QuickCalculator() {
   // Filter out student-only programs for the quick calculator
   const availableProviders = allProviders.filter((p) => !p.programEligibility);
 
-  const currentProvider = availableProviders.find((p) => p.id === currentProviderId)
-    ?? availableProviders[0];
+  const currentProvider =
+    availableProviders.find((p) => p.id === currentProviderId) ??
+    availableProviders[0];
   const currentCost = calculateMonthlyCost(currentProvider, kwh);
 
   // Find cheapest provider (excluding student-only programs)
@@ -106,7 +107,7 @@ export default function QuickCalculator() {
         <select
           value={currentProviderId}
           onChange={(e) => setCurrentProviderId(e.target.value)}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
+          className="w-full border border-slate-200 rounded-xl px-4 pr-10 py-3 text-slate-900 font-medium bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer"
         >
           {availableProviders.map((p) => (
             <option key={p.id} value={p.id}>
