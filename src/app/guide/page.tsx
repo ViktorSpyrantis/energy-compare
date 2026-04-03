@@ -99,7 +99,7 @@ export default function GuidePage() {
                 <div className="grid sm:grid-cols-2 gap-3">
                   <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
                     <div className="font-semibold text-emerald-800 mb-1">
-                      Χωρίς πρόστιμο
+                      Χωρίς ρήτρα αποχώρησης
                     </div>
                     <div className="text-sm text-emerald-700">
                       Μεταβλητά συμβόλαια ή λήξη ετήσιου συμβολαίου: αλλάξτε
@@ -108,10 +108,10 @@ export default function GuidePage() {
                   </div>
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                     <div className="font-semibold text-amber-800 mb-1">
-                      Με πρόστιμο
+                      Με ρήτρα αποχώρησης
                     </div>
                     <div className="text-sm text-amber-700">
-                      Υπολογίστε αν η εξοικονόμηση αποσβένει το πρόστιμο
+                      Υπολογίστε αν η εξοικονόμηση αποσβένει τη ρήτρα αποχώρησης
                       (χρησιμοποιήστε το εργαλείο μας)
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function GuidePage() {
             {[
               {
                 q: "Κοστίζει κάτι η αλλαγή παρόχου;",
-                a: "Η αλλαγή παρόχου είναι δωρεάν. Μπορεί να υπάρξει πρόστιμο μόνο αν λύσετε πρόωρα ένα σταθερό συμβόλαιο — ελέγξτε τους όρους σας.",
+                a: "Η αλλαγή παρόχου είναι δωρεάν. Μπορεί να υπάρξει ρήτρα αποχώρησης μόνο αν λύσετε πρόωρα ένα σταθερό συμβόλαιο — ελέγξτε τους όρους σας.",
               },
               {
                 q: "Τι γίνεται με τον παλιό μου λογαριασμό;",

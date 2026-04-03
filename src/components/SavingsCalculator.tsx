@@ -355,7 +355,7 @@ export default function SavingsCalculator({
                     />
                     {exitPenalty > 0 && (
                       <p className="text-xs text-slate-400 mt-1">
-                        Το πρόστιμο θα αποσβεστεί αναλόγως της εξοικονόμησης
+                        Η ρήτρα αποχώρησης θα αποσβεστεί αναλόγως της εξοικονόμησης
                       </p>
                     )}
                   </div>
