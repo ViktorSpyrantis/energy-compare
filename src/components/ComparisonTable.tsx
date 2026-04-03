@@ -565,7 +565,7 @@ export default function ComparisonTable() {
                       onClick={() =>
                         setExpandedId(isExpanded ? null : provider.id)
                       }
-                      className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors shrink-0"
+                      className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors shrink-0 cursor-pointer"
                     >
                       <svg
                         className={`w-5 h-5 transition-transform ${isExpanded ? "rotate-180" : ""}`}
@@ -600,170 +600,171 @@ export default function ComparisonTable() {
                   style={{ gridTemplateRows: isExpanded ? "1fr" : "0fr" }}
                 >
                   <div className="overflow-hidden">
-                  <div className="border-t border-slate-100 bg-slate-50 p-5">
-                    <div className="grid sm:grid-cols-3 gap-6">
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5">
-                          <span className="text-emerald-500">✓</span>{" "}
-                          Πλεονεκτήματα
-                        </h4>
-                        <ul className="space-y-1.5">
-                          {provider.pros.map((pro) => (
-                            <li
-                              key={pro}
-                              className="text-sm text-slate-600 flex items-start gap-1.5"
-                            >
-                              <span className="text-emerald-500 shrink-0 mt-0.5">
-                                +
-                              </span>
-                              {pro}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5">
-                          <span className="text-red-400">✕</span> Μειονεκτήματα
-                        </h4>
-                        <ul className="space-y-1.5">
-                          {provider.cons.map((con) => (
-                            <li
-                              key={con}
-                              className="text-sm text-slate-600 flex items-start gap-1.5"
-                            >
-                              <span className="text-red-400 shrink-0 mt-0.5">
-                                –
-                              </span>
-                              {con}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-700 mb-3">
-                          Ανάλυση κόστους
-                        </h4>
-                        {/* Colored zone rates */}
-                        {provider.tariffType === "colored" &&
-                          provider.coloredRates && (
-                            <div className="mb-3 space-y-1">
-                              {(
-                                Object.keys(ZONE_COLORS) as Array<
-                                  keyof typeof ZONE_COLORS
-                                >
-                              ).map((zone) => {
-                                const zc = ZONE_COLORS[zone];
-                                const rate = provider.coloredRates![zone];
-                                return (
-                                  <div
-                                    key={zone}
-                                    className={`flex justify-between items-center px-2 py-1 rounded ${zc.bg}`}
+                    <div className="border-t border-slate-100 bg-slate-50 p-5">
+                      <div className="grid sm:grid-cols-3 gap-6">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5">
+                            <span className="text-emerald-500">✓</span>{" "}
+                            Πλεονεκτήματα
+                          </h4>
+                          <ul className="space-y-1.5">
+                            {provider.pros.map((pro) => (
+                              <li
+                                key={pro}
+                                className="text-sm text-slate-600 flex items-start gap-1.5"
+                              >
+                                <span className="text-emerald-500 shrink-0 mt-0.5">
+                                  +
+                                </span>
+                                {pro}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5">
+                            <span className="text-red-400">✕</span>{" "}
+                            Μειονεκτήματα
+                          </h4>
+                          <ul className="space-y-1.5">
+                            {provider.cons.map((con) => (
+                              <li
+                                key={con}
+                                className="text-sm text-slate-600 flex items-start gap-1.5"
+                              >
+                                <span className="text-red-400 shrink-0 mt-0.5">
+                                  –
+                                </span>
+                                {con}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-700 mb-3">
+                            Ανάλυση κόστους
+                          </h4>
+                          {/* Colored zone rates */}
+                          {provider.tariffType === "colored" &&
+                            provider.coloredRates && (
+                              <div className="mb-3 space-y-1">
+                                {(
+                                  Object.keys(ZONE_COLORS) as Array<
+                                    keyof typeof ZONE_COLORS
                                   >
-                                    <span
-                                      className={`text-xs font-medium ${zc.text}`}
+                                ).map((zone) => {
+                                  const zc = ZONE_COLORS[zone];
+                                  const rate = provider.coloredRates![zone];
+                                  return (
+                                    <div
+                                      key={zone}
+                                      className={`flex justify-between items-center px-2 py-1 rounded ${zc.bg}`}
                                     >
-                                      {zc.label} (
-                                      {Math.round(
-                                        colorDistribution[zone] * 100,
-                                      )}
-                                      %)
-                                    </span>
-                                    <span
-                                      className={`text-xs font-bold ${zc.text}`}
-                                    >
-                                      {rate.toFixed(3)}€/kWh
-                                    </span>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        <div className="space-y-1.5 text-sm">
-                          {provider.flatMonthlyBill !== undefined ? (
-                            <div className="flex justify-between">
-                              <span className="text-slate-500">
-                                Σταθερό κόστος/μήνα (all-in)
-                              </span>
-                              <span className="font-medium">
-                                {formatCurrency(provider.flatMonthlyBill)}
-                              </span>
-                            </div>
-                          ) : (
-                            <>
-                              <div className="flex justify-between">
-                                <span className="text-slate-500">
-                                  {provider.tariffType === "colored"
-                                    ? "Σταθμισμένος μ.ο."
-                                    : "Τιμή kWh (προμήθεια)"}
-                                </span>
-                                <span className="font-medium">
-                                  {provider.supplyRate.toFixed(4)}€
-                                </span>
+                                      <span
+                                        className={`text-xs font-medium ${zc.text}`}
+                                      >
+                                        {zc.label} (
+                                        {Math.round(
+                                          colorDistribution[zone] * 100,
+                                        )}
+                                        %)
+                                      </span>
+                                      <span
+                                        className={`text-xs font-bold ${zc.text}`}
+                                      >
+                                        {rate.toFixed(3)}€/kWh
+                                      </span>
+                                    </div>
+                                  );
+                                })}
                               </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-500">
-                                  Μηνιαίο πάγιο
-                                </span>
-                                <span className="font-medium">
-                                  {formatCurrency(provider.monthlyFee)}
-                                </span>
-                              </div>
-                            </>
-                          )}
-                          <div className="flex justify-between text-slate-400 text-xs pt-1 border-t border-slate-200">
-                            <span>Ρυθμιζόμενες χρεώσεις*</span>
-                            <span>Ίδιες για όλους</span>
-                          </div>
-                          <div className="flex justify-between font-semibold pt-1 border-t border-slate-200">
-                            <span>Μηνιαίο σύνολο (με ΦΠΑ)</span>
-                            <span className="text-teal-700">
-                              {formatCurrency(cost)}
-                            </span>
-                          </div>
-                        </div>
-                        {provider.isProgram && (
-                          <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800">
-                            <span className="font-semibold">
-                              📋 Ειδικό Πρόγραμμα
-                            </span>
-                            {provider.programEligibility && (
-                              <span className="ml-1">
-                                · {provider.programEligibility}
-                              </span>
                             )}
+                          <div className="space-y-1.5 text-sm">
+                            {provider.flatMonthlyBill !== undefined ? (
+                              <div className="flex justify-between">
+                                <span className="text-slate-500">
+                                  Σταθερό κόστος/μήνα (all-in)
+                                </span>
+                                <span className="font-medium">
+                                  {formatCurrency(provider.flatMonthlyBill)}
+                                </span>
+                              </div>
+                            ) : (
+                              <>
+                                <div className="flex justify-between">
+                                  <span className="text-slate-500">
+                                    {provider.tariffType === "colored"
+                                      ? "Σταθμισμένος μ.ο."
+                                      : "Τιμή kWh (προμήθεια)"}
+                                  </span>
+                                  <span className="font-medium">
+                                    {provider.supplyRate.toFixed(4)}€
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-slate-500">
+                                    Μηνιαίο πάγιο
+                                  </span>
+                                  <span className="font-medium">
+                                    {formatCurrency(provider.monthlyFee)}
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                            <div className="flex justify-between text-slate-400 text-xs pt-1 border-t border-slate-200">
+                              <span>Ρυθμιζόμενες χρεώσεις*</span>
+                              <span>Ίδιες για όλους</span>
+                            </div>
+                            <div className="flex justify-between font-semibold pt-1 border-t border-slate-200">
+                              <span>Μηνιαίο σύνολο (με ΦΠΑ)</span>
+                              <span className="text-teal-700">
+                                {formatCurrency(cost)}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                        {provider.newCustomerOffer && (
-                          <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-2 text-xs text-amber-800 font-medium">
-                            🎁 {provider.newCustomerOffer}
-                          </div>
-                        )}
-                        <div className="mt-3 flex gap-2">
-                          {provider.signupUrl && (
-                            <a
-                              href={provider.signupUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
-                            >
-                              Εγγραφή →
-                            </a>
+                          {provider.isProgram && (
+                            <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800">
+                              <span className="font-semibold">
+                                📋 Ειδικό Πρόγραμμα
+                              </span>
+                              {provider.programEligibility && (
+                                <span className="ml-1">
+                                  · {provider.programEligibility}
+                                </span>
+                              )}
+                            </div>
                           )}
-                          <a
-                            href={`tel:${provider.phone}`}
-                            className="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium py-2.5 rounded-lg transition-colors"
-                          >
-                            📞 {provider.phone}
-                          </a>
+                          {provider.newCustomerOffer && (
+                            <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-2 text-xs text-amber-800 font-medium">
+                              🎁 {provider.newCustomerOffer}
+                            </div>
+                          )}
+                          <div className="mt-3 flex gap-2">
+                            {provider.signupUrl && (
+                              <a
+                                href={provider.signupUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                              >
+                                Εγγραφή →
+                              </a>
+                            )}
+                            <a
+                              href={`tel:${provider.phone}`}
+                              className="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium py-2.5 rounded-lg transition-colors"
+                            >
+                              📞 {provider.phone}
+                            </a>
+                          </div>
+                          {provider.lastUpdated && (
+                            <p className="mt-2 text-xs text-slate-400 text-right">
+                              Ενημερώθηκε: {provider.lastUpdated}
+                            </p>
+                          )}
                         </div>
-                        {provider.lastUpdated && (
-                          <p className="mt-2 text-xs text-slate-400 text-right">
-                            Ενημερώθηκε: {provider.lastUpdated}
-                          </p>
-                        )}
                       </div>
                     </div>
-                  </div>
                   </div>
                 </div>
               </div>
